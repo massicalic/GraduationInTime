@@ -30,6 +30,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_profile, container, false);
         activity.setSupportActionBar(toolbar);
+        /*jdhfjehfefuhfuehehueuh*/
         return view;
     }
 
