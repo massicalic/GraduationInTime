@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GDIn Time</string>
+    <string name="title_home">Home</string>
+    <string name="title_diary">Diario</string>
+    <string name="title_profile">Profilo</string>
+</resources>
