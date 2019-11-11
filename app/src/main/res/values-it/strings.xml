@@ -4,4 +4,9 @@
     <string name="title_home">Home</string>
     <string name="title_diary">Diario</string>
     <string name="title_profile">Profilo</string>
+    <string name="email">E-mail</string>
+    <string name="EditText_email">Insert your E-mail</string>
+    <string name="EditText_psw">Insert your password</string>
+    <string name="login">Login</string>
+    <string name="registration">Register</string>
 </resources>

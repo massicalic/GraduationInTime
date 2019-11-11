@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "189729758841",
+    "firebase_url": "https://gdin-time.firebaseio.com",
+    "project_id": "gdin-time",
+    "storage_bucket": "gdin-time.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:189729758841:android:6627f256c178affe2c3ea8",
+        "android_client_info": {
+          "package_name": "com.example.graduationintime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "189729758841-defbdt8bveo566l3n9lgoo2dicq60bl9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.graduationintime",
+            "certificate_hash": "b85bbca972adbb0e78a0fc4dc888017bc003e8de"
+          }
+        },
+        {
+          "client_id": "189729758841-22mp6epd5am5ljtoitp8ao116giqivjh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAduvc1ky-dCCXsQY3kMog3EN1bm5QGops"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "189729758841-22mp6epd5am5ljtoitp8ao116giqivjh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

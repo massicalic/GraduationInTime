@@ -31,6 +31,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
+        toolbar = view.findViewById(R.id.Toolbar);
         activity.setSupportActionBar(toolbar);
         return view;
     }
