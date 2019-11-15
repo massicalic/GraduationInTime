@@ -5,8 +5,13 @@
     <string name="title_diary">Diario</string>
     <string name="title_profile">Profilo</string>
     <string name="email">E-mail</string>
-    <string name="EditText_email">Insert your E-mail</string>
-    <string name="EditText_psw">Insert your password</string>
+    <string name="EditText_email">Inserisci la tua e-mail</string>
+    <string name="EditText_psw">Inserisci la password</string>
     <string name="login">Login</string>
-    <string name="registration">Register</string>
+    <string name="registration">Registrati</string>
+    <string name="title_reg_you">Tu</string>
+    <string name="title_reg_det">Dettagli</string>
+    <string name="title_reg_time">Tempo studio</string>
+    <string name="show_probab">Show probability</string>
+    <string name="next_exam">Next exams</string>
 </resources>

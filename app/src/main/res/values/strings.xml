@@ -4,9 +4,14 @@
     <string name="title_diary">Diary</string>
     <string name="title_profile">Profile</string>
     <string name="email">E-mail</string>
-    <string name="EditText_email">Insert your E-mail</string>
-    <string name="EditText_psw">Insert your password</string>
+    <string name="EditText_email">Insert your e-mail</string>
+    <string name="EditText_psw">Insert password</string>
     <string name="login">Login</string>
     <string name="registration">Register</string>
+    <string name="title_reg_you">You</string>
+    <string name="title_reg_det">Details</string>
+    <string name="title_reg_time">Study time</string>
+    <string name="show_probab">Show probability</string>
+    <string name="next_exam">Next exams</string>
 
 </resources>

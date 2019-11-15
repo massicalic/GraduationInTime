@@ -17,5 +17,82 @@
         app:title="@string/app_name"
         app:titleTextColor="@color/white"/>
 
+    <TextView
+        android:id="@+id/TextView_timeGrad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="Puoi laurearti entro 3 anni!"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Toolbar"
+        app:layout_constraintVertical_bias="0.054" />
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextView_timeGrad"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/Button_probability"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:text="@string/show_probab"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextView_timeGrad"
+        app:layout_constraintVertical_bias="0.01" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextView_timeGrad"
+        app:layout_constraintVertical_bias="0.142" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="585dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2"
+        app:layout_constraintVertical_bias="0.247">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="585dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="@string/next_exam"
+                android:textSize="35sp"
+                android:gravity="center"
+                />
+
+            <ListView
+                android:id="@+id/ListView_exam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
