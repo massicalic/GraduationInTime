@@ -17,26 +17,4 @@
         app:title="@string/title_diary"
         app:titleTextColor="@color/white"/>
 
-    <CalendarView
-        android:id="@+id/CalendarView"
-        android:layout_width="match_parent"
-        android:layout_height="326dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Toolbar"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <ListView
-        android:id="@+id/ListView_exam_day"
-        android:layout_width="match_parent"
-        android:layout_height="272dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CalendarView"
-        app:layout_constraintVertical_bias="0.0" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
