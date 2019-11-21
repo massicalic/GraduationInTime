@@ -1,5 +1,6 @@
-import math
+
+import numpy
 
 def c_area(b,h):
-    area=b*h*math.pi
+    area=b*h*numpy.pi
     return area

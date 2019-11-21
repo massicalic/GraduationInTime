@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import com.chaquo.python.*;
+
+import com.chaquo.python.PyObject;
+import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
 
 /**
@@ -41,7 +43,7 @@ public class HomeFragment extends Fragment {
         button_prob = view.findViewById(R.id.Button_probability);
         activity.setSupportActionBar(toolbar);
 
-        if (! Python.isStarted()) {
+        if (!Python.isStarted()) {
             Python.start(new AndroidPlatform(activity.getApplicationContext()));
         }
         Python py = Python.getInstance();
