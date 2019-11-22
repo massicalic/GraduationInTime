@@ -9,12 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class YouFragment extends Fragment {
 
+    View view;
 
     public YouFragment() {
         // Required empty public constructor
@@ -25,7 +29,10 @@ public class YouFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_you, container, false);
+        view = inflater.inflate(R.layout.fragment_you, container, false);
+
+
+        return view;
     }
 
 }

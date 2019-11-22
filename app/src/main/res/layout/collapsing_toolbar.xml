@@ -19,7 +19,7 @@
             android:fitsSystemWindows="true"
             app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:titleEnabled="false">
+            app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/Toolbar"
@@ -28,15 +28,14 @@
                 android:background="@color/colorPrimary"
                 android:fitsSystemWindows="true"
                 app:titleTextColor="@color/white"
-                app:layout_collapseMode="pin"
-                app:title=" "/>
+                app:layout_collapseMode="pin"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.3">
+                app:layout_collapseParallaxMultiplier="3">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_image"
