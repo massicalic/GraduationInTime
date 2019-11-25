@@ -1,6 +1,7 @@
 package com.example.graduationintime;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,19 +42,30 @@ public class HomeFragment extends Fragment {
         toolbar = view.findViewById(R.id.Toolbar);
         text = view.findViewById(R.id.TextView_timeGrad);
         button_prob = view.findViewById(R.id.Button_probability);
+        button_prob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startIntent();
+            }
+        });
         activity.setSupportActionBar(toolbar);
 
-        if (!Python.isStarted()) {
+        /*if (!Python.isStarted()) {
             Python.start(new AndroidPlatform(activity.getApplicationContext()));
         }
         Python py = Python.getInstance();
         PyObject test = py.getModule("test");
         String i = String.valueOf(test.callAttr("c_area", 2, 3).toFloat());
-        text.setText(i);
+        text.setText(i);*/
         return view;
     }
 
     public void setActivity(AppCompatActivity activity) {
         this.activity = activity;
+    }
+
+    private void startIntent(){
+        Intent intent = new Intent(activity, RegistrationActivity.class);
+        startActivity(intent);
     }
 }

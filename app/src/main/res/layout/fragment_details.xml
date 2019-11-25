@@ -6,15 +6,4 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".DetailsFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/Toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-       app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:background="@color/colorPrimary"
-        app:title="@string/title_reg_det"
-        app:titleTextColor="@color/white"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

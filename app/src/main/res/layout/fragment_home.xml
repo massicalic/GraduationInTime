@@ -15,21 +15,22 @@
         app:layout_constraintRight_toRightOf="parent"
         android:background="@color/colorPrimary"
         app:title="@string/app_name"
-        app:titleTextColor="@color/white"/>
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <TextView
         android:id="@+id/TextView_timeGrad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:hint="Puoi laurearti entro 3 anni!"
+        android:textColor="@color/black"
         android:textSize="50sp"
+        android:gravity="center"
+        android:text="Puoi laurearti entro 3 anni!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Toolbar"
-        app:layout_constraintVertical_bias="0.054" />
+        app:layout_constraintVertical_bias="0.054"/>
 
     <View
         android:id="@+id/view"
@@ -85,6 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:text="@string/next_exam"
+                android:textColor="@color/black"
                 android:textSize="35sp"
                 android:gravity="center"
                 />

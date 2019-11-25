@@ -13,5 +13,13 @@
     <string name="title_reg_time">Study time</string>
     <string name="show_probab">Show probability</string>
     <string name="next_exam">Next exams</string>
+    <string name="settings">settings</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="psw">Password</string>
+    <string name="birthdate">Birth date</string>
+    <string name="next">Next</string>
+    <string name="personal_data">Personal Data</string>
+    <string name="account">Account Data</string>
 
 </resources>
