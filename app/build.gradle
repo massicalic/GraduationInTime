@@ -19,6 +19,8 @@ android {
             buildPython "py -3.8"
             pip {
                 install "numpy"
+                install "sklearn"
+                install "pandas"
             }
         }
     }
@@ -42,5 +44,3 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'de.hdodenhof:circleimageview:3.0.1'
 }
-
-

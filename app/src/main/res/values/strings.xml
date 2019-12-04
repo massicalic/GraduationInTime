@@ -21,5 +21,32 @@
     <string name="next">Next</string>
     <string name="personal_data">Personal Data</string>
     <string name="account">Account Data</string>
+    <string name="uni_year">University enrollment year</string>
+    <string name="moved">Did you move to study?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="noName">You didn\'t enter your name</string>
+    <string name="noSurname">You didn\'t enter your surname</string>
+    <string name="noBirthdate">You didn\'t enter your bithdate</string>
+    <string name="noEmail">You didn\'t enter your e-mail</string>
+    <string name="noPsw">You didn\'t enter password</string>
+    <string name="incorrectEmail">You have entered an incorrect e-mail</string>
+    <string name="incorrectPsw">The password must contain at least 8 characters, numbers, lowercase and uppercase letters</string>
+    <string name="Stud">STUDENT \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        \u0020\u0020\u0020If it is a non-working student. \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        Study time > 75%</string>
+    <string name="StudWork">STUDENT-WORKER \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        If it is a working student. 50% &lt; study time &lt; 75%</string>
+    <string name="WorkStud">WORKER-STUDENT \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        If it is a student worker. Study time &lt; 50%</string>
+    <string name="noMoved">You didn\'t enter if you moved</string>
+    <string name="noTime">You didn\\\'t enter your study time</string>
+    <string name="title_exam">Exam</string>
+    <string name="place">Place:</string>
+    <string name="prof">Professor:</string>
+    <string name="info">Info:</string>
 
 </resources>
