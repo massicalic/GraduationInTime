@@ -27,6 +27,9 @@ public class YouFragment extends Fragment {
     private static final String TAG = ".YouFragment";
     private View view;
     private EditText name, surname, email, psw, birthdate;
+    private String stringName = "";
+    private String stringSurname = "";
+    private String stringEmail = "";
     private int mYear, mMonth, mDay;
     private GregorianCalendar date;
 
@@ -61,6 +64,9 @@ public class YouFragment extends Fragment {
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
                                 String s = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                                if ((monthOfYear+1)<10){
+                                    s = dayOfMonth + "/0" + (monthOfYear + 1) + "/" + year;
+                                }
                                 birthdate.setText(s);
                                 date = new GregorianCalendar(year, monthOfYear, dayOfMonth);
                                 Log.d(TAG, "monthhhhhhhhhhhhhhhhh "+date.get(Calendar.MONTH));
@@ -70,6 +76,15 @@ public class YouFragment extends Fragment {
             }
         });
 
+        if (!stringName.equals("")){
+            name.setText(stringName);
+            surname.setText(stringSurname);
+            email.setText(stringEmail);
+            name.setEnabled(false);
+            surname.setEnabled(false);
+            email.setEnabled(false);
+            psw.setVisibility(View.GONE);
+        }
         return view;
     }
 
@@ -79,6 +94,22 @@ public class YouFragment extends Fragment {
 
     public EditText getSurname() {
         return surname;
+    }
+
+    public void setView(View view) {
+        this.view = view;
+    }
+
+    public void setStringName(String stringName) {
+        this.stringName = stringName;
+    }
+
+    public void setStringSurname(String stringSurname) {
+        this.stringSurname = stringSurname;
+    }
+
+    public void setStringEmail(String stringEmail) {
+        this.stringEmail = stringEmail;
     }
 
     public TextView getBirthdate() {

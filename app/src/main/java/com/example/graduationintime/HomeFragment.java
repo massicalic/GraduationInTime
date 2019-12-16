@@ -14,9 +14,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.chaquo.python.PyObject;
-import com.chaquo.python.Python;
-import com.chaquo.python.android.AndroidPlatform;
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +28,9 @@ public class HomeFragment extends Fragment {
     private TextView text;
     private Button button_prob;
     private Toolbar toolbar;
+    private User user;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -45,7 +48,7 @@ public class HomeFragment extends Fragment {
         button_prob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startIntent();
+
             }
         });
         activity.setSupportActionBar(toolbar);
@@ -64,8 +67,7 @@ public class HomeFragment extends Fragment {
         this.activity = activity;
     }
 
-    private void startIntent(){
-        Intent intent = new Intent(activity, RegistrationActivity.class);
-        startActivity(intent);
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -9,6 +9,9 @@ public class User {
     private String email;
     private String psw;
     private GregorianCalendar birthdate;
+    private int day;
+    private int month;
+    private int year;
     private int yearEnroll;
     private boolean moved;
     private int studyTime;
@@ -88,5 +91,29 @@ public class User {
 
     public void setStudyTime(int studyTime) {
         this.studyTime = studyTime;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getYear() {
+        return year;
     }
 }

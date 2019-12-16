@@ -13,4 +13,11 @@
         <item name="android:textSize">0sp</item>
     </style>
 
+    <style parent="Theme.AppCompat.Light.NoActionBar"
+        name="SplashTheme">
+
+    <item name="android:windowBackground">@drawable/splash</item>
+
+    </style>
+
 </resources>

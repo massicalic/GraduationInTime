@@ -35,18 +35,55 @@
     <string name="incorrectPsw">The password must contain at least 8 characters, numbers, lowercase and uppercase letters</string>
     <string name="Stud">STUDENT \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
         \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
-        \u0020\u0020\u0020If it is a non-working student. \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        \u0020\u0020\u0020\u0020\u0020\u0020If it is a not-working student. \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
         \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
         Study time > 75%</string>
     <string name="StudWork">STUDENT-WORKER \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
-        If it is a working student. 50% &lt; study time &lt; 75%</string>
+        \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        If it is a working student. \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020 50% &lt; study time &lt; 75%</string>
     <string name="WorkStud">WORKER-STUDENT \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
-        If it is a student worker. Study time &lt; 50%</string>
+        \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        If it is a student worker. \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020 Study time &lt; 50%</string>
     <string name="noMoved">You didn\'t enter if you moved</string>
-    <string name="noTime">You didn\\\'t enter your study time</string>
+    <string name="noTime">You didn\'t enter your study time</string>
     <string name="title_exam">Exam</string>
     <string name="place">Place:</string>
-    <string name="prof">Professor:</string>
+    <string name="prof">Professor/s:</string>
     <string name="info">Info:</string>
+    <string name="notification" translatable="false">notification</string>
+    <string name="edit" translatable="false">edit</string>
+    <string name="delete" translatable="false">delete</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="place_edit">Place</string>
+    <string name="prof_edit">Professor/s</string>
+    <string name="info_edit">Info</string>
+    <string name="areYouSure">Are you sure to leave this page?</string>
+    <string name="cancel">CANCEL</string>
+    <string name="save">SAVE</string>
+    <string name="noDate">You didn\'t enter date</string>
+    <string name="noTimes">You didn\'t enter time</string>
+    <string name="title_settings">Settings</string>
+    <string name="myAccount">My account</string>
+    <string name="edit_data">Edit my data</string>
+    <string name="delete_account">Delete account</string>
+    <string name="change_psw">Change password</string>
+    <string name="notification_push">Push notifications</string>
+    <string name="exit">Exit</string>
+    <string name="or">OR</string>
+
+    <string name="facebook_app_id" translatable="false">2359999374217548</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb2359999374217548</string>
+    <string name="login_error_title">Missing data</string>
+    <string name="login_error_message">The email or password fields are empty or incorrect</string>
+    <string name="app_name_long">Graduation In Time</string>
+    <string name="signup">Signup</string>
+    <string name="continue_email">Continue with e-mail</string>
+    <string name="finish">FINISH</string>
+    <string name="student">STUDENT</string>
+    <string name="studwork">STUDENT-WORKER</string>
+    <string name="workstud">WORKER-STUDENT</string>
+    <string name="DeleteAccount">Are you sure you want to delete accont?</string>
+
 
 </resources>

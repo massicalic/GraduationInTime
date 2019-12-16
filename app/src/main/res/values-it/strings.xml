@@ -37,14 +37,48 @@
         \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
         \u0020\u0020\u0020Se si tratta di uno studente non lavoratore. \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
         \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020Tempo studio > 75%</string>
-    <string name="StudWork">STUDENTE-LAVORATORE  \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
-        Se si tratta di uno studente lavoratore. 50% &lt; tempo studio &lt; 75%></string>
-    <string name="WorkStud">LAVORATORE-STUDENTE  \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
-        Se si tratta di un lavoratore studente. tempo studio &lt; 50%</string>
+    <string name="StudWork">STUDENTE-LAVORATORE  \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        Se si tratta di uno studente lavoratore. \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        50% &lt; tempo studio &lt; 75%</string>
+    <string name="WorkStud">LAVORATORE-STUDENTE  \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        Se si tratta di un lavoratore studente. \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        tempo studio &lt; 50%</string>
     <string name="noMoved">You didn\'t enter if you moved</string>
     <string name="noTime">You didn\\\'t enter your study time</string>
     <string name="title_exam">Exam</string>
     <string name="place">Place:</string>
     <string name="prof">Professor:</string>
     <string name="info">Info:</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="place_edit">Place</string>
+    <string name="prof_edit">Professor/s</string>
+    <string name="info_edit">Info</string>
+    <string name="areYouSure">Are you sure to leave this page?</string>
+    <string name="cancel">CANCEL</string>
+    <string name="save">SAVE</string>
+    <string name="noDate">You didn\'t enter the date</string>
+    <string name="noTimes">You didn\'t enter time</string>
+    <string name="title_settings">Settings</string>
+    <string name="myAccount">My account</string>
+    <string name="edit_data">Edit my data</string>
+    <string name="delete_account">Delete account</string>
+    <string name="change_psw">Change password</string>
+    <string name="notification_push">Push notifications</string>
+    <string name="exit">Exit</string>
+    <string name="or">OR</string>
+    <string name="login_error_title">Missing data</string>
+    <string name="login_error_message">The email or password fields is empty or incorrect</string>
+    <string name="app_name_long">Graduation In Time</string>
+    <string name="signup">Signup</string>
+    <string name="continue_email">Continue with e-mail</string>
+    <string name="finish">FINISH</string>
+    <string name="student">STUDENT</string>
+    <string name="studwork">STUDENT-WORKER</string>
+    <string name="workstud">WORKER-STUDENT</string>
+    <string name="DeleteAccount">Are you sure you want to delete accont?</string>
 </resources>

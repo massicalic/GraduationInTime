@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".PreRegistrationActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/Toolbar"
@@ -13,50 +13,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:title="@string/login"
+        app:title="@string/signup"
         android:background="@color/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <EditText
-        android:id="@+id/EditText_Email"
-        android:layout_width="303dp"
-        android:layout_height="48dp"
-        android:hint="@string/EditText_email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Toolbar"
-        app:layout_constraintVertical_bias="0.064" />
-
-    <EditText
-        android:id="@+id/EditText_psw"
-        android:layout_width="303dp"
-        android:layout_height="48dp"
-        android:hint="@string/EditText_psw"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditText_Email"
-        app:layout_constraintVertical_bias="0.052" />
-
     <Button
-        android:id="@+id/Button_login"
+        android:id="@+id/Button_signup"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:text="@string/login"
+        android:text="@string/continue_email"
         android:textAllCaps="false"
-        android:textSize="19sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditText_psw"
+        app:layout_constraintTop_toBottomOf="@+id/Toolbar"
         app:layout_constraintVertical_bias="0.092" />
 
     <View
-        android:id="@+id/view"
         android:layout_width="150dp"
         android:layout_height="1dp"
         android:background="@color/grey"
@@ -64,11 +38,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.061"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Button_login"
+        app:layout_constraintTop_toBottomOf="@+id/Button_signup"
         app:layout_constraintVertical_bias="0.119" />
 
     <View
-        android:id="@+id/dfgg"
         android:layout_width="150dp"
         android:layout_height="1dp"
         android:background="@color/grey"
@@ -76,7 +49,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.938"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Button_login"
+        app:layout_constraintTop_toBottomOf="@+id/Button_signup"
         app:layout_constraintVertical_bias="0.119" />
 
     <TextView
@@ -89,20 +62,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Button_login"
+        app:layout_constraintTop_toBottomOf="@+id/Button_signup"
         app:layout_constraintVertical_bias="0.099" />
 
 
     <com.facebook.login.widget.LoginButton
-        android:id="@+id/Button_login_facebook"
+        android:id="@+id/Button_signup_facebook"
         android:layout_width="250dp"
-        android:layout_height="65dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:background="@color/com_facebook_blue"
         android:drawableStart="@drawable/com_facebook_button_login_logo"
         android:drawableLeft="@drawable/com_facebook_button_login_logo"
         android:padding="10dp"
-        android:text="@string/com_facebook_loginview_log_in_button_long"
+        android:text="@string/com_facebook_loginview_log_in_button_continue"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="19sp"
@@ -111,5 +84,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.125" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

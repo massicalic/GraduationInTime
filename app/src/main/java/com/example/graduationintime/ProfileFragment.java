@@ -1,6 +1,7 @@
 package com.example.graduationintime;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,8 +23,10 @@ import android.view.ViewGroup;
 public class ProfileFragment extends Fragment {
 
     private AppCompatActivity activity;
+    private TextView name, tipe, year;
     private View view;
     private Toolbar toolbar;
+    private User user;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -35,6 +39,25 @@ public class ProfileFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_profile, container, false);
         toolbar = view.findViewById(R.id.Toolbar);
         activity.setSupportActionBar(toolbar);
+
+        name = view.findViewById(R.id.name);
+        tipe = view.findViewById(R.id.tipe);
+        year = view.findViewById(R.id.year);
+
+        name.setText(user.getName());
+        switch (user.getStudyTime()) {
+            case 1:
+                tipe.setText(R.string.student);
+                break;
+            case 2:
+                tipe.setText(R.string.studwork);
+                break;
+            case 3:
+                tipe.setText(R.string.workstud);
+                break;
+        }
+        year.setText(""+user.getYearEnroll());
+
         setHasOptionsMenu(true); //for menu on toolbar
         return view;
     }
@@ -46,10 +69,19 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id==R.id.settings) {
+            Intent intent = new Intent(activity, SettingsActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
     public void setActivity(AppCompatActivity activity) {
         this.activity = activity;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
