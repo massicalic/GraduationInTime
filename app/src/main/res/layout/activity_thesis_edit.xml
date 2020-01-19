@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ThesisEditActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/title_thesis"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/EditText_argument"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:hint="@string/argument_min"
+                android:inputType="text"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp" />
+
+            <EditText
+                android:id="@+id/EditText_info"
+                android:layout_width="300dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="30dp"
+                android:hint="@string/info_edit"
+                android:inputType="textCapSentences|textMultiLine"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -22,6 +22,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +34,7 @@ import java.util.Calendar;
 public class RegistrationActivity extends AppCompatActivity {
 
     private static final String TAG = RegistrationActivity.class.getName();
+    private AppCompatActivity activity;
     private Toolbar toolbar;
     private View first_step, second_step, third_step;
     private YouFragment you = new YouFragment(); //fragment N 1
@@ -49,6 +51,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private FirebaseUser firebaseUser;
     private Menu menus;
     private Intent intentservice;
+    private boolean isFace = false;
 
     private static final String nameKEY = "name_key";
     private static final String surnameKEY = "surname_key";
@@ -65,6 +68,11 @@ public class RegistrationActivity extends AppCompatActivity {
         second_step = findViewById(R.id.second_step);
         third_step = findViewById(R.id.third_step);
 
+        activity = RegistrationActivity.this;
+        you.setActivity(activity);
+        det.setActivity(activity);
+        time.setActivity(activity);
+
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         firebaseUser = mFirebaseAuth.getCurrentUser();
@@ -76,8 +84,15 @@ public class RegistrationActivity extends AppCompatActivity {
         addFragment(you);
         first_step.setBackgroundResource(R.color.green);
 
-        intentservice = new Intent(this, ExitService.class);
-        startService(intentservice);
+        if (firebaseUser != null) {
+            for (UserInfo userInfo : firebaseUser.getProviderData()) {
+                if (userInfo.getProviderId().equals("facebook.com")) {
+                    isFace = true;
+                    intentservice = new Intent(this, ExitService.class);
+                    startService(intentservice);
+                }
+            }
+        }
 
         if (getIntent().getStringExtra(nameKEY)!=null) {
             you.setStringName(getIntent().getStringExtra(nameKEY));
@@ -103,8 +118,10 @@ public class RegistrationActivity extends AppCompatActivity {
             case android.R.id.home:
                 switch (Nfragment){
                     case 1:
-                        LoginManager.getInstance().logOut();
-                        FirebaseAuth.getInstance().signOut();
+                        if (isFace) {
+                            LoginManager.getInstance().logOut();
+                            FirebaseAuth.getInstance().signOut();
+                        }
                         Intent intent = new Intent(RegistrationActivity.this, PreLoginActivity.class);
                         startActivity(intent);
                         finish();
@@ -185,7 +202,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                             dialog.show();
                                         }else{
                                             if (userid==null) {
-                                                if (you.getPsw().getText().toString().trim().equals("")) {
+                                                if (you.getPsw().getText().toString().equals("")) {
                                                     builder.setMessage(R.string.noPsw);
                                                     builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                                         @Override
@@ -196,7 +213,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                                     dialog = builder.create();
                                                     dialog.show();
                                                 } else {
-                                                    String a = you.getPsw().getText().toString().trim();
+                                                    String a = you.getPsw().getText().toString();
                                                     if (!(a.length() >= 8 && a.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$"))) {
                                                         builder.setMessage(R.string.incorrectPsw);
                                                         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -208,7 +225,6 @@ public class RegistrationActivity extends AppCompatActivity {
                                                         dialog = builder.create();
                                                         dialog.show();
                                                     } else {
-                                                        det.setActivity(this);
                                                         addFragment(det);
                                                         toolbar.setTitle(R.string.title_reg_det);
                                                         Nfragment = 2;
@@ -221,7 +237,6 @@ public class RegistrationActivity extends AppCompatActivity {
                                                     }
                                                 }
                                             } else{
-                                                det.setActivity(this);
                                                 addFragment(det);
                                                 toolbar.setTitle(R.string.title_reg_det);
                                                 Nfragment = 2;
@@ -249,7 +264,6 @@ public class RegistrationActivity extends AppCompatActivity {
                             dialog = builder.create();
                             dialog.show();
                         }else{
-                            time.setActivity(this);
                             addFragment(time);
                             toolbar.setTitle(R.string.title_reg_time);
                             Nfragment = 3;

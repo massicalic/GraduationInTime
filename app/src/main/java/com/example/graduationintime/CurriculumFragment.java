@@ -15,13 +15,15 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DiaryFragment extends Fragment {
+public class CurriculumFragment extends Fragment {
 
     private AppCompatActivity activity;
     private View view;
     private Toolbar toolbar;
+    private User user;
 
-    public DiaryFragment() {
+
+    public CurriculumFragment() {
         // Required empty public constructor
     }
 
@@ -29,13 +31,19 @@ public class DiaryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_diary, container, false);
+        view = inflater.inflate(R.layout.fragment_curriculum, container, false);
         toolbar = view.findViewById(R.id.Toolbar);
         activity.setSupportActionBar(toolbar);
+
+
         return view;
     }
 
     public void setActivity(AppCompatActivity activity) {
         this.activity = activity;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

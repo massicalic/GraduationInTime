@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditPswActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:title="@string/edit_psw"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <EditText
+        android:id="@+id/EditText_new_psw"
+        android:layout_width="303dp"
+        android:layout_height="48dp"
+        android:hint="@string/EditText_new_psw"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Toolbar"
+        app:layout_constraintVertical_bias="0.064" />
+
+    <EditText
+        android:id="@+id/EditText_retype"
+        android:layout_width="303dp"
+        android:layout_height="48dp"
+        android:hint="@string/EditText_retype"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditText_new_psw"
+        app:layout_constraintVertical_bias="0.052" />
+
+    <Button
+        android:id="@+id/Button_edit"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="@string/edit_psw"
+        android:textAllCaps="false"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditText_retype"
+        app:layout_constraintVertical_bias="0.092" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

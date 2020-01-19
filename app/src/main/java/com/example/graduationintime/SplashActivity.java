@@ -33,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
 
         if (firebaseUser!=null) {
             final String stringUserId = firebaseUser.getUid();
-            mDatabase.child("users").addValueEventListener(new ValueEventListener() {
+            mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot obj : dataSnapshot.getChildren()) {

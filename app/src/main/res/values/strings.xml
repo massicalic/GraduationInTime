@@ -21,7 +21,7 @@
     <string name="next">Next</string>
     <string name="personal_data">Personal Data</string>
     <string name="account">Account Data</string>
-    <string name="uni_year">University enrollment year</string>
+    <string name="uni_year">Enrollment year</string>
     <string name="moved">Did you move to study?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -81,9 +81,44 @@
     <string name="continue_email">Continue with e-mail</string>
     <string name="finish">FINISH</string>
     <string name="student">STUDENT</string>
-    <string name="studwork">STUDENT-WORKER</string>
-    <string name="workstud">WORKER-STUDENT</string>
+    <string name="studwork">STUDENT - WORKER</string>
+    <string name="workstud">WORKER - STUDENT</string>
     <string name="DeleteAccount">Are you sure you want to delete accont?</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="profile_photo">Profile photo</string>
+    <string name="pick_image_intent_text">Add image</string>
+    <string name="Stud_short">STUDENT \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        \u0020\u0020\u0020\u0020study time > 75%</string>
+    <string name="StudWork_short">STUDENT-WORKER \u0020\u0020\u0020\u0020\u0020\u0020 50% &lt; study time &lt; 75%</string>
+    <string name="WorkStud_shrt">WORKER-STUDENT \u0020\u0020\u0020\u0020\u0020\u0020study time &lt; 50%</string>
+    <string name="title_progress">Progress</string>
+    <string name="button_progress">ADD/EDIT PASSED EXAM</string>
+    <string name="show_list">SHOW ENTIRE LIST</string>
+    <string name="title_average">Average</string>
+    <string name="weighted">\u0020\u0020\u0020Weighted : </string>
+    <string name="arithmetic">\u0020\u0020\u0020Arithmetic : </string>
+    <string name="passed_exams">PASSED EXAMS</string>
+    <string name="title_thesis">Thesis</string>
+    <string name="argument">\u0020\u0020\u0020ARGUMENT</string>
+    <string name="add_argument">ADD ARGUMENT</string>
+    <string name="title_next_exam">Next exam recommended</string>
+    <string name="title_curriculum">Curriculum</string>
+    <string name="edit_psw">Edit password</string>
+    <string name="EditText_new_psw">New password</string>
+    <string name="EditText_retype">Retype password</string>
+    <string name="differentPsw">Different passwords</string>
+    <string name="sure_exit">Are you sure you want to quit?</string>
+    <string name="passed_exam">Passed exam</string>
+    <string name="incorrectExam">Exam is incorrect</string>
+    <string name="title_recommendation">Recommendation</string>
+    <string name="incorrectDate">Date is incorrect</string>
+    <string name="passed_exams_min">Passed exams</string>
+    <string name="sure_delete">Are you sure you want to delete this item?</string>
+    <string name="information">INFORMATION</string>
+    <string name="argument_min">Argument</string>
+    <string name="argument_thesis">Thesis argument</string>
+    <string name="DeleteExam">Are you sure you want to delete exam?</string>
+    <string name="noArgument">You didn\'t enter argument</string>
 
 
 </resources>

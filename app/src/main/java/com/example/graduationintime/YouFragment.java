@@ -25,6 +25,7 @@ import java.util.GregorianCalendar;
 public class YouFragment extends Fragment {
 
     private static final String TAG = ".YouFragment";
+    private AppCompatActivity activity;
     private View view;
     private EditText name, surname, email, psw, birthdate;
     private String stringName = "";
@@ -57,16 +58,14 @@ public class YouFragment extends Fragment {
                 mDay = c.get(Calendar.DAY_OF_MONTH);
 
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                DatePickerDialog datePickerDialog = new DatePickerDialog(activity,
                         new DatePickerDialog.OnDateSetListener() {
 
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
-                                String s = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-                                if ((monthOfYear+1)<10){
-                                    s = dayOfMonth + "/0" + (monthOfYear + 1) + "/" + year;
-                                }
+                                String s = (dayOfMonth<10 ? "0"+dayOfMonth+"/" : dayOfMonth+"/") +
+                                        ((monthOfYear+1)<10?"0"+(monthOfYear+1)+"/" : (monthOfYear+1)+"/") + (year);
                                 birthdate.setText(s);
                                 date = new GregorianCalendar(year, monthOfYear, dayOfMonth);
                                 Log.d(TAG, "monthhhhhhhhhhhhhhhhh "+date.get(Calendar.MONTH));
@@ -126,5 +125,9 @@ public class YouFragment extends Fragment {
 
     public GregorianCalendar getDate() {
         return date;
+    }
+
+    public void setActivity(AppCompatActivity activity) {
+        this.activity = activity;
     }
 }

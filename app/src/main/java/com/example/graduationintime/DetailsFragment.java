@@ -46,7 +46,7 @@ public class DetailsFragment extends Fragment {
 
         int year = new GregorianCalendar().get(GregorianCalendar.YEAR);
         List<Integer> spinnerArray =  new ArrayList<>();
-        for(int i = 0; i<50; i++){
+        for(int i = 0; i<30; i++){
             spinnerArray.add(year);
             year--;
         }

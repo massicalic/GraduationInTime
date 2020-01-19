@@ -8,9 +8,9 @@
     />
 
     <item
-        android:id="@+id/navigation_diary"
-        android:title="@string/title_diary"
-        android:icon="@drawable/ic_diary"
+        android:id="@+id/navigation_curriculum"
+        android:title="@string/title_curriculum"
+        android:icon="@drawable/ic_curriculum"
         />
 
     <item

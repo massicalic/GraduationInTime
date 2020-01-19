@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +34,7 @@ public class TimeStudyFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_time_study, container, false);
+
         radio = view.findViewById(R.id.RadioGroup);
         radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

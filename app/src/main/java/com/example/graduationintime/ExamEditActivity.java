@@ -4,17 +4,23 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -23,44 +29,84 @@ public class ExamEditActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private EditText date, time, place, prof, info;
+    private TextView title;
     private int mYear, mMonth, mDay, mHour, mMinute;
     private int selectedDay, selectedMonth, selectedYear, hourSelected, minuteSelected;
     private GregorianCalendar dateCalendar;
     private AlertDialog dialog;
     private AlertDialog.Builder builder;
     private Exam exam;
+    private DatabaseReference mDatabaseRef;
+
+    private static final String examNameKEY = "examName_key";
+    private static final String hourKEY = "hour_key";
+    private static final String minutesKEY = "minutes_key";
+    private static final String dayKEY = "day_key";
+    private static final String monthKEY = "month_key";
+    private static final String yearKEY = "year_key";
+    private static final String placeKEY = "place_key";
+    private static final String profKEY = "prof_key";
+    private static final String infoKEY = "info_key";
+    private static final String notificationKEY = "notification_key";
+    private static final String posListKEY = "posList_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam_edit);
 
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+
         toolbar = findViewById(R.id.Toolbar);
-        setSupportActionBar(toolbar);
-        builder = new AlertDialog.Builder(this);
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-
-        exam = new Exam();
-        /*inserire i dati anche negli int per la data, quando si crea l'exam vuoto se lo si sta creando o con
-        i vari dati se lo si sta modificando
-
-        if (exam.getDate_time()==null){
-            exam.setDate_time(dateCalendar);
-            if ()
-        }else {
-            dateCalendar = exam.getDate_time();
-            selectedDay = dateCalendar.get(Calendar.DAY_OF_MONTH);
-            selectedMonth = dateCalendar.get(Calendar.MONTH);
-            selectedYear = dateCalendar.get(Calendar.YEAR);
-            hourSelected = dateCalendar.get(Calendar.HOUR_OF_DAY);
-            minuteSelected = dateCalendar.get(Calendar.MINUTE);
-        }*/
-
         date = findViewById(R.id.EditText_date);
         time = findViewById(R.id.EditText_time);
         place = findViewById(R.id.EditText_place);
         prof = findViewById(R.id.EditText_prof);
         info = findViewById(R.id.EditText_info);
+        title = findViewById(R.id.TextView_titleExam);
+        setSupportActionBar(toolbar);
+        builder = new AlertDialog.Builder(this);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+
+        if (getIntent().getIntExtra(dayKEY, 0)!=0) {
+            exam = new Exam();
+            exam.setName(getIntent().getStringExtra(examNameKEY));
+            exam.setHour(getIntent().getIntExtra(hourKEY, 0));
+            exam.setMinutes(getIntent().getIntExtra(minutesKEY, 0));
+            exam.setDay(getIntent().getIntExtra(dayKEY, 0));
+            exam.setMonth(getIntent().getIntExtra(monthKEY, 0));
+            exam.setYear(getIntent().getIntExtra(yearKEY, 0));
+            exam.setPlace(getIntent().getStringExtra(placeKEY));
+            exam.setProf(getIntent().getStringExtra(profKEY));
+            exam.setInfo(getIntent().getStringExtra(infoKEY));
+            exam.setNotification(getIntent().getBooleanExtra(notificationKEY, false));
+
+            selectedDay = getIntent().getIntExtra(dayKEY, 0);
+            selectedMonth = getIntent().getIntExtra(monthKEY, 0);
+            selectedYear = getIntent().getIntExtra(yearKEY, 0);
+            hourSelected = getIntent().getIntExtra(hourKEY, 0);
+            minuteSelected = getIntent().getIntExtra(minutesKEY, 0);
+            dateCalendar = new GregorianCalendar(selectedYear, selectedMonth, selectedDay, hourSelected, minuteSelected);
+        }
+
+        title.setText(getIntent().getStringExtra(examNameKEY));
+
+        if (exam!=null) {
+            String s = (selectedDay<10 ? "0"+selectedDay+"/" : selectedDay+"/") +
+                    ((selectedMonth+1)<10?"0"+(selectedMonth+1)+"/" : (selectedMonth+1)+"/") + (selectedYear);
+            date.setText(s);
+            s = (hourSelected<10 ? "0"+hourSelected+":" : hourSelected+":") +
+                    (minuteSelected<10 ? "0"+minuteSelected : minuteSelected);
+            if (s.equals("00:00")){
+                s = "";
+            }
+            time.setText(s);
+            place.setText(exam.getPlace());
+            prof.setText(exam.getProf());
+            info.setText(exam.getInfo());
+        } else {
+            exam = new Exam();
+        }
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,12 +124,10 @@ public class ExamEditActivity extends AppCompatActivity {
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
-                                String s = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-                                if ((monthOfYear+1)<10){
-                                    s = dayOfMonth + "/0" + (monthOfYear + 1) + "/" + year;
-                                }
+                                String s = (dayOfMonth<10 ? "0"+dayOfMonth+"/" : dayOfMonth+"/") +
+                                        ((monthOfYear+1)<10?"0"+(monthOfYear+1)+"/" : (monthOfYear+1)+"/") + (year);
                                 date.setText(s);
-                                selectedMonth = dayOfMonth;
+                                selectedMonth = monthOfYear;
                                 selectedYear = year;
                                 selectedDay = dayOfMonth;
                                 if (dateCalendar!=null){
@@ -134,7 +178,7 @@ public class ExamEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.edit_exam_menu, menu);
+        getMenuInflater().inflate(R.menu.save_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -166,7 +210,11 @@ public class ExamEditActivity extends AppCompatActivity {
                         dialog = builder.create();
                         dialog.show();
                     }else{
-                        exam.setDate_time(dateCalendar);
+                        exam.setDay(selectedDay);
+                        exam.setMonth(selectedMonth);
+                        exam.setYear(selectedYear);
+                        exam.setHour(hourSelected);
+                        exam.setMinutes(minuteSelected);
                         if (!place.getText().toString().trim().equals("")){
                             exam.setPlace(place.getText().toString().trim());
                         }
@@ -177,9 +225,20 @@ public class ExamEditActivity extends AppCompatActivity {
                             exam.setInfo(info.getText().toString().trim());
                         }
 
+                        String userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        String s = String.valueOf(getIntent().getIntExtra(posListKEY, 0));
+                        mDatabaseRef.child("users").child(userid).child("exams").child(s).setValue(exam);
 
-
-
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra(dayKEY, exam.getDay());
+                        resultIntent.putExtra(monthKEY, exam.getMonth());
+                        resultIntent.putExtra(yearKEY, exam.getYear());
+                        resultIntent.putExtra(hourKEY, exam.getHour());
+                        resultIntent.putExtra(minutesKEY, exam.getMinutes());
+                        resultIntent.putExtra(placeKEY, exam.getPlace());
+                        resultIntent.putExtra(profKEY, exam.getProf());
+                        resultIntent.putExtra(infoKEY, exam.getInfo());
+                        setResult(Activity.RESULT_OK, resultIntent);
                         finish();
                     }
                 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="5dp">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/title_card"
+            android:layout_margin="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:text="@string/title_average"/>
+
+        <TextView
+            android:id="@+id/weighted"
+            android:layout_margin="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:text="@string/weighted"/>
+
+        <TextView
+            android:id="@+id/arithmetic"
+            android:layout_margin="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:text="@string/arithmetic"/>
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/passed_exams"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/passed_exams"
+            android:layout_margin="8dp"
+            android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

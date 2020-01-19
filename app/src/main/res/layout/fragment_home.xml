@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HomeFragment">
 
@@ -10,9 +11,6 @@
         android:id="@+id/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:background="@color/colorPrimary"
         app:title="@string/app_name"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
@@ -25,76 +23,49 @@
         android:textSize="50sp"
         android:gravity="center"
         android:text="Puoi laurearti entro 3 anni!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Toolbar"
-        app:layout_constraintVertical_bias="0.054"/>
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15sp"/>
 
     <View
         android:id="@+id/view"
         android:layout_width="350dp"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextView_timeGrad"
-        app:layout_constraintVertical_bias="0.0" />
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/darker_gray" />
 
     <Button
         android:id="@+id/Button_probability"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:text="@string/show_probab"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextView_timeGrad"
-        app:layout_constraintVertical_bias="0.01" />
+        android:text="@string/show_probab" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:layout_margin="400dp"/>
 
     <View
         android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextView_timeGrad"
-        app:layout_constraintVertical_bias="0.142" />
+        android:background="@android:color/black" />
 
-    <ScrollView
+    <TextView
+        android:id="@+id/TextView"
         android:layout_width="match_parent"
-        android:layout_height="585dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2"
-        app:layout_constraintVertical_bias="0.247">
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:text="@string/next_exam"
+        android:textColor="@color/black"
+        android:textSize="35sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="585dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:text="@string/next_exam"
-                android:textColor="@color/black"
-                android:textSize="35sp"
-                android:gravity="center"
-                />
-
-            <ListView
-                android:id="@+id/ListView_exam"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ListView
+        android:id="@+id/ListView_exam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
