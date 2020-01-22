@@ -119,6 +119,14 @@
     <string name="argument_thesis">Thesis argument</string>
     <string name="DeleteExam">Are you sure you want to delete exam?</string>
     <string name="noArgument">You didn\'t enter argument</string>
+    <string name="add_date">Add the date to one of the next recommended exams in profile to show it here</string>
+    <string name="six_days">in 6 days</string>
+    <string name="tomorrow">tomorrow</string>
+    <string name="next_exame">Next exam</string>
+    <string name="title_notification">Notifications</string>
+    <string name="remove_notification">Are you sure you wont to remove notification?</string>
+    <string name="no_notications">No notification set</string>
+    <string name="no_exam">No passed exam</string>
 
 
 </resources>

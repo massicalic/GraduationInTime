@@ -56,8 +56,8 @@ public class User {
         exams.add(new Exam("Programmazione", 12));
         exams.add(new Exam("Basi Di Dati", 9));
         exams.add(new Exam("Informazione, Trasmissione E Codici A Protezione D'errore", 6));
-        exams.add(new Exam("Laboratorio A", 3));
-        exams.add(new Exam("Laboratorio B", 3));
+        exams.add(new Exam("Laboratorio Interdisciplinare A", 3));
+        exams.add(new Exam("Laboratorio Interdisciplinare B", 3));
         exams.add(new Exam("Logica", 6));
         exams.add(new Exam("Progettazione Del Software", 8));
         exams.add(new Exam("Programmazione Concorrente E Distribuita", 8));

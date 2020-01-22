@@ -473,6 +473,17 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra(nameKEY, u.getName());
+            resultIntent.putExtra(surnameKEY, u.getSurname());
+            resultIntent.putExtra(emailKEY, u.getEmail());
+            resultIntent.putExtra(dayKEY, u.getDay());
+            resultIntent.putExtra(monthKEY, u.getMonth());
+            resultIntent.putExtra(yearKEY, u.getYear());
+            resultIntent.putExtra(enrollKEY, u.getYearEnroll());
+            resultIntent.putExtra(movedKEY, u.isMoved());
+            resultIntent.putExtra(studyKEY, u.getStudyTime());
+            setResult(Activity.RESULT_OK, resultIntent);
             finish();
         }
         return super.onOptionsItemSelected(item);

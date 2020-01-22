@@ -1,10 +1,12 @@
 package com.example.graduationintime;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +24,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = SettingsActivity.class.getName();
@@ -30,6 +34,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private AlertDialog dialog;
     private AlertDialog.Builder builder;
     private Toolbar toolbar;
+    private  User user;
+    private ArrayList<String> listExam;
+    private ArrayList<String> listDates;
+    private ArrayList<Integer> listPos;
+
     private static final String providerKEY = "provider_key";
     private static final String nameKEY = "name_key";
     private static final String surnameKEY = "surname_key";
@@ -40,6 +49,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private static final String enrollKEY = "enroll_key";
     private static final String movedKEY = "moved_key";
     private static final String studyKEY = "study_key";
+
+    private static final String listExamKEY = "listExam_key";
+    private static final String listDatesKEY = "listDates_key";
+    private static final String listPosKEY = "listPos_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +65,20 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         notifications = findViewById(R.id.Button_notifications);
         exit = findViewById(R.id.Button_exit);
         view = findViewById(R.id.view3);
+
+        user = new User();
+        user.setName(getIntent().getStringExtra(nameKEY));
+        user.setSurname(getIntent().getStringExtra(surnameKEY));
+        user.setEmail(getIntent().getStringExtra(emailKEY));
+        user.setDay(getIntent().getIntExtra(dayKEY, 0));
+        user.setMonth(getIntent().getIntExtra(monthKEY, 0));
+        user.setYear(getIntent().getIntExtra(yearKEY, 0));
+        user.setYearEnroll(getIntent().getIntExtra(enrollKEY, 0));
+        user.setMoved(getIntent().getBooleanExtra(movedKEY, false));
+        user.setStudyTime(getIntent().getIntExtra(studyKEY, 0));
+        listExam = getIntent().getStringArrayListExtra(listExamKEY);
+        listDates = getIntent().getStringArrayListExtra(listDatesKEY);
+        listPos = getIntent().getIntegerArrayListExtra(listPosKEY);
 
         if (getIntent().getBooleanExtra(providerKEY, false)) {
             change_psw.setVisibility(View.GONE);
@@ -77,16 +104,16 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             case R.id.Button_edit:
                 Intent intent = new Intent(SettingsActivity.this, EditProfileActivity.class);
                 intent.putExtra(providerKEY, getIntent().getBooleanExtra(providerKEY, false));
-                intent.putExtra(nameKEY, getIntent().getStringExtra(nameKEY));
-                intent.putExtra(surnameKEY, getIntent().getStringExtra(surnameKEY));
-                intent.putExtra(emailKEY, getIntent().getStringExtra(emailKEY));
-                intent.putExtra(dayKEY, getIntent().getIntExtra(dayKEY, 0));
-                intent.putExtra(monthKEY, getIntent().getIntExtra(monthKEY, 0));
-                intent.putExtra(yearKEY, getIntent().getIntExtra(yearKEY, 0));
-                intent.putExtra(enrollKEY, getIntent().getIntExtra(enrollKEY, 0));
-                intent.putExtra(movedKEY, getIntent().getBooleanExtra(movedKEY, false));
-                intent.putExtra(studyKEY, getIntent().getIntExtra(studyKEY, 0));
-                startActivity(intent);
+                intent.putExtra(nameKEY, user.getName());
+                intent.putExtra(surnameKEY, user.getSurname());
+                intent.putExtra(emailKEY, user.getEmail());
+                intent.putExtra(dayKEY, user.getDay());
+                intent.putExtra(monthKEY, user.getMonth());
+                intent.putExtra(yearKEY, user.getYear());
+                intent.putExtra(enrollKEY, user.getYearEnroll());
+                intent.putExtra(movedKEY, user.isMoved());
+                intent.putExtra(studyKEY, user.getStudyTime());
+                startActivityForResult(intent, 3);
                 break;
             case R.id.Button_delete:
                 builder.setMessage(R.string.DeleteAccount);
@@ -125,6 +152,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(intent2);
                 break;
             case R.id.Button_notifications:
+                Intent intent3 = new Intent(this, NotificationsActivity.class);
+                intent3.putExtra(listExamKEY, listExam);
+                intent3.putExtra(listDatesKEY, listDates);
+                intent3.putExtra(listPosKEY, listPos);
+                startActivityForResult(intent3, 4);
                 break;
             case R.id.Button_exit:
                 builder.setMessage(R.string.sure_exit);
@@ -149,6 +181,34 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 });
                 dialog = builder.create();
                 dialog.show();
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 3: {
+                if (resultCode == Activity.RESULT_OK) {
+                    user.setName(data.getStringExtra(nameKEY));
+                    user.setSurname(data.getStringExtra(surnameKEY));
+                    user.setEmail(data.getStringExtra(emailKEY));
+                    user.setDay(data.getIntExtra(dayKEY, 0));
+                    user.setMonth(data.getIntExtra(monthKEY, 0));
+                    user.setYear(data.getIntExtra(yearKEY, 0));
+                    user.setYearEnroll(data.getIntExtra(enrollKEY, 0));
+                    user.setMoved(data.getBooleanExtra(movedKEY, false));
+                    user.setStudyTime(data.getIntExtra(studyKEY, 0));
+                }
+                break;
+            }
+            case 4:
+                if (resultCode == Activity.RESULT_OK) {
+                    listExam = data.getStringArrayListExtra(listExamKEY);
+                    listDates = data.getStringArrayListExtra(listDatesKEY);
+                    listPos = data.getIntegerArrayListExtra(listPosKEY);
+                }
                 break;
         }
     }

@@ -4,11 +4,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,91 +20,66 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class PassedExamListActivity extends AppCompatActivity {
+public class NotificationsActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private ListView listView;
     private TextView text;
-    private List<Exam> list;
-    private CustomAdapterPassedExam adapter;
-    private String [] arrayExams;
-    private String [] arrayMarks;
-    private int [] arrayDays;
-    private int [] arrayMonths;
-    private int [] arrayYears;
-    private AlertDialog dialog;
+    private ArrayAdapter<String> adapter;
     private AlertDialog.Builder builder;
+    private AlertDialog dialog;
     private DatabaseReference mDatabaseRef;
     private String userid;
 
-    private static final String arrayExamKEY = "arrayExam_key";
-    private static final String arrayMarkKEY = "arrayMark_key";
-    private static final String arrayDayKEY = "arrayDay_key";
-    private static final String arrayMonthKEY = "arrayMonth_key";
-    private static final String arrayYearKEY = "arrayYear_key";
+    private ArrayList<String> listExam;
+    private ArrayList<String> listDates;
+    private ArrayList<Integer> listPos;
+
+    private static final String listExamKEY = "listExam_key";
+    private static final String listDatesKEY = "listDates_key";
+    private static final String listPosKEY = "listPos_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_passed_exam_list);
+        setContentView(R.layout.activity_notifications);
 
         toolbar = findViewById(R.id.Toolbar);
         listView = findViewById(R.id.ListView);
         text = findViewById(R.id.TextView);
 
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-
-        builder = new AlertDialog.Builder(this);
-
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        arrayExams = getIntent().getStringArrayExtra(arrayExamKEY);
-        arrayMarks = getIntent().getStringArrayExtra(arrayMarkKEY);
-        arrayDays = getIntent().getIntArrayExtra(arrayDayKEY);
-        arrayMonths = getIntent().getIntArrayExtra(arrayMonthKEY);
-        arrayYears = getIntent().getIntArrayExtra(arrayYearKEY);
+        builder = new AlertDialog.Builder(this);
 
-        list = new ArrayList<>();
-        final List<String> list2 = new ArrayList<>();
-        for (int i=0; i<arrayExams.length; i++) {
-            if (!arrayMarks[i].equals("0")) {
-                Exam e = new Exam();
-                e.setName(arrayExams[i]);
-                e.setMark(arrayMarks[i]);
-                e.setDay(arrayDays[i]);
-                e.setMonth(arrayMonths[i]);
-                e.setYear(arrayYears[i]);
-                list.add(e);
-                list2.add("");
-            }
-        }
-        if (list.size()==0) {
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+
+        listExam = getIntent().getStringArrayListExtra(listExamKEY);
+        listDates = getIntent().getStringArrayListExtra(listDatesKEY);
+        listPos = getIntent().getIntegerArrayListExtra(listPosKEY);
+
+        if (listExam.size()==0) {
             listView.setVisibility(View.GONE);
         }else {
             text.setVisibility(View.GONE);
-            adapter = new CustomAdapterPassedExam(PassedExamListActivity.this, list, list2);
+            adapter = new CustomAdapterNextExam(this, listExam, listDates);
             listView.setAdapter(adapter);
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                    builder.setMessage(R.string.sure_delete);
+                    builder.setMessage(R.string.remove_notification);
                     builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            int j = 0;
-                            for (int i=0; i<arrayExams.length; i++) {
-                                if (list.get(position).getName().equals(arrayExams[i])) {
-                                    j = i;
-                                    break;
-                                }
-                            }
-                            mDatabaseRef.child("users").child(userid).child("exams").child(String.valueOf(j)).child("mark").setValue(null);
-                            list.remove(position);
-                            list2.remove(position);
+                            mDatabaseRef.child("users").child(userid).child("exams").child(String.valueOf(listPos.get(position))).child("notification").setValue(false);
+                            listExam.remove(position);
+                            listDates.remove(position);
+                            listPos.remove(position);
                             adapter.notifyDataSetChanged();
                         }
                     });
@@ -124,6 +102,11 @@ public class PassedExamListActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id){
             case android.R.id.home:
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra(listExamKEY, listExam);
+                resultIntent.putExtra(listDatesKEY, listDates);
+                resultIntent.putExtra(listPosKEY, listPos);
+                setResult(Activity.RESULT_OK, resultIntent);
                 finish();
                 break;
         }

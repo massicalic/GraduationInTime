@@ -208,7 +208,7 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             perc = itemView.findViewById(R.id.TextView_perc);
             addExam = itemView.findViewById(R.id.add_exam);
 
-            progressBar.setMax(180);
+            progressBar.setMax(156);
             int passedExams = 0;
             for (int i = 0;i<user.getExams().size();i++) {
                 if (user.getExams().get(i).getMark()!=null&&!user.getExams().get(i).getMark().equals("")) {
@@ -216,7 +216,7 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
             }
             progressBar.setProgress(passedExams);
-            int cent = passedExams*100/180;
+            int cent = passedExams*100/156;
 
             String text = cent+"%";
             perc.setText(text);

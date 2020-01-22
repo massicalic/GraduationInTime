@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ThesisEditActivity"></activity>
+        <activity android:name=".NotificationsActivity"></activity>
+        <activity android:name=".ThesisEditActivity" />
         <activity
             android:name=".ThesisActivity"
             android:screenOrientation="portrait" />
@@ -97,6 +98,8 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".NotificationPublisher" />
     </application>
 
 </manifest>

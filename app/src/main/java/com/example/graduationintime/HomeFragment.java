@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
     private static final String TAG = ".HomeFragment";
     private AppCompatActivity activity;
     private View view;
-    private TextView textTime, textNext;
+    private TextView textTime, textNext, addDate;
     private Button button_prob;
     private Toolbar toolbar;
     private ProgressBar progressBar;
@@ -59,6 +59,7 @@ public class HomeFragment extends Fragment {
 
     private static final String examNameKEY = "examName_key";
     private static final String hourKEY = "hour_key";
+    private static final String cfuKEY = "cfu_key";
     private static final String minutesKEY = "minutes_key";
     private static final String placeKEY = "place_key";
     private static final String dayKEY = "day_key";
@@ -86,12 +87,14 @@ public class HomeFragment extends Fragment {
         listView = view.findViewById(R.id.ListView_exam);
         progressBar = view.findViewById(R.id.progress_bar);
         v = view.findViewById(R.id.view2);
+        addDate = view.findViewById(R.id.TextView_add_data);
 
         textTime.setVisibility(View.GONE);
         button_prob.setVisibility(View.GONE);
         listView.setVisibility(View.GONE);
         textNext.setVisibility(View.GONE);
         v.setVisibility(View.GONE);
+        addDate.setVisibility(View.GONE);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
@@ -111,7 +114,6 @@ public class HomeFragment extends Fragment {
                             textTime.setVisibility(View.VISIBLE);
                             textNext.setVisibility(View.VISIBLE);
                             button_prob.setVisibility(View.VISIBLE);
-                            listView.setVisibility(View.VISIBLE);
                             v.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.GONE);
 
@@ -128,6 +130,11 @@ public class HomeFragment extends Fragment {
                             adapter = new CustomAdapterNextExam(activity, listName, listDate);
                             listView.setAdapter(adapter);
                             repeat = false;
+                            if (listName.size()==0) {
+                                addDate.setVisibility(View.VISIBLE);
+                            }else {
+                                listView.setVisibility(View.VISIBLE);
+                            }
                         }
                     }
                 }
@@ -150,7 +157,6 @@ public class HomeFragment extends Fragment {
             textNext.setVisibility(View.VISIBLE);
             v.setVisibility(View.VISIBLE);
             button_prob.setVisibility(View.VISIBLE);
-            listView.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
 
             listName = new ArrayList<>();
@@ -165,6 +171,11 @@ public class HomeFragment extends Fragment {
             }
             adapter = new CustomAdapterNextExam(activity, listName, listDate);
             listView.setAdapter(adapter);
+            if (listName.size()==0) {
+                addDate.setVisibility(View.VISIBLE);
+            }else {
+                listView.setVisibility(View.VISIBLE);
+            }
         }
 
         activity.setSupportActionBar(toolbar);
@@ -182,6 +193,7 @@ public class HomeFragment extends Fragment {
                 }
                 Intent intent = new Intent(activity, ExamActivity.class);
                 intent.putExtra(examNameKEY, exam.getName());
+                intent.putExtra(cfuKEY, exam.getCfu());
                 intent.putExtra(dayKEY, exam.getDay());
                 intent.putExtra(monthKEY, exam.getMonth());
                 intent.putExtra(yearKEY, exam.getYear());
@@ -200,15 +212,12 @@ public class HomeFragment extends Fragment {
             Python.start(new AndroidPlatform(activity.getApplicationContext()));
         }
         Python py = Python.getInstance();
-        PyObject utilsCSV = py.getModule("utils");
         PyObject test = py.getModule("recommender");
-        utilsCSV.callAttr("generate");
         List<PyObject> list = test.callAttr("recommendation").asList();
         String s = "";
         for (int i=0; i<list.size(); i++) {
-            s = s + list.get(i).toString() + "          ";
-        }
-        text.setText(s);*/
+            s += list.get(i).toString() + "          ";
+        }*/
         return view;
     }
 

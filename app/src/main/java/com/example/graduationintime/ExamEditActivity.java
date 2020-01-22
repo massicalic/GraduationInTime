@@ -39,6 +39,7 @@ public class ExamEditActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseRef;
 
     private static final String examNameKEY = "examName_key";
+    private static final String cfuKEY = "cfu_key";
     private static final String hourKEY = "hour_key";
     private static final String minutesKEY = "minutes_key";
     private static final String dayKEY = "day_key";
@@ -71,6 +72,7 @@ public class ExamEditActivity extends AppCompatActivity {
         if (getIntent().getIntExtra(dayKEY, 0)!=0) {
             exam = new Exam();
             exam.setName(getIntent().getStringExtra(examNameKEY));
+            exam.setCfu(getIntent().getIntExtra(cfuKEY, 0));
             exam.setHour(getIntent().getIntExtra(hourKEY, 0));
             exam.setMinutes(getIntent().getIntExtra(minutesKEY, 0));
             exam.setDay(getIntent().getIntExtra(dayKEY, 0));

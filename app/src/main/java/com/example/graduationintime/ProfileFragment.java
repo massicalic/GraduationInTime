@@ -35,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -58,6 +59,11 @@ public class ProfileFragment extends Fragment {
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
     private boolean repeat;
+    private boolean running;
+    private ArrayList<String> listExam;
+    private ArrayList<String> listDates;
+    private ArrayList<Integer> listPos;
+
 
     private static final String providerKEY = "provider_key";
     private static final String nameKEY = "name_key";
@@ -69,6 +75,10 @@ public class ProfileFragment extends Fragment {
     private static final String enrollKEY = "enroll_key";
     private static final String movedKEY = "moved_key";
     private static final String studyKEY = "study_key";
+
+    private static final String listExamKEY = "listExam_key";
+    private static final String listDatesKEY = "listDates_key";
+    private static final String listPosKEY = "listPos_key";
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -90,6 +100,7 @@ public class ProfileFragment extends Fragment {
         appBarLayout = view.findViewById(R.id.appBar);
 
         repeat = true;
+        running = true;
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         // Use above layout manager for RecyclerView..
@@ -136,9 +147,27 @@ public class ProfileFragment extends Fragment {
                             year.setText(s);
                             if (user.getImageUrl()!=null) {
                                 //Picasso.get().load(user.getImageUrl()).fit().centerCrop().into(image);
-                                Glide.with(activity).load(user.getImageUrl()).fitCenter().centerCrop().circleCrop().into(image);
+                                if (running) {
+                                    Glide.with(activity).load(user.getImageUrl()).fitCenter().centerCrop().circleCrop().into(image);
+                                }
                             }
                             repeat = false;
+
+                            listExam = new ArrayList<>();
+                            listDates = new ArrayList<>();
+                            listPos = new ArrayList<>();
+                            for (int i=0; i<user.getExams().size(); i++) {
+                                if (user.getExams().get(i).isNotification()) {
+                                    listExam.add(user.getExams().get(i).getName());
+                                    int day = user.getExams().get(i).getDay();
+                                    int month = user.getExams().get(i).getMonth();
+                                    int year = user.getExams().get(i).getYear();
+                                    String ss = (day<10 ? "0"+day+"/" : day+"/") +
+                                            ((month+1)<10?"0"+(month+1)+"/" : (month+1)+"/") + (year);
+                                    listDates.add(ss);
+                                    listPos.add(i);
+                                }
+                            }
                         }
                     }
                 }
@@ -192,6 +221,12 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        running = false;
+    }
+
+    @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.profile_menu, menu);
     }
@@ -217,6 +252,9 @@ public class ProfileFragment extends Fragment {
             intent.putExtra(enrollKEY, user.getYearEnroll());
             intent.putExtra(movedKEY, user.isMoved());
             intent.putExtra(studyKEY, user.getStudyTime());
+            intent.putExtra(listExamKEY, listExam);
+            intent.putExtra(listDatesKEY, listDates);
+            intent.putExtra(listPosKEY, listPos);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

@@ -5,18 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".RacoListActivity">
+    tools:context=".NotificationsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
-        app:title="@string/title_recommendation"
+        app:title="@string/title_notification"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <ListView
         android:id="@+id/ListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_notications"
+        android:layout_marginTop="200dp"
+        android:textSize="40sp"
+        android:layout_gravity="center"/>
 </LinearLayout>

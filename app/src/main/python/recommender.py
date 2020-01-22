@@ -17,7 +17,7 @@ def recommendation():
     signature_tmp = [1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    mat_sel = 723577
+    mat_sel = 600006
 
     dict_signatures_graduates, list_all_subject = load_signatures_graduates(grades_to_bool=True)
     distances = get_similar_students(signature_tmp, dict_signatures_graduates, mat_sel)
