@@ -40,15 +40,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private ArrayList<Integer> listPos;
 
     private static final String providerKEY = "provider_key";
-    private static final String nameKEY = "name_key";
-    private static final String surnameKEY = "surname_key";
-    private static final String emailKEY = "email_key";
-    private static final String dayKEY = "day_key";
-    private static final String monthKEY = "month_key";
-    private static final String yearKEY = "year_key";
-    private static final String enrollKEY = "enroll_key";
-    private static final String movedKEY = "moved_key";
-    private static final String studyKEY = "study_key";
+    private static final String userKEY = "user_key";
 
     private static final String listExamKEY = "listExam_key";
     private static final String listDatesKEY = "listDates_key";
@@ -66,16 +58,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         exit = findViewById(R.id.Button_exit);
         view = findViewById(R.id.view3);
 
-        user = new User();
-        user.setName(getIntent().getStringExtra(nameKEY));
-        user.setSurname(getIntent().getStringExtra(surnameKEY));
-        user.setEmail(getIntent().getStringExtra(emailKEY));
-        user.setDay(getIntent().getIntExtra(dayKEY, 0));
-        user.setMonth(getIntent().getIntExtra(monthKEY, 0));
-        user.setYear(getIntent().getIntExtra(yearKEY, 0));
-        user.setYearEnroll(getIntent().getIntExtra(enrollKEY, 0));
-        user.setMoved(getIntent().getBooleanExtra(movedKEY, false));
-        user.setStudyTime(getIntent().getIntExtra(studyKEY, 0));
+        user = (User) getIntent().getSerializableExtra(userKEY);
         listExam = getIntent().getStringArrayListExtra(listExamKEY);
         listDates = getIntent().getStringArrayListExtra(listDatesKEY);
         listPos = getIntent().getIntegerArrayListExtra(listPosKEY);
@@ -104,15 +87,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             case R.id.Button_edit:
                 Intent intent = new Intent(SettingsActivity.this, EditProfileActivity.class);
                 intent.putExtra(providerKEY, getIntent().getBooleanExtra(providerKEY, false));
-                intent.putExtra(nameKEY, user.getName());
-                intent.putExtra(surnameKEY, user.getSurname());
-                intent.putExtra(emailKEY, user.getEmail());
-                intent.putExtra(dayKEY, user.getDay());
-                intent.putExtra(monthKEY, user.getMonth());
-                intent.putExtra(yearKEY, user.getYear());
-                intent.putExtra(enrollKEY, user.getYearEnroll());
-                intent.putExtra(movedKEY, user.isMoved());
-                intent.putExtra(studyKEY, user.getStudyTime());
+                intent.putExtra(userKEY, user);
                 startActivityForResult(intent, 3);
                 break;
             case R.id.Button_delete:
@@ -191,15 +166,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         switch (requestCode) {
             case 3: {
                 if (resultCode == Activity.RESULT_OK) {
-                    user.setName(data.getStringExtra(nameKEY));
-                    user.setSurname(data.getStringExtra(surnameKEY));
-                    user.setEmail(data.getStringExtra(emailKEY));
-                    user.setDay(data.getIntExtra(dayKEY, 0));
-                    user.setMonth(data.getIntExtra(monthKEY, 0));
-                    user.setYear(data.getIntExtra(yearKEY, 0));
-                    user.setYearEnroll(data.getIntExtra(enrollKEY, 0));
-                    user.setMoved(data.getBooleanExtra(movedKEY, false));
-                    user.setStudyTime(data.getIntExtra(studyKEY, 0));
+                    user = (User) data.getSerializableExtra(userKEY);
                 }
                 break;
             }

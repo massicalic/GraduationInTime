@@ -1,8 +1,9 @@
 package com.example.graduationintime;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-public class Exam {
+public class Exam implements Serializable {
 
     private String name;
     private GregorianCalendar date_time;

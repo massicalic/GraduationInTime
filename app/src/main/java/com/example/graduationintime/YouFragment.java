@@ -68,7 +68,6 @@ public class YouFragment extends Fragment {
                                         ((monthOfYear+1)<10?"0"+(monthOfYear+1)+"/" : (monthOfYear+1)+"/") + (year);
                                 birthdate.setText(s);
                                 date = new GregorianCalendar(year, monthOfYear, dayOfMonth);
-                                Log.d(TAG, "monthhhhhhhhhhhhhhhhh "+date.get(Calendar.MONTH));
                             }
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();

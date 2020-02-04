@@ -56,16 +56,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private AlertDialog dialog;
     private AlertDialog.Builder builder;
     private Toolbar toolbar;
+
+    private static final String userKEY = "user_key";
     private static final String providerKEY = "provider_key";
-    private static final String nameKEY = "name_key";
-    private static final String surnameKEY = "surname_key";
-    private static final String emailKEY = "email_key";
-    private static final String dayKEY = "day_key";
-    private static final String monthKEY = "month_key";
-    private static final String yearKEY = "year_key";
-    private static final String enrollKEY = "enroll_key";
-    private static final String movedKEY = "moved_key";
-    private static final String studyKEY = "study_key";
+
     private String userid;
     private View dialogView;
     private Uri mCropImageUri;
@@ -92,15 +86,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         user = FirebaseAuth.getInstance().getCurrentUser();
         userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        u = new User();
-        u.setName(getIntent().getStringExtra(nameKEY));
-        u.setSurname(getIntent().getStringExtra(surnameKEY));
-        u.setEmail(getIntent().getStringExtra(emailKEY));
-        u.setDay(getIntent().getIntExtra(dayKEY, 0));
-        u.setMonth(getIntent().getIntExtra(monthKEY, 0));
-        u.setYear(getIntent().getIntExtra(yearKEY, 0));
-        u.setMoved(getIntent().getBooleanExtra(movedKEY, false));
-        u.setStudyTime(getIntent().getIntExtra(studyKEY, 0));
+        u = (User) getIntent().getSerializableExtra(userKEY);
 
         name = findViewById(R.id.TextView_name);
         surname = findViewById(R.id.TextView_surname);
@@ -195,9 +181,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onClick(View view) {
                         final Calendar c = Calendar.getInstance();
-                        mYear = getIntent().getIntExtra(yearKEY,0);
-                        mMonth = getIntent().getIntExtra(monthKEY,0);
-                        mDay = getIntent().getIntExtra(dayKEY,0);
+                        mYear = u.getYear();
+                        mMonth = u.getMonth();
+                        mDay = u.getDay();
 
                         DatePickerDialog datePickerDialog = new DatePickerDialog(EditProfileActivity.this,
                                 new DatePickerDialog.OnDateSetListener() {
@@ -474,15 +460,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             Intent resultIntent = new Intent();
-            resultIntent.putExtra(nameKEY, u.getName());
-            resultIntent.putExtra(surnameKEY, u.getSurname());
-            resultIntent.putExtra(emailKEY, u.getEmail());
-            resultIntent.putExtra(dayKEY, u.getDay());
-            resultIntent.putExtra(monthKEY, u.getMonth());
-            resultIntent.putExtra(yearKEY, u.getYear());
-            resultIntent.putExtra(enrollKEY, u.getYearEnroll());
-            resultIntent.putExtra(movedKEY, u.isMoved());
-            resultIntent.putExtra(studyKEY, u.getStudyTime());
+            resultIntent.putExtra(userKEY, u);
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
         }

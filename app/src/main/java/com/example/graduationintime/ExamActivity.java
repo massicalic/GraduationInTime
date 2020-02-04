@@ -49,17 +49,7 @@ public class ExamActivity extends AppCompatActivity {
     private String s;
     private boolean openFromNoti;
 
-    private static final String examNameKEY = "examName_key";
-    private static final String hourKEY = "hour_key";
-    private static final String cfuKEY = "cfu_key";
-    private static final String minutesKEY = "minutes_key";
-    private static final String dayKEY = "day_key";
-    private static final String monthKEY = "month_key";
-    private static final String yearKEY = "year_key";
-    private static final String placeKEY = "place_key";
-    private static final String profKEY = "prof_key";
-    private static final String infoKEY = "info_key";
-    private static final String notificationKEY = "notification_key";
+    private static final String examKEY = "exam_key";
     private static final String posListKEY = "posList_key";
     private static final String openFromNotiKEY = "openFromNoti_key";
 
@@ -76,17 +66,7 @@ public class ExamActivity extends AppCompatActivity {
         s = String.valueOf(getIntent().getIntExtra(posListKEY, 0));
         openFromNoti = getIntent().getBooleanExtra(openFromNotiKEY, false);
 
-        exam.setName(getIntent().getStringExtra(examNameKEY));
-        exam.setCfu(getIntent().getIntExtra(cfuKEY, 0));
-        exam.setHour(getIntent().getIntExtra(hourKEY, 0));
-        exam.setMinutes(getIntent().getIntExtra(minutesKEY, 0));
-        exam.setDay(getIntent().getIntExtra(dayKEY, 0));
-        exam.setMonth(getIntent().getIntExtra(monthKEY, 0));
-        exam.setYear(getIntent().getIntExtra(yearKEY, 0));
-        exam.setPlace(getIntent().getStringExtra(placeKEY));
-        exam.setProf(getIntent().getStringExtra(profKEY));
-        exam.setInfo(getIntent().getStringExtra(infoKEY));
-        exam.setNotification(getIntent().getBooleanExtra(notificationKEY, false));
+        exam = (Exam) getIntent().getSerializableExtra(examKEY);
 
         builder = new AlertDialog.Builder(this);
         toolbar = findViewById(R.id.Toolbar);
@@ -145,17 +125,7 @@ public class ExamActivity extends AppCompatActivity {
     private Notification getNotification(String content, String period, int requestCode) {
         Intent intent = new Intent(this, ExamActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra(examNameKEY, exam.getName());
-        intent.putExtra(cfuKEY, exam.getCfu());
-        intent.putExtra(dayKEY, exam.getDay());
-        intent.putExtra(monthKEY, exam.getMonth());
-        intent.putExtra(yearKEY, exam.getYear());
-        intent.putExtra(hourKEY, exam.getHour());
-        intent.putExtra(minutesKEY, exam.getMinutes());
-        intent.putExtra(placeKEY, exam.getPlace());
-        intent.putExtra(profKEY, exam.getProf());
-        intent.putExtra(infoKEY, exam.getInfo());
-        intent.putExtra(notificationKEY, exam.isNotification());
+        intent.putExtra(examKEY, exam);
         intent.putExtra(posListKEY, getIntent().getIntExtra(posListKEY, 0));
         intent.putExtra(openFromNotiKEY, true);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -226,17 +196,7 @@ public class ExamActivity extends AppCompatActivity {
                 break;
             case R.id.edit:
                 Intent intent = new Intent(ExamActivity.this, ExamEditActivity.class);
-                intent.putExtra(examNameKEY, exam.getName());
-                intent.putExtra(cfuKEY, exam.getCfu());
-                intent.putExtra(dayKEY, exam.getDay());
-                intent.putExtra(monthKEY, exam.getMonth());
-                intent.putExtra(yearKEY, exam.getYear());
-                intent.putExtra(hourKEY, exam.getHour());
-                intent.putExtra(minutesKEY, exam.getMinutes());
-                intent.putExtra(placeKEY, exam.getPlace());
-                intent.putExtra(profKEY, exam.getProf());
-                intent.putExtra(infoKEY, exam.getInfo());
-                intent.putExtra(notificationKEY, exam.isNotification());
+                intent.putExtra(examKEY, exam);
                 intent.putExtra(posListKEY, getIntent().getIntExtra(posListKEY, 0));
                 startActivityForResult(intent, 1);
                 break;
@@ -282,19 +242,13 @@ public class ExamActivity extends AppCompatActivity {
         switch (requestCode) {
             case 1: {
                 if (resultCode == Activity.RESULT_OK) {
-                    exam.setDay(data.getIntExtra(dayKEY, 0));
-                    exam.setMonth(data.getIntExtra(monthKEY, 0));
-                    exam.setYear(data.getIntExtra(yearKEY, 0));
-                    exam.setHour(data.getIntExtra(hourKEY, 0));
-                    exam.setMinutes(data.getIntExtra(minutesKEY, 0));
-                    exam.setPlace(data.getStringExtra(placeKEY));
-                    exam.setProf(data.getStringExtra(profKEY));
-                    exam.setInfo(data.getStringExtra(infoKEY));
+                    exam = (Exam) data.getSerializableExtra(examKEY);
 
                     String s = (exam.getDay()<10 ? "0"+exam.getDay()+"/" : exam.getDay()+"/") +
                             ((exam.getMonth()+1)<10?"0"+(exam.getMonth()+1)+"/" : (exam.getMonth()+1)+"/") + (exam.getYear());
                     date.setText(s);
                     if (exam.getHour()!=0) {
+                        time.setVisibility(View.VISIBLE);
                         s = (exam.getHour()<10 ? "0"+exam.getHour()+":" : exam.getHour()+":") +
                                 (exam.getMinutes()<10 ? "0"+exam.getMinutes() : exam.getMinutes());
                         time.setText(s);

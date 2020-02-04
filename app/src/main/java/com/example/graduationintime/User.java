@@ -1,9 +1,10 @@
 package com.example.graduationintime;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-public class User {
+public class User implements Serializable {
 
     private String name;
     private String surname;
@@ -20,6 +21,7 @@ public class User {
     private ArrayList<Exam> exams = new ArrayList<>();
     private String thesis;
     private String thesisInfo;
+    private Curriculum curriculum = new Curriculum();
 
     public User() {
         exams.add(new Exam("Algebra E Geometria", 9));
@@ -185,5 +187,13 @@ public class User {
 
     public void setThesisInfo(String thesisInfo) {
         this.thesisInfo = thesisInfo;
+    }
+
+    public Curriculum getCurriculum() {
+        return curriculum;
+    }
+
+    public void setCurriculum(Curriculum curriculum) {
+        this.curriculum = curriculum;
     }
 }

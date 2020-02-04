@@ -64,17 +64,10 @@ public class ProfileFragment extends Fragment {
     private ArrayList<String> listDates;
     private ArrayList<Integer> listPos;
 
+    private static final String userKEY = "user_key";
+
 
     private static final String providerKEY = "provider_key";
-    private static final String nameKEY = "name_key";
-    private static final String surnameKEY = "surname_key";
-    private static final String emailKEY = "email_key";
-    private static final String dayKEY = "day_key";
-    private static final String monthKEY = "month_key";
-    private static final String yearKEY = "year_key";
-    private static final String enrollKEY = "enroll_key";
-    private static final String movedKEY = "moved_key";
-    private static final String studyKEY = "study_key";
 
     private static final String listExamKEY = "listExam_key";
     private static final String listDatesKEY = "listDates_key";
@@ -243,15 +236,7 @@ public class ProfileFragment extends Fragment {
             }
             Intent intent = new Intent(activity, SettingsActivity.class);
             intent.putExtra(providerKEY, isFace);
-            intent.putExtra(nameKEY, user.getName());
-            intent.putExtra(surnameKEY, user.getSurname());
-            intent.putExtra(emailKEY, user.getEmail());
-            intent.putExtra(dayKEY, user.getDay());
-            intent.putExtra(monthKEY, user.getMonth());
-            intent.putExtra(yearKEY, user.getYear());
-            intent.putExtra(enrollKEY, user.getYearEnroll());
-            intent.putExtra(movedKEY, user.isMoved());
-            intent.putExtra(studyKEY, user.getStudyTime());
+            intent.putExtra(userKEY, user);
             intent.putExtra(listExamKEY, listExam);
             intent.putExtra(listDatesKEY, listDates);
             intent.putExtra(listPosKEY, listPos);

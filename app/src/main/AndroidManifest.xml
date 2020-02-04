@@ -14,7 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NotificationsActivity"></activity>
+        <activity android:name=".DistanceActivity"></activity>
+        <activity android:name=".ItActivity" />
+        <activity android:name=".LanguagesActivity" />
+        <activity android:name=".EducationActivity" />
+        <activity android:name=".ExperiencesActivity" />
+        <activity android:name=".SoftSkillActivity" />
+        <activity android:name=".ProfessionalGoalActivity" />
+        <activity android:name=".PersonalInfoActivity" />
+        <activity android:name=".NotificationsActivity" />
         <activity android:name=".ThesisEditActivity" />
         <activity
             android:name=".ThesisActivity"

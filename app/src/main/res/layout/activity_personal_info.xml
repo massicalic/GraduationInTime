@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PersonalInfoActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:title="@string/personal_info"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/personal_data"
+                android:layout_margin="20dp"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <EditText
+                android:id="@+id/EditText_name"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/name"
+                android:inputType="text"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp" />
+
+            <EditText
+                android:id="@+id/EditText_surname"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/surname"
+                android:inputType="text"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="6dp"/>
+
+            <EditText
+                android:id="@+id/EditText_birthdate"
+                android:layout_width="270dp"
+                android:hint="@string/birthdate"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:focusable="false"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="6dp"/>
+
+            <EditText
+                android:id="@+id/EditText_bornon"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/born_on"
+                android:inputType="text"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="6dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/EditText_citizenship"
+                    android:layout_width="270dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/citizenship"
+                    android:inputType="text"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="6dp"/>
+
+                <Button
+                    android:id="@+id/Button_citizenship_info"
+                    android:layout_width="35dp"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/yellow"
+                    android:drawableStart="@drawable/ic_question"
+                    android:drawableLeft="@drawable/ic_question"
+                    android:paddingLeft="6dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/EditText_cf"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/fiscal_code"
+                android:inputType="text"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="6dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/EditText_address"
+                    android:layout_width="270dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/address"
+                    android:inputType="text"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="6dp"/>
+
+                <Button
+                    android:id="@+id/Button_address_info"
+                    android:layout_width="35dp"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/yellow"
+                    android:drawableStart="@drawable/ic_question"
+                    android:drawableLeft="@drawable/ic_question"
+                    android:paddingLeft="6dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/EditText_driving_license"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/driving_license"
+                    android:inputType="text"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="6dp"/>
+
+                <Button
+                    android:id="@+id/Button_driving_info"
+                    android:layout_width="35dp"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/yellow"
+                    android:drawableStart="@drawable/ic_question"
+                    android:drawableLeft="@drawable/ic_question"
+                    android:paddingLeft="6dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/have_car"
+                android:textSize="20sp"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="6dp"/>
+
+            <RadioGroup
+                android:id="@+id/RadioGroup"
+                android:layout_width="214dp"
+                android:layout_height="35dp"
+                android:orientation="horizontal"
+                android:layout_marginStart="35dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="6dp">
+
+                <RadioButton
+                    android:id="@+id/radioButtonYes"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/yes" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonNo"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/TextView_contacts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contacts"
+                android:layout_margin="20dp"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <EditText
+                android:id="@+id/EditText_phone"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/phone"
+                android:inputType="phone"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp" />
+
+            <EditText
+                android:id="@+id/EditText_email"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="6dp"/>
+
+            <EditText
+                android:id="@+id/EditText_links"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/links"
+                android:inputType="text"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="20dp"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

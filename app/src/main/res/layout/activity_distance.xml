@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DistanceActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/distance_workplace"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/EditText"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:hint="@string/favorite_provinces"
+                android:inputType="textMultiLine"/>
+
+            <TextView
+                android:id="@+id/TextView_business_trips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/willing_make_trip"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:textColor="@color/black"/>
+
+            <RadioGroup
+                android:id="@+id/RadioGroupTrips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/radioButtonHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_transfers"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonFrequent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/frequent_transfers"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonLimited"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/limited_transfers"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no"/>
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/TextView_move_abroad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/willing_move_abroad"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:textColor="@color/black"/>
+
+            <RadioGroup
+                android:id="@+id/RadioGroupMove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/radioButtonEurope"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/only_europe"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonNonEuropean"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/non_european"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonNoMove"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no"/>
+            </RadioGroup>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

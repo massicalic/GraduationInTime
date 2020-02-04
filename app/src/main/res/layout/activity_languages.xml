@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".LanguagesActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/language_skills"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/EditText"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="30dp"
+                android:hint="@string/languages"/>
+
+            <RadioGroup
+                android:id="@+id/RadioGroupNative"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="30dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButtonNative"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/native_language"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonNotNative"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/not_native_language"/>
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/TextView_knowledge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/knowledge"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="30dp"/>
+
+            <TextView
+                android:id="@+id/TextView_listening"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/listening"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="30dp"/>
+
+            <RadioGroup
+                android:id="@+id/RadioGroupListening"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="30dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButtonListeningA1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A1"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonListeningA2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A2"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonListeningB1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="B1"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonListeningB2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="B2"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonListeningC1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C1"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonListeningC2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C2"/>
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/TextView_reading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reading"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="30dp"/>
+
+            <RadioGroup
+                android:id="@+id/RadioGroupReading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="30dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButtonReadingA1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A1"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonReadingA2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A2"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonReadingB1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="B1"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonReadingB2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="B2"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonReadingC1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C1"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonReadingC2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C2"/>
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/TextView_comunication"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/comunication"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="30dp"/>
+
+            <RadioGroup
+                android:id="@+id/RadioGroupComunication"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="30dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButtonComunicationA1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A1"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonComunicationA2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A2"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonComunicationB1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="B1"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonComunicationB2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="B2"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonComunicationC1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C1"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonComunicationC2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C2"/>
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/TextView_writing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/writing"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="30dp"/>
+
+            <RadioGroup
+                android:id="@+id/RadioGroupWriting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="30dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButtonWritingA1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A1"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonWritingA2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A2"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonWritingB1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="B1"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonWritingB2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="B2"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonWritingC1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C1"/>
+
+                <RadioButton
+                    android:id="@+id/radioButtonWritingC2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C2"/>
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_languages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

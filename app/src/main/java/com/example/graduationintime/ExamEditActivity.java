@@ -38,17 +38,7 @@ public class ExamEditActivity extends AppCompatActivity {
     private Exam exam;
     private DatabaseReference mDatabaseRef;
 
-    private static final String examNameKEY = "examName_key";
-    private static final String cfuKEY = "cfu_key";
-    private static final String hourKEY = "hour_key";
-    private static final String minutesKEY = "minutes_key";
-    private static final String dayKEY = "day_key";
-    private static final String monthKEY = "month_key";
-    private static final String yearKEY = "year_key";
-    private static final String placeKEY = "place_key";
-    private static final String profKEY = "prof_key";
-    private static final String infoKEY = "info_key";
-    private static final String notificationKEY = "notification_key";
+    private static final String examKEY = "exam_key";
     private static final String posListKEY = "posList_key";
 
     @Override
@@ -69,29 +59,18 @@ public class ExamEditActivity extends AppCompatActivity {
         builder = new AlertDialog.Builder(this);
         toolbar.setNavigationIcon(R.drawable.ic_back);
 
-        if (getIntent().getIntExtra(dayKEY, 0)!=0) {
-            exam = new Exam();
-            exam.setName(getIntent().getStringExtra(examNameKEY));
-            exam.setCfu(getIntent().getIntExtra(cfuKEY, 0));
-            exam.setHour(getIntent().getIntExtra(hourKEY, 0));
-            exam.setMinutes(getIntent().getIntExtra(minutesKEY, 0));
-            exam.setDay(getIntent().getIntExtra(dayKEY, 0));
-            exam.setMonth(getIntent().getIntExtra(monthKEY, 0));
-            exam.setYear(getIntent().getIntExtra(yearKEY, 0));
-            exam.setPlace(getIntent().getStringExtra(placeKEY));
-            exam.setProf(getIntent().getStringExtra(profKEY));
-            exam.setInfo(getIntent().getStringExtra(infoKEY));
-            exam.setNotification(getIntent().getBooleanExtra(notificationKEY, false));
+        if (getIntent().getSerializableExtra(examKEY)!=null) {
+            exam = (Exam) getIntent().getSerializableExtra(examKEY);
 
-            selectedDay = getIntent().getIntExtra(dayKEY, 0);
-            selectedMonth = getIntent().getIntExtra(monthKEY, 0);
-            selectedYear = getIntent().getIntExtra(yearKEY, 0);
-            hourSelected = getIntent().getIntExtra(hourKEY, 0);
-            minuteSelected = getIntent().getIntExtra(minutesKEY, 0);
+            selectedDay = exam.getDay();
+            selectedMonth = exam.getMonth();
+            selectedYear = exam.getYear();
+            hourSelected = exam.getHour();
+            minuteSelected = exam.getMinutes();
             dateCalendar = new GregorianCalendar(selectedYear, selectedMonth, selectedDay, hourSelected, minuteSelected);
         }
 
-        title.setText(getIntent().getStringExtra(examNameKEY));
+        title.setText(exam.getName());
 
         if (exam!=null) {
             String s = (selectedDay<10 ? "0"+selectedDay+"/" : selectedDay+"/") +
@@ -232,14 +211,7 @@ public class ExamEditActivity extends AppCompatActivity {
                         mDatabaseRef.child("users").child(userid).child("exams").child(s).setValue(exam);
 
                         Intent resultIntent = new Intent();
-                        resultIntent.putExtra(dayKEY, exam.getDay());
-                        resultIntent.putExtra(monthKEY, exam.getMonth());
-                        resultIntent.putExtra(yearKEY, exam.getYear());
-                        resultIntent.putExtra(hourKEY, exam.getHour());
-                        resultIntent.putExtra(minutesKEY, exam.getMinutes());
-                        resultIntent.putExtra(placeKEY, exam.getPlace());
-                        resultIntent.putExtra(profKEY, exam.getProf());
-                        resultIntent.putExtra(infoKEY, exam.getInfo());
+                        resultIntent.putExtra(examKEY, exam);
                         setResult(Activity.RESULT_OK, resultIntent);
                         finish();
                     }

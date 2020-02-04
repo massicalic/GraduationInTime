@@ -123,4 +123,93 @@
     <string name="remove_notification">Are you sure you wont to remove notification?</string>
     <string name="no_notications">No notification set</string>
     <string name="no_exam">No passed exam</string>
+    <string name="personal_info">PERSONAL INFORMATION</string>
+    <string name="born_on">Born on</string>
+    <string name="age">Age</string>
+    <string name="birth_place">Birth place</string>
+    <string name="citizenship">Citizenship</string>
+    <string name="cf">CF</string>
+    <string name="address">Address</string>
+    <string name="driving_license">Driving licens</string>
+    <string name="with_car">with car</string>
+    <string name="without_car">without car</string>
+    <string name="cell">Cell</string>
+    <string name="professional_goal">PROFESSIONAL GOAL</string>
+    <string name="soft_skill">SOFT SKILL</string>
+    <string name="experiences">WORK/INTERNSHIP EXPERIENCES</string>
+    <string name="education">EDUCATION</string>
+    <string name="language_skills">LANGUAGES SKILLS</string>
+    <string name="it_skills">IT SKILLS</string>
+    <string name="distance_workplace">DISTANCE FROM WORKPLACCE</string>
+    <string name="personal_infos">Questa sezione è dedicata ai recapiti e ad altre informazioni personali.
+        Ti consigliamo di tenere questi dati aggiornati per permettere alle aziende un contatto diretto.
+        Puoi inserire una foto; dopo averla caricata avrai la possibilità di modificarne la posizione, per centrare
+        l\'immagine in maniera ottimale. Infine, puoi aggiungere indicazioni riguardanti link utili.</string>
+    <string name="goal_infos">Spiega in poche e semplici parole quali traguardi vuoi raggiungere nel tuo futuro
+        professionale, aiuterai chi ti deve selezionare a capire chi sei e quali obiettivi ti poni.
+        Es. “vorrei arrivare a ricoprire ruoli che mi diano sempre maggiore autonomia decisionale perché sono
+        una persona che sa prendersi le proprie responsabilità” Oppure “Voglio poter applicare le conoscenze di
+        ingegneria meccanica acquisite durante gli studi lavorando nell’ambito progettazione meccanica”.</string>
+    <string name="skill_infos">Sono caratteristiche personali importanti in qualsiasi contesto lavorativo
+        perché influenzano il modo in cui facciamo fronte di volta in volta alle richieste dell\'ambiente lavorativo.
+        Leggi con attenzione le definizioni di ogni competenza e datti un voto dal minimo di 1 al massimo di 10.</string>
+    <string name="experiences_infos">Puoi aggiungere qualsiasi esperienza di lavoro. Spiega che mansione hai svolto, di cosa
+        si occupa l\'azienda, il periodo di tempo in cui hai lavorato, nome dell\'azienda e le competenze che hai acquisito.</string>
+    <string name="distance_infos">Indica le province in cui preferiresti lavorare. Sei disposto ad effettuare
+        trasferte? E a che distanza?</string>
+    <string name="education_infos">Questa sezione raccoglie tutte le informazioni sulla tua carriera accedemica e include tutti
+        i corsi di studio, anche quelli non portati a termine o ancora in corso. Puoi inserire riguardo alla scuola superiore
+        frequentata, il tipo di maturità conseguita (tecnica, classica, scientifica, ecc.), l\'istituto, il voto, l\'anno di
+        conseguimento, tipo di diploma (es. italiano) e il tipo di scuola (es. statale). Per le lauree invece, indicare
+        l\'università, il dipartimento, la facoltà, il voto e l\'anno di conseguimento.</string>
+    <string name="language_infos">Questa sezione ti permette di dare indicazioni sul livello di conoscenza di lingue straniere.
+        All\'interno della sezione puoi anche inserire attestati e diplomi conseguiti. Queste informazioni sono utili in fase
+        di selezione da parte delle aziende. Ricorda di indicare la tua lingua madre (è possibile indicarne più di una).\n
+        Livelli di comprensione:\n livello elementare (livelli A1 e A2);\n livello intermedio (livelli B1 e B2);\n
+        livello avanzato (livelli C1 e C2).\n</string>
+    <string name="it_infos">Questa sezione raccoglie informazioni sulle conoscenze informatiche. Le competenze in campo
+        informatico sono uno dei criteri maggiormente utilizzato in fase di selezione del curriculum, è per questo che potrai
+        indicare informazioni sulle competenze di base e informazioni su competenze avanzate.</string>
+    <string name="have_car">Have you got a car?</string>
+    <string name="contacts">Contacts</string>
+    <string name="phone">Cellphone number</string>
+    <string name="links">Useful links</string>
+    <string name="fiscal_code">Fiscal code</string>
+    <string name="autonomy">Autonomy</string>
+    <string name="self_confidence">Self-confidence</string>
+    <string name="stress">Resistence to sress</string>
+    <string name="organize">Ability to plan and organize</string>
+    <string name="accuracy">Accuracy / Attention to detail</string>
+    <string name="learn">Learn continuously</string>
+    <string name="goals">Achieving goals</string>
+    <string name="manage_info">Manage information</string>
+    <string name="initiative">Resourcefulness/Spirit of initiative</string>
+    <string name="comunication_skills">Communication skills</string>
+    <string name="problem_solving">Problem Solving</string>
+    <string name="team_work">Team work</string>
+    <string name="leadership">Leadership</string>
+    <string name="native_language">Native language</string>
+    <string name="known_languages">Known languages</string>
+    <string name="listening">listening</string>
+    <string name="reading">reading</string>
+    <string name="comunication">comunication</string>
+    <string name="writing">writing</string>
+    <string name="favorite_provinces">Favorite provinces</string>
+    <string name="willingness_buisness_trip">Willingness to carry out business trips</string>
+    <string name="home_transfers">yes, even with home transfers</string>
+    <string name="frequent_transfers">yes, also frequent</string>
+    <string name="limited_transfers">yes, in limited numbers</string>
+    <string name="willingness_abroad_transfers">Willingness to move abroad</string>
+    <string name="only_europe">yes, but only in Europe</string>
+    <string name="non_european">yes, even in non-European countries</string>
+    <string name="goal">Professional goal</string>
+    <string name="notChecked">You haven\'t checked all the answers</string>
+    <string name="school">School</string>
+    <string name="university">Univeristy</string>
+    <string name="write_here">Write here</string>
+    <string name="languages">Languages</string>
+    <string name="not_native_language">Not native</string>
+    <string name="knowledge">Knowledge</string>
+    <string name="willing_make_trip">Sei disposto/a a effettuare trasferte di lavoro?</string>
+    <string name="willing_move_abroad">Sei disposto/a a trasferirti all\'estero?</string>
 </resources>

@@ -57,17 +57,7 @@ public class HomeFragment extends Fragment {
     private DatabaseReference mDatabase;
     private int posList;
 
-    private static final String examNameKEY = "examName_key";
-    private static final String hourKEY = "hour_key";
-    private static final String cfuKEY = "cfu_key";
-    private static final String minutesKEY = "minutes_key";
-    private static final String placeKEY = "place_key";
-    private static final String dayKEY = "day_key";
-    private static final String monthKEY = "month_key";
-    private static final String yearKEY = "year_key";
-    private static final String profKEY = "prof_key";
-    private static final String infoKEY = "info_key";
-    private static final String notificationKEY = "notification_key";
+    private static final String examKEY = "exam_key";
     private static final String posListKEY = "posList_key";
 
     public HomeFragment() {
@@ -99,10 +89,10 @@ public class HomeFragment extends Fragment {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         final String mUserId = mFirebaseUser.getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         repeat = true;
 
         if (user==null) {
-            mDatabase = FirebaseDatabase.getInstance().getReference();
             mDatabase.child("users").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -192,17 +182,7 @@ public class HomeFragment extends Fragment {
                     }
                 }
                 Intent intent = new Intent(activity, ExamActivity.class);
-                intent.putExtra(examNameKEY, exam.getName());
-                intent.putExtra(cfuKEY, exam.getCfu());
-                intent.putExtra(dayKEY, exam.getDay());
-                intent.putExtra(monthKEY, exam.getMonth());
-                intent.putExtra(yearKEY, exam.getYear());
-                intent.putExtra(hourKEY, exam.getHour());
-                intent.putExtra(minutesKEY, exam.getMinutes());
-                intent.putExtra(placeKEY, exam.getPlace());
-                intent.putExtra(profKEY, exam.getProf());
-                intent.putExtra(infoKEY, exam.getInfo());
-                intent.putExtra(notificationKEY, exam.isNotification());
+                intent.putExtra(examKEY, exam);
                 intent.putExtra(posListKEY, posList);
                 startActivity(intent);
             }

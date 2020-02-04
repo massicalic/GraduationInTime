@@ -127,6 +127,88 @@
     <string name="remove_notification">Are you sure you wont to remove notification?</string>
     <string name="no_notications">No notification set</string>
     <string name="no_exam">No passed exam</string>
-
+    <string name="personal_info">PERSONAL INFORMATION</string>
+    <string name="born_on">Born on</string>
+    <string name="age">Age</string>
+    <string name="birth_place">Birth place</string>
+    <string name="citizenship">Citizenship</string>
+    <string name="cf">CF</string>
+    <string name="address">Address</string>
+    <string name="driving_license">Driving licens</string>
+    <string name="with_car">with car</string>
+    <string name="without_car">without car</string>
+    <string name="cell">Cell</string>
+    <string name="professional_goal">PROFESSIONAL GOAL</string>
+    <string name="soft_skill">SOFT SKILL</string>
+    <string name="experiences">WORK/INTERNSHIP EXPERIENCES</string>
+    <string name="education">EDUCATION</string>
+    <string name="language_skills">LANGUAGES SKILLS</string>
+    <string name="it_skills">IT SKILLS</string>
+    <string name="distance_workplace">DISTANCE FROM WORKPLACE</string>
+    <string name="personal_infos">This section is dedicated to contact details and other personal information.
+        We advise you to keep this data up to date to allow companies direct contact. You can insert a photo;
+        after having loaded it you will have the possibility to modify its position, to center the image in an optimal way.
+        Finally, you can add indications regarding useful links.</string>
+    <string name="goal_infos">Explain in a few simple words what goals you want to achieve in your professional future, you
+        will help those who have to select you to understand who you are and what goals you set yourself.</string>
+    <string name="skill_infos">These are important personal characteristics in any working context because these
+        influence the way we deal with the demands of the working environment from time to time.  Read the definitions
+        of each skill carefully and rate yourself from a minimum of 1 to a maximum of 10.</string>
+    <string name="experiences_infos">You can add any work experience. Explain what job you did, what the company does, the
+        time period you worked, the name of the company and the skills you acquired.</string>
+    <string name="distance_infos">Indicate the provinces in which you would prefer to work. Are you willing to travel? And at
+        what distance?</string>
+    <string name="education_infos">This section collects all the information about your academic career and includes all courses
+        of study, even those not completed or still ongoing. You can enter the type of high school diploma (technical, classical,
+        scientific, etc.), the school, the grade, the year of graduation, type of diploma (e.g. Italian) and the type of school
+        (e.g. state). For the degrees instead, indicate the university, the department, the faculty, the grade and the year of
+        graduation.</string>
+    <string name="language_infos">This section allows you to give information on the level of knowledge of foreign languages.
+        Inside the section you can also insert certificates and diplomas. This information is useful when selecting companies.
+        Remember to indicate your native language (more than one can be indicated). \n Levels of understanding: \n elementary
+        level (levels A1 and A2); \n intermediate level (levels B1 and B2); \n advanced level (levels C1 and C2).</string>
+    <string name="it_infos">This section collects information on computer skills. Computer skills are one of the most used criteria when selecting the curriculum, which is why you can indicate information on basic skills and information on advanced skills.</string>
+    <string name="have_car">Have you got a car?</string>
+    <string name="contacts">Contacts</string>
+    <string name="phone">Cellphone number</string>
+    <string name="links">Useful links</string>
+    <string name="fiscal_code">Fiscal code</string>
+    <string name="autonomy">Autonomy</string>
+    <string name="self_confidence">Self-confidence</string>
+    <string name="stress">Resistence to stress</string>
+    <string name="organize">Ability to plan and organize</string>
+    <string name="accuracy">Accuracy / Attention to detail</string>
+    <string name="learn">Learn continuously</string>
+    <string name="goals">Achieving goals</string>
+    <string name="manage_info">Manage information</string>
+    <string name="initiative">Resourcefulness/Spirit of initiative</string>
+    <string name="comunication_skills">Communication skills</string>
+    <string name="problem_solving">Problem Solving</string>
+    <string name="team_work">Team work</string>
+    <string name="leadership">Leadership</string>
+    <string name="native_language">Native language</string>
+    <string name="known_languages">Known languages</string>
+    <string name="listening">listening</string>
+    <string name="reading">reading</string>
+    <string name="comunication">comunication</string>
+    <string name="writing">writing</string>
+    <string name="favorite_provinces">Favorite provinces</string>
+    <string name="willingness_buisness_trip">Willingness to carry out business trips</string>
+    <string name="home_transfers">yes, even with home transfers</string>
+    <string name="frequent_transfers">yes, also frequent</string>
+    <string name="limited_transfers">yes, in limited numbers</string>
+    <string name="willingness_abroad_transfers">Willingness to move abroad</string>
+    <string name="only_europe">yes, but only in Europe</string>
+    <string name="non_european">yes, even in non-European countries</string>
+    <string name="goal">Professional goal</string>
+    <string name="notChecked">You haven\'t checked all the answers</string>
+    <string name="school">School</string>
+    <string name="university">Univeristy</string>
+    <string name="write_here">Write here</string>
+    <string name="languages">Languages</string>
+    <string name="not_native_language">Not native</string>
+    <string name="knowledge">Knowledge</string>
+    <string name="willing_make_trip">Are you willing to make business trips?</string>
+    <string name="willing_move_abroad">Are you willing to move abroad?</string>
 
 </resources>
