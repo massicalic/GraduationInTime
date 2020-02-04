@@ -1,10 +1,14 @@
 package com.example.graduationintime;
 
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,20 +25,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,6 +79,10 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
     private AlertDialog.Builder builder;
     private boolean running;
 
+    private Uri mCropImageUri;
+    private FirebaseUser u;
+    private StorageReference mStorage;
+
     private static final String userKEY = "user_key";
     private static final String goalKEY = "goal_key";
     private static final String skillKEY = "skill_key";
@@ -87,6 +104,8 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
         activity.setSupportActionBar(toolbar);
 
         builder = new AlertDialog.Builder(activity);
+        u = FirebaseAuth.getInstance().getCurrentUser();
+        mStorage = FirebaseStorage.getInstance().getReference();
 
         progressBar = view.findViewById(R.id.progress_bar);
         scroll = view.findViewById(R.id.scroll);
@@ -182,6 +201,12 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                             if (running) {
                                 Glide.with(activity).load(user.getImageUrl()).fitCenter().centerCrop().into(image);
                             }
+                            image.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    CropImage.startPickImageActivity(activity);
+                                }
+                            });
                             String s = user.getName().toUpperCase()+ " " +user.getSurname().toUpperCase();
                             name.setText(s);
                             s = (user.getDay()<10 ? "0"+user.getDay()+"/" : user.getDay()+"/") +
@@ -1117,6 +1142,66 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                 break;
         }
     }*/
+
+    @Override
+    @SuppressLint("NewApi")
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // handle result of pick image chooser
+        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri imageUri = CropImage.getPickImageResultUri(activity, data);
+
+            // For API >= 23 we need to check specifically that we have permissions to read external storage.
+            if (CropImage.isReadExternalStoragePermissionsRequired(activity, imageUri)) {
+                // request permissions and handle the result in onRequestPermissionsResult()
+                mCropImageUri = imageUri;
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},   CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
+            } else {
+                // no permissions required or already granted, can start crop image activity
+                startCropImageActivity(imageUri);
+            }
+        }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            String fileExt = MimeTypeMap.getFileExtensionFromUrl(result.getUri().toString());
+            final String id = u.getUid();
+            final StorageReference fileRef = mStorage.child(id+".jpg");
+            fileRef.putFile(result.getUri()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String s = uri.toString();
+                            mDatabase.child("users").child(id).child("imageUrl").setValue(s);
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Write in Storage failure", e);
+                }
+            });
+        }
+    }
+
+    private void startCropImageActivity(Uri imageUri) {
+        CropImage.activity(imageUri).start(activity);
+
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (requestCode == CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE) {
+            if (mCropImageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // required permissions granted, start crop image activity
+                startCropImageActivity(mCropImageUri);
+            } else {
+                Toast.makeText(activity, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
     @Override
     public void onDestroy() {
