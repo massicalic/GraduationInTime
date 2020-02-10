@@ -51,7 +51,7 @@
                     android:id="@+id/Button_personal"
                     android:layout_width="35dp"
                     android:layout_height="38dp"
-                    android:layout_margin="10dp"
+                    android:layout_marginTop="10dp"
                     android:drawableStart="@drawable/ic_edit_black"
                     android:drawableLeft="@drawable/ic_edit_black"
                     android:paddingLeft="6dp"/>
@@ -346,7 +346,7 @@
                         android:id="@+id/Button_goal"
                         android:layout_width="35dp"
                         android:layout_height="38dp"
-                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
                         android:drawableStart="@drawable/ic_edit_black"
                         android:drawableLeft="@drawable/ic_edit_black"
                         android:paddingLeft="6dp"/>
@@ -388,7 +388,7 @@
                         android:id="@+id/Button_skill"
                         android:layout_width="35dp"
                         android:layout_height="38dp"
-                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
                         android:drawableStart="@drawable/ic_edit_black"
                         android:drawableLeft="@drawable/ic_edit_black"
                         android:paddingLeft="6dp"/>
@@ -430,7 +430,7 @@
                         android:id="@+id/Button_experiences"
                         android:layout_width="35dp"
                         android:layout_height="38dp"
-                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
                         android:drawableStart="@drawable/ic_edit_black"
                         android:drawableLeft="@drawable/ic_edit_black"
                         android:paddingLeft="6dp"/>
@@ -472,7 +472,7 @@
                         android:id="@+id/Button_education"
                         android:layout_width="35dp"
                         android:layout_height="38dp"
-                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
                         android:drawableStart="@drawable/ic_edit_black"
                         android:drawableLeft="@drawable/ic_edit_black"
                         android:paddingLeft="6dp"/>
@@ -514,7 +514,7 @@
                         android:id="@+id/Button_language"
                         android:layout_width="35dp"
                         android:layout_height="38dp"
-                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
                         android:drawableStart="@drawable/ic_edit_black"
                         android:drawableLeft="@drawable/ic_edit_black"
                         android:paddingLeft="6dp"/>
@@ -556,7 +556,7 @@
                         android:id="@+id/Button_it"
                         android:layout_width="35dp"
                         android:layout_height="38dp"
-                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
                         android:drawableStart="@drawable/ic_edit_black"
                         android:drawableLeft="@drawable/ic_edit_black"
                         android:paddingLeft="6dp"/>
@@ -598,7 +598,7 @@
                         android:id="@+id/Button_distance"
                         android:layout_width="35dp"
                         android:layout_height="38dp"
-                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
                         android:drawableStart="@drawable/ic_edit_black"
                         android:drawableLeft="@drawable/ic_edit_black"
                         android:paddingLeft="6dp"/>

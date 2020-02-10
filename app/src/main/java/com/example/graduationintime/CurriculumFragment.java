@@ -12,21 +12,23 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -44,11 +46,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.Image;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -76,12 +83,17 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
     private boolean repeat;
     private DatabaseReference mDatabase;
     private AlertDialog dialog;
+    private View dialogView;
     private AlertDialog.Builder builder;
     private boolean running;
 
     private Uri mCropImageUri;
     private FirebaseUser u;
     private StorageReference mStorage;
+    private StorageReference httpsReference;
+    private File localFile;
+    private Image imagePdf;
+    private String url;
 
     private static final String userKEY = "user_key";
     private static final String goalKEY = "goal_key";
@@ -197,16 +209,17 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                             linearIt.removeAllViews();
                             linearDistance.removeAllViews();
 
+                            if (url!=null && !url.equals(user.getImageUrl())) {
+                                if (running) {
+                                    Glide.with(activity).load(user.getImageUrl()).fitCenter().centerCrop().into(image);
+                                }
+                            }
+                            url = user.getImageUrl();
+
                             repeat = false;
                             if (running) {
                                 Glide.with(activity).load(user.getImageUrl()).fitCenter().centerCrop().into(image);
                             }
-                            image.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    CropImage.startPickImageActivity(activity);
-                                }
-                            });
                             String s = user.getName().toUpperCase()+ " " +user.getSurname().toUpperCase();
                             name.setText(s);
                             s = (user.getDay()<10 ? "0"+user.getDay()+"/" : user.getDay()+"/") +
@@ -302,79 +315,79 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                                 if (user.getCurriculum().getSkills().size()!=0) {
                                     ArrayList<Integer> sk = user.getCurriculum().getSkills();
                                     TextView skillsText = new TextView(activity);
-                                    String str = getResources().getString(R.string.autonomy)+" ";
+                                    String str = activity.getResources().getString(R.string.autonomy)+" ";
                                     skillsText.setText(str);
                                     str = sk.get(0) + "/10\n";
                                     Spannable word = new SpannableString(str);
                                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     skillsText.append(word);
-                                    str =  getResources().getString(R.string.self_confidence)+" ";
+                                    str =  activity.getResources().getString(R.string.self_confidence)+" ";
                                     skillsText.append(str);
                                     str = sk.get(1) +"/10\n";
                                     word = new SpannableString(str);
                                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     skillsText.append(word);
-                                    str =  getResources().getString(R.string.stress)+" ";
+                                    str =  activity.getResources().getString(R.string.stress)+" ";
                                     skillsText.append(str);
                                     str = sk.get(2) +"/10\n";
                                     word = new SpannableString(str);
                                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     skillsText.append(word);
-                                    str =  getResources().getString(R.string.organize)+" ";
+                                    str =  activity.getResources().getString(R.string.organize)+" ";
                                     skillsText.append(str);
                                     str = sk.get(3) +"/10\n";
                                     word = new SpannableString(str);
                                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     skillsText.append(word);
-                                    str =  getResources().getString(R.string.accuracy)+" ";
+                                    str =  activity.getResources().getString(R.string.accuracy)+" ";
                                     skillsText.append(str);
                                     str = sk.get(4) +"/10\n";
                                     word = new SpannableString(str);
                                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     skillsText.append(word);
-                                    str =  getResources().getString(R.string.learn)+" ";
+                                    str =  activity.getResources().getString(R.string.learn)+" ";
                                     skillsText.append(str);
                                     str = sk.get(5) +"/10\n";
                                     word = new SpannableString(str);
                                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     skillsText.append(word);
-                                    str =  getResources().getString(R.string.goals)+" ";
+                                    str =  activity.getResources().getString(R.string.goals)+" ";
                                     skillsText.append(str);
                                     str = sk.get(6) +"/10\n";
                                     word = new SpannableString(str);
                                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     skillsText.append(word);
-                                    str =  getResources().getString(R.string.manage_info)+" ";
+                                    str =  activity.getResources().getString(R.string.manage_info)+" ";
                                     skillsText.append(str);
                                     str = sk.get(7) +"/10\n";
                                     word = new SpannableString(str);
                                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     skillsText.append(word);
-                                    str =  getResources().getString(R.string.initiative)+" ";
+                                    str =  activity.getResources().getString(R.string.initiative)+" ";
                                     skillsText.append(str);
                                     str = sk.get(8) +"/10\n";
                                     word = new SpannableString(str);
                                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     skillsText.append(word);
-                                    str =  getResources().getString(R.string.comunication_skills)+" ";
+                                    str =  activity.getResources().getString(R.string.comunication_skills)+" ";
                                     skillsText.append(str);
                                     str = sk.get(9) +"/10\n";
                                     word = new SpannableString(str);
                                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     skillsText.append(word);
-                                    str =  getResources().getString(R.string.problem_solving)+" ";
+                                    str =  activity.getResources().getString(R.string.problem_solving)+" ";
                                     skillsText.append(str);
                                     str = sk.get(10) +"/10\n";
                                     word = new SpannableString(str);
                                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     skillsText.append(word);
-                                    str =  getResources().getString(R.string.team_work)+" ";
+                                    str =  activity.getResources().getString(R.string.team_work)+" ";
                                     skillsText.append(str);
                                     str = sk.get(11) +"/10\n";
                                     word = new SpannableString(str);
                                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     skillsText.append(word);
-                                    str =  getResources().getString(R.string.leadership)+" ";
+                                    str =  activity.getResources().getString(R.string.leadership)+" ";
                                     skillsText.append(str);
                                     str = sk.get(12) +"/10\n";
                                     word = new SpannableString(str);
@@ -404,12 +417,12 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                                     for (int i=0; i<edu.size(); i++) {
                                         TextView eduText = new TextView(activity);
                                         if (tipeEdu.get(i)==0) {
-                                            String str = getResources().getString(R.string.school)+": ";
+                                            String str = activity.getResources().getString(R.string.school)+": ";
                                             Spannable word = new SpannableString(str);
                                             word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                             eduText.setText(word);
                                         }else {
-                                            String str = getResources().getString(R.string.university)+": ";
+                                            String str = activity.getResources().getString(R.string.university)+": ";
                                             Spannable word = new SpannableString(str);
                                             word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                             eduText.setText(word);
@@ -427,7 +440,7 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                                 if (user.getCurriculum().getLanguagesNative()!=null) {
                                     String langNative = user.getCurriculum().getLanguagesNative();
                                     TextView langText = new TextView(activity);
-                                    String str = getResources().getString(R.string.native_language)+ ": ";
+                                    String str = activity.getResources().getString(R.string.native_language)+ ": ";
                                     Spannable word = new SpannableString(str);
                                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     langText.setText(word);
@@ -442,7 +455,7 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                                     for (int i=0; i<langKnow.size(); i++) {
                                         if (i==0) {
                                             TextView languText = new TextView(activity);
-                                            String str = getResources().getString(R.string.known_languages);
+                                            String str = activity.getResources().getString(R.string.known_languages);
                                             Spannable word = new SpannableString(str);
                                             word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                             languText.setText(word);
@@ -453,12 +466,12 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                                             linearLanguage.addView(languText);
                                         }
                                         TextView langText = new TextView(activity);
-                                        String str = langKnow.get(i)+":\n"+getResources().getString(R.string.listening)+" "+ know.get(i).get(0)+"  "+
-                                                getResources().getString(R.string.reading)+" "+ know.get(i).get(1)+"\n"+
-                                                getResources().getString(R.string.comunication)+ " "+know.get(i).get(2)+"  "+
-                                                getResources().getString(R.string.writing)+ " "+know.get(i).get(3);
+                                        String str = langKnow.get(i)+":\n"+activity.getResources().getString(R.string.listening)+" "+ know.get(i).get(0)+"  "+
+                                                activity.getResources().getString(R.string.reading)+" "+ know.get(i).get(1)+"\n"+
+                                                activity.getResources().getString(R.string.comunication)+ " "+know.get(i).get(2)+"  "+
+                                                activity.getResources().getString(R.string.writing)+ " "+know.get(i).get(3);
                                         langText.setText(str);
-                                        float scale = getResources().getDisplayMetrics().density;
+                                        float scale = activity.getResources().getDisplayMetrics().density;
                                         int pixels = (int) (400 * scale + 0.5f);
                                         langText.setMaxWidth(pixels);
                                         linearLanguage.addView(langText);
@@ -482,10 +495,10 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                                 //DISTANCE FROM WORKPLACE
                                 if (user.getCurriculum().getProvince()!=null) {
                                     TextView provText = new TextView(activity);
-                                    String str = getResources().getString(R.string.favorite_provinces)+ ": ";
+                                    String str = activity.getResources().getString(R.string.favorite_provinces)+ ": ";
                                     Spannable word = new SpannableString(str);
                                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                    provText.setText(str);
+                                    provText.setText(word);
                                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                                             LinearLayout.LayoutParams.WRAP_CONTENT);
                                     params.setMargins(0, 2, 0, 2);
@@ -496,38 +509,44 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                                 if (user.getCurriculum().getMove().size()!=0) {
                                     ArrayList<Integer> mov = user.getCurriculum().getMove();
                                     TextView movText = new TextView(activity);
-                                    String str = getResources().getString(R.string.willingness_buisness_trip);
+                                    String str = activity.getResources().getString(R.string.willingness_buisness_trip)+ ": ";
+                                    Spannable word = new SpannableString(str);
+                                    word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    movText.setText(word);
                                     switch (mov.get(0)) {
                                         case 0:
-                                            str = str + ": "+ getResources().getString(R.string.home_transfers);
+                                            str = activity.getResources().getString(R.string.home_transfers);
                                             break;
                                         case 1:
-                                            str = str + ": "+ getResources().getString(R.string.frequent_transfers);
+                                            str = activity.getResources().getString(R.string.frequent_transfers);
                                             break;
                                         case 2:
-                                            str = str + ": "+ getResources().getString(R.string.limited_transfers);
+                                            str = activity.getResources().getString(R.string.limited_transfers);
                                             break;
                                         case 3:
-                                            str = str + ": "+ getResources().getString(R.string.no);
+                                            str = activity.getResources().getString(R.string.no);
                                             break;
                                     }
-                                    movText.setText(str);
+                                    movText.append(str);
                                     linearDistance.addView(movText);
 
                                     movText = new TextView(activity);
-                                    str = getResources().getString(R.string.willingness_abroad_transfers);
+                                    str = activity.getResources().getString(R.string.willingness_abroad_transfers)+ ": ";
+                                    word = new SpannableString(str);
+                                    word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    movText.setText(word);
                                     switch (mov.get(1)) {
                                         case 0:
-                                            str = str + ": "+ getResources().getString(R.string.only_europe);
+                                            str = activity.getResources().getString(R.string.only_europe);
                                             break;
                                         case 1:
-                                            str = str + ": "+ getResources().getString(R.string.non_european);
+                                            str = activity.getResources().getString(R.string.non_european);
                                             break;
                                         case 2:
-                                            str = str + ": "+ getResources().getString(R.string.no);
+                                            str = activity.getResources().getString(R.string.no);
                                             break;
                                     }
-                                    movText.setText(str);
+                                    movText.append(str);
                                     linearDistance.addView(movText);
                                 }
                             }else {
@@ -616,9 +635,9 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                 }
                 if (user.getCurriculum().isWithCar()!=null) {
                     if (user.getCurriculum().isWithCar()) {
-                        car.setText(getResources().getString(R.string.with_car));
+                        car.setText(activity.getResources().getString(R.string.with_car));
                     }else {
-                        car.setText(getResources().getString(R.string.without_car));
+                        car.setText(activity.getResources().getString(R.string.without_car));
                     }
                 }else {
                     car.setVisibility(View.GONE);
@@ -651,79 +670,79 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                 if (user.getCurriculum().getSkills().size()!=0) {
                     ArrayList<Integer> sk = user.getCurriculum().getSkills();
                     TextView skillsText = new TextView(activity);
-                    String str = getResources().getString(R.string.autonomy)+" ";
+                    String str = activity.getResources().getString(R.string.autonomy)+" ";
                     skillsText.setText(str);
                     str = sk.get(0) + "/10\n";
                     Spannable word = new SpannableString(str);
                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     skillsText.append(word);
-                    str =  getResources().getString(R.string.self_confidence)+" ";
+                    str =  activity.getResources().getString(R.string.self_confidence)+" ";
                     skillsText.append(str);
                     str = sk.get(1) +"/10\n";
                     word = new SpannableString(str);
                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     skillsText.append(word);
-                    str =  getResources().getString(R.string.stress)+" ";
+                    str =  activity.getResources().getString(R.string.stress)+" ";
                     skillsText.append(str);
                     str = sk.get(2) +"/10\n";
                     word = new SpannableString(str);
                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     skillsText.append(word);
-                    str =  getResources().getString(R.string.organize)+" ";
+                    str =  activity.getResources().getString(R.string.organize)+" ";
                     skillsText.append(str);
                     str = sk.get(3) +"/10\n";
                     word = new SpannableString(str);
                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     skillsText.append(word);
-                    str =  getResources().getString(R.string.accuracy)+" ";
+                    str =  activity.getResources().getString(R.string.accuracy)+" ";
                     skillsText.append(str);
                     str = sk.get(4) +"/10\n";
                     word = new SpannableString(str);
                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     skillsText.append(word);
-                    str =  getResources().getString(R.string.learn)+" ";
+                    str =  activity.getResources().getString(R.string.learn)+" ";
                     skillsText.append(str);
                     str = sk.get(5) +"/10\n";
                     word = new SpannableString(str);
                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     skillsText.append(word);
-                    str =  getResources().getString(R.string.goals)+" ";
+                    str =  activity.getResources().getString(R.string.goals)+" ";
                     skillsText.append(str);
                     str = sk.get(6) +"/10\n";
                     word = new SpannableString(str);
                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     skillsText.append(word);
-                    str =  getResources().getString(R.string.manage_info)+" ";
+                    str =  activity.getResources().getString(R.string.manage_info)+" ";
                     skillsText.append(str);
                     str = sk.get(7) +"/10\n";
                     word = new SpannableString(str);
                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     skillsText.append(word);
-                    str =  getResources().getString(R.string.initiative)+" ";
+                    str =  activity.getResources().getString(R.string.initiative)+" ";
                     skillsText.append(str);
                     str = sk.get(8) +"/10\n";
                     word = new SpannableString(str);
                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     skillsText.append(word);
-                    str =  getResources().getString(R.string.comunication_skills)+" ";
+                    str =  activity.getResources().getString(R.string.comunication_skills)+" ";
                     skillsText.append(str);
                     str = sk.get(9) +"/10\n";
                     word = new SpannableString(str);
                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     skillsText.append(word);
-                    str =  getResources().getString(R.string.problem_solving)+" ";
+                    str =  activity.getResources().getString(R.string.problem_solving)+" ";
                     skillsText.append(str);
                     str = sk.get(10) +"/10\n";
                     word = new SpannableString(str);
                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     skillsText.append(word);
-                    str =  getResources().getString(R.string.team_work)+" ";
+                    str =  activity.getResources().getString(R.string.team_work)+" ";
                     skillsText.append(str);
                     str = sk.get(11) +"/10\n";
                     word = new SpannableString(str);
                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     skillsText.append(word);
-                    str =  getResources().getString(R.string.leadership)+" ";
+                    str =  activity.getResources().getString(R.string.leadership)+" ";
                     skillsText.append(str);
                     str = sk.get(12) +"/10\n";
                     word = new SpannableString(str);
@@ -753,12 +772,12 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                     for (int i=0; i<edu.size(); i++) {
                         TextView eduText = new TextView(activity);
                         if (tipeEdu.get(i)==0) {
-                            String str = getResources().getString(R.string.school)+": ";
+                            String str = activity.getResources().getString(R.string.school)+": ";
                             Spannable word = new SpannableString(str);
                             word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             eduText.setText(word);
                         }else {
-                            String str = getResources().getString(R.string.university)+": ";
+                            String str = activity.getResources().getString(R.string.university)+": ";
                             Spannable word = new SpannableString(str);
                             word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             eduText.setText(word);
@@ -776,7 +795,7 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                 if (user.getCurriculum().getLanguagesNative()!=null) {
                     String langNative = user.getCurriculum().getLanguagesNative();
                     TextView langText = new TextView(activity);
-                    String str = getResources().getString(R.string.native_language)+ ": ";
+                    String str = activity.getResources().getString(R.string.native_language)+ ": ";
                     Spannable word = new SpannableString(str);
                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     langText.setText(word);
@@ -791,7 +810,7 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                     for (int i=0; i<langKnow.size(); i++) {
                         if (i==0) {
                             TextView languText = new TextView(activity);
-                            String str = getResources().getString(R.string.known_languages);
+                            String str = activity.getResources().getString(R.string.known_languages);
                             Spannable word = new SpannableString(str);
                             word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             languText.setText(word);
@@ -802,12 +821,12 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                             linearLanguage.addView(languText);
                         }
                         TextView langText = new TextView(activity);
-                        String str = langKnow.get(i)+":\n"+getResources().getString(R.string.listening)+" "+ know.get(i).get(0)+"  "+
-                                getResources().getString(R.string.reading)+" "+ know.get(i).get(1)+"\n"+
-                                getResources().getString(R.string.comunication)+ " "+know.get(i).get(2)+"  "+
-                                getResources().getString(R.string.writing)+ " "+know.get(i).get(3);
+                        String str = langKnow.get(i)+":\n"+activity.getResources().getString(R.string.listening)+" "+ know.get(i).get(0)+"  "+
+                                activity.getResources().getString(R.string.reading)+" "+ know.get(i).get(1)+"\n"+
+                                activity.getResources().getString(R.string.comunication)+ " "+know.get(i).get(2)+"  "+
+                                activity.getResources().getString(R.string.writing)+ " "+know.get(i).get(3);
                         langText.setText(str);
-                        float scale = getResources().getDisplayMetrics().density;
+                        float scale = activity.getResources().getDisplayMetrics().density;
                         int pixels = (int) (400 * scale + 0.5f);
                         langText.setMaxWidth(pixels);
                         linearLanguage.addView(langText);
@@ -831,10 +850,10 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                 //DISTANCE FROM WORKPLACE
                 if (user.getCurriculum().getProvince()!=null) {
                     TextView provText = new TextView(activity);
-                    String str = getResources().getString(R.string.favorite_provinces)+": ";
+                    String str = activity.getResources().getString(R.string.favorite_provinces)+ ": ";
                     Spannable word = new SpannableString(str);
                     word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    provText.setText(str);
+                    provText.setText(word);
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
                     params.setMargins(0, 2, 0, 2);
@@ -845,38 +864,44 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                 if (user.getCurriculum().getMove().size()!=0) {
                     ArrayList<Integer> mov = user.getCurriculum().getMove();
                     TextView movText = new TextView(activity);
-                    String str = getResources().getString(R.string.willingness_buisness_trip);
+                    String str = activity.getResources().getString(R.string.willingness_buisness_trip)+ ": ";
+                    Spannable word = new SpannableString(str);
+                    word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    movText.setText(word);
                     switch (mov.get(0)) {
                         case 0:
-                            str = str + ": "+ getResources().getString(R.string.home_transfers);
+                            str = activity.getResources().getString(R.string.home_transfers);
                             break;
                         case 1:
-                            str = str + ": "+ getResources().getString(R.string.frequent_transfers);
+                            str = activity.getResources().getString(R.string.frequent_transfers);
                             break;
                         case 2:
-                            str = str + ": "+ getResources().getString(R.string.limited_transfers);
+                            str = activity.getResources().getString(R.string.limited_transfers);
                             break;
                         case 3:
-                            str = str + ": "+ getResources().getString(R.string.no);
+                            str = activity.getResources().getString(R.string.no);
                             break;
                     }
-                    movText.setText(str);
+                    movText.append(str);
                     linearDistance.addView(movText);
 
                     movText = new TextView(activity);
-                    str = getResources().getString(R.string.willingness_abroad_transfers);
+                    str = activity.getResources().getString(R.string.willingness_abroad_transfers)+ ": ";
+                    word = new SpannableString(str);
+                    word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    movText.setText(word);
                     switch (mov.get(1)) {
                         case 0:
-                            str = str + ": "+ getResources().getString(R.string.only_europe);
+                            str = activity.getResources().getString(R.string.only_europe);
                             break;
                         case 1:
-                            str = str + ": "+ getResources().getString(R.string.non_european);
+                            str = activity.getResources().getString(R.string.non_european);
                             break;
                         case 2:
-                            str = str + ": "+ getResources().getString(R.string.no);
+                            str = activity.getResources().getString(R.string.no);
                             break;
                     }
-                    movText.setText(str);
+                    movText.append(str);
                     linearDistance.addView(movText);
                 }
             }else {
@@ -897,6 +922,7 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                 car.setVisibility(View.GONE);
             }
         }
+        setHasOptionsMenu(true); //for menu on toolbar
         return view;
     }
 
@@ -1144,63 +1170,151 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
     }*/
 
     @Override
-    @SuppressLint("NewApi")
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // handle result of pick image chooser
-        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            Uri imageUri = CropImage.getPickImageResultUri(activity, data);
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.create_pdf_menu, menu);
+    }
 
-            // For API >= 23 we need to check specifically that we have permissions to read external storage.
-            if (CropImage.isReadExternalStoragePermissionsRequired(activity, imageUri)) {
-                // request permissions and handle the result in onRequestPermissionsResult()
-                mCropImageUri = imageUri;
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},   CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
-            } else {
-                // no permissions required or already granted, can start crop image activity
-                startCropImageActivity(imageUri);
-            }
-        }
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
-            String fileExt = MimeTypeMap.getFileExtensionFromUrl(result.getUri().toString());
-            final String id = u.getUid();
-            final StorageReference fileRef = mStorage.child(id+".jpg");
-            fileRef.putFile(result.getUri()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            String s = uri.toString();
-                            mDatabase.child("users").child(id).child("imageUrl").setValue(s);
+        switch (id){
+            case R.id.create:
+                dialogView = getLayoutInflater().inflate(R.layout.dialog_create_pdf, null);
+                final CheckBox personal = dialogView.findViewById(R.id.checkbox_personal);
+                final CheckBox photo = dialogView.findViewById(R.id.checkbox_photo);
+                final CheckBox goal = dialogView.findViewById(R.id.checkbox_goal);
+                final CheckBox skills = dialogView.findViewById(R.id.checkbox_skills);
+                final CheckBox experiences = dialogView.findViewById(R.id.checkbox_experiences);
+                final CheckBox education = dialogView.findViewById(R.id.checkbox_education);
+                final CheckBox languages = dialogView.findViewById(R.id.checkbox_languages);
+                final CheckBox it = dialogView.findViewById(R.id.checkbox_it);
+                final CheckBox distance = dialogView.findViewById(R.id.checkbox_distance);
+                if (user.getImageUrl()==null) {
+                    photo.setVisibility(View.GONE);
+                }
+                if (user.getCurriculum().getGoal()==null) {
+                    goal.setVisibility(View.GONE);
+                }
+                if (user.getCurriculum().getSkills().size()==0) {
+                    skills.setVisibility(View.GONE);
+                }
+                if (user.getCurriculum().getExperiences().size()==0) {
+                    experiences.setVisibility(View.GONE);
+                }
+                if (user.getCurriculum().getEducation().size()==0) {
+                    education.setVisibility(View.GONE);
+                }
+                if (user.getCurriculum().getLanguagesNative()==null && user.getCurriculum().getLanguagesKnow().size()==0) {
+                    languages.setVisibility(View.GONE);
+                }
+                if (user.getCurriculum().getIt().size()==0) {
+                    it.setVisibility(View.GONE);
+                }
+                if (user.getCurriculum().getProvince()==null && user.getCurriculum().getMove().size()==0) {
+                    distance.setVisibility(View.GONE);
+                }
+                builder.setTitle(R.string.which_data);
+                builder.setView(dialogView);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        boolean check1, check2, check3, check4, check5, check6, check7, check8, check9;
+                        if (personal.isChecked()) {
+                            check1 = true;
+                        }else {
+                            check1 = false;
                         }
-                    });
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "Write in Storage failure", e);
-                }
-            });
+                        if (photo.isChecked()) {
+                            check2 = true;
+                        }else {
+                            check2 = false;
+                        }
+                        if (goal.isChecked()) {
+                            check3 = true;
+                        }else {
+                            check3 = false;
+                        }
+                        if (skills.isChecked()) {
+                            check4 = true;
+                        }else {
+                            check4 = false;
+                        }
+                        if (experiences.isChecked()) {
+                            check5 = true;
+                        }else {
+                            check5 = false;
+                        }
+                        if (education.isChecked()) {
+                            check6 = true;
+                        }else {
+                            check6 = false;
+                        }
+                        if (languages.isChecked()) {
+                            check7 = true;
+                        }else {
+                            check7 = false;
+                        }
+                        if (it.isChecked()) {
+                            check8 = true;
+                        }else {
+                            check8 = false;
+                        }
+                        if (distance.isChecked()) {
+                            check9 = true;
+                        }else {
+                            check9 = false;
+                        }
+                        final boolean check11, check22, check33, check44, check55, check66, check77, check88, check99;
+                        check11 = check1;
+                        check22 = check2;
+                        check33 = check3;
+                        check44 = check4;
+                        check55 = check5;
+                        check66 = check6;
+                        check77 = check7;
+                        check88 = check8;
+                        check99 = check9;
+                        httpsReference = FirebaseStorage.getInstance().getReferenceFromUrl(user.getImageUrl());
+                        try {
+                            localFile = File.createTempFile("image", "jpg");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        httpsReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                // Local temp file has been created
+                                try {
+                                    imagePdf = Image.getInstance(localFile.getPath());
+                                } catch (BadElementException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                new Thread(new RunnableCreatePdf(activity, check11, check22, check33, check44, check55, check66,
+                                        check77, check88, check99, user, imagePdf)).start();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle any errors
+                            }
+                        });
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog = builder.create();
+                dialog.show();
+                break;
         }
-    }
-
-    private void startCropImageActivity(Uri imageUri) {
-        CropImage.activity(imageUri).start(activity);
-
-    }
-
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if (requestCode == CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE) {
-            if (mCropImageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // required permissions granted, start crop image activity
-                startCropImageActivity(mCropImageUri);
-            } else {
-                Toast.makeText(activity, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
-            }
-        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

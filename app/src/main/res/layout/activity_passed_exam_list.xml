@@ -34,5 +34,6 @@
         android:text="@string/no_exam"
         android:layout_marginTop="200dp"
         android:textSize="40sp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"/>
 </LinearLayout>

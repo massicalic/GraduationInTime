@@ -11,13 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private int [] tipes = {1,2,3,4};
+    private int [] tipes = {1,2,3,4,5};
     private User user;
     private Context context;
 
     private static final String arrayExamKEY = "arrayExam_key";
+    private static final String userKEY = "user_key";
     private static final String arrayMarkKEY = "arrayMark_key";
     private static final String arrayDayKEY = "arrayDay_key";
     private static final String arrayMonthKEY = "arrayMonth_key";
@@ -37,14 +40,16 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        if (position % 4 == 0) {
+        if (position%5 == 0) {
             return 1;
-        }else if (position % 3 == 0) {
+        }else if (position%4 == 0) {
             return 4;
-        } else if (position % 2 == 0) {
-            return 3;
-        } else {
+        }else if (position%3 == 0) {
+            return 5;
+        } else if (position%2 == 0) {
             return 2;
+        } else {
+            return 3;
         }
     }
 
@@ -65,9 +70,13 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 AverageViewHolder rowTHREE = new AverageViewHolder(viewTHREE);
                 return rowTHREE;
             case 4:
-                View viewFOUR = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_thesis, parent, false);
-                ThesisViewHolder rowFOUR = new ThesisViewHolder(viewFOUR);
+                View viewFOUR = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_elective_exams, parent, false);
+                ElectiveExamsViewHolder rowFOUR = new ElectiveExamsViewHolder(viewFOUR);
                 return rowFOUR;
+            case 5:
+                View viewFIVE = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_thesis, parent, false);
+                ThesisViewHolder rowFIVE = new ThesisViewHolder(viewFIVE);
+                return rowFIVE;
         }
         return null;
     }
@@ -165,6 +174,16 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 });
                 break;
             case 4:
+                ((ElectiveExamsViewHolder)holder).choose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, ElectiveExamsActivity.class);
+                        intent.putExtra(userKEY, user);
+                        context.startActivity(intent);
+                    }
+                });
+                break;
+            case 5:
                 if (user.getThesis()!=null) {
                     if (!user.getThesis().equals("")) {
                         ((ThesisViewHolder)holder).argument.setText(user.getThesis());
@@ -245,6 +264,17 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             weighted = itemView.findViewById(R.id.weighted);
             arithmetic = itemView.findViewById(R.id.arithmetic);
             passedExams = itemView.findViewById(R.id.passed_exams);
+        }
+    }
+
+    public class ElectiveExamsViewHolder extends RecyclerView.ViewHolder{
+
+        private TextView choose;
+
+        public ElectiveExamsViewHolder (@NonNull View itemView) {
+            super(itemView);
+
+            choose = itemView.findViewById(R.id.choose);
         }
     }
 
