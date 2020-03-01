@@ -153,9 +153,6 @@ public class ExperiencesActivity extends AppCompatActivity {
                         mDatabase.child("users").child(mUserId).child("curriculum").child("experiences").setValue(exp);
                     }
                 }
-                /*Intent resultIntent = new Intent();
-                resultIntent.putExtra(goalKEY, strGoal);
-                setResult(Activity.RESULT_OK, resultIntent);*/
                 finish();
                 break;
             case android.R.id.home:

@@ -24,6 +24,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.chaquo.python.PyObject;
+import com.chaquo.python.Python;
+import com.chaquo.python.android.AndroidPlatform;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,8 +37,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -53,6 +59,7 @@ public class ProfileFragment extends Fragment {
     private View view;
     private Toolbar toolbar;
     private User user;
+    private int actionBarHeight = 0;
     private boolean isFace = false;
     private RecyclerView recyclerView;
     private FirebaseAuth mFirebaseAuth;
@@ -63,12 +70,12 @@ public class ProfileFragment extends Fragment {
     private ArrayList<String> listExam;
     private ArrayList<String> listDates;
     private ArrayList<Integer> listPos;
+    private ArrayList<String> raco;
+    private ArrayList<String> date;
+    private ArrayList<Exam> nameExams;
 
     private static final String userKEY = "user_key";
-
-
     private static final String providerKEY = "provider_key";
-
     private static final String listExamKEY = "listExam_key";
     private static final String listDatesKEY = "listDates_key";
     private static final String listPosKEY = "listPos_key";
@@ -116,11 +123,132 @@ public class ProfileFragment extends Fragment {
                         if(key.equals(mUserId)){
                             user = dataSnapshot.child(key).getValue(User.class);
 
+                            if (actionBarHeight!=0) {
+                                TypedValue tv = new TypedValue();
+                                int actionBarHeight = 0;
+                                if (getActivity().getTheme().resolveAttribute(R.attr.actionBarSize, tv, true))
+                                {
+                                    actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+                                }
+                                recyclerView.setPadding(0,0,0, actionBarHeight);
+                            }
+
+                            int[] sign = new int[nameExams.size()];
+                            for (int i = 0; i < nameExams.size(); i++) {
+                                for (int j = 0; j<user.getExams().size(); j++) {
+                                    if (nameExams.get(i).getName().toLowerCase().equals(user.getExams().get(j).getName().toLowerCase())) {
+                                        if (user.getExams().get(j).getMark() != null) {
+                                            if (user.getExams().get(j).getMark().equals("30L")) {
+                                                sign[i] = 30;
+                                            }if (user.getExams().get(j).getMark().equals("superato")) {
+                                                sign[i] = 30;
+                                            }else {
+                                                sign[i] = Integer.parseInt(user.getExams().get(j).getMark());
+                                            }
+                                        } else {
+                                            sign[i] = 0;
+                                        }
+                                        break;
+                                    } else {
+                                        if (i + 1 == nameExams.size()) {
+                                            sign[i] = 0;
+                                        }
+                                    }
+                                }
+                            }
+
+                            Python py = Python.getInstance();
+                            PyObject test = py.getModule("recommender");
+                            List<PyObject> list = test.callAttr("recommendation", sign, user.getMatriculation(), user.getYearEnroll()).asList();
+                            ArrayList<String> racoCrude = new ArrayList<>();
+                            for (int i = 0; i < list.size(); i++) {
+                                racoCrude.add(list.get(i).toString());
+                            }
+
+                            /*String[] let = {"q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m"};
+                            int a = 50;
+                            weight = new ArrayList<>();
+                            for (int i = 0; i < racoCrude.size(); i++) {
+                                for (int j = 0; j < let.length; j++) {
+                                    int tmp = racoCrude.get(i).toLowerCase().indexOf(let[j]);
+                                    if (tmp == -1) {
+                                        tmp = a;
+                                    }
+                                    if (tmp < a) {
+                                        a = tmp;
+                                    }
+                                }
+                                String temp = racoCrude.get(i).substring(a);
+                                String temp2 = racoCrude.get(i).replace(temp, " ");
+                                weight.add(temp2);
+                                a = 50;
+                                racoCrude.set(i, temp);
+                            }
+
+                            raco = new ArrayList<>();
+                            ArrayList<String> raco1year = new ArrayList<>();
+                            ArrayList<String> weightTemp = new ArrayList<>();
+                            ArrayList<String> weightTemp2 = new ArrayList<>();
+                            for (int i = 0; i < racoCrude.size(); i++) {
+                                for (int j = 0; j < user.getExams().size(); j++) {
+                                    if (racoCrude.get(i).toLowerCase().equals(user.getExams().get(j).getName().toLowerCase()) && user.getExams().get(j).getMark()==null ) {
+                                        if (user.getExams().get(j).getTeachingYear() == 1) {
+                                            raco1year.add(user.getExams().get(j).getName());
+                                            weightTemp.add(weight.get(i));
+                                        } else {
+                                            if (user.getExams().get(j).getTeachingYear() == 3) {
+                                                raco.add(user.getExams().get(j).getName());
+                                                weightTemp2.add(weight.get(i));
+                                            } else {
+                                                raco.add(0, user.getExams().get(j).getName());
+                                                weightTemp2.add(0, weight.get(i));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            weightTemp.addAll(weightTemp2);
+                            raco1year.addAll(raco);
+                            raco = raco1year;
+                            weight = weightTemp;*/
+
+                            /*for (int y=0; y<racoCrude.size(); y++) {
+                                Log.d(TAG, racoCrude.get(y));
+                            }*/
+
+                            raco = new ArrayList<>();
+                            ArrayList<String> raco1year = new ArrayList<>();
+                            ArrayList<String> dateTemp = new ArrayList<>();
+                            ArrayList<String> dateTemp2 = new ArrayList<>();
+                            for (int f=0; f<racoCrude.size(); f++) {
+                                String[] tokens = racoCrude.get(f).split("::");
+                                for (int j = 0; j < user.getExams().size(); j++) {
+                                    if (tokens[0].equals(user.getExams().get(j).getName()) && user.getExams().get(j).getMark()==null) {
+                                        if (user.getExams().get(j).getTeachingYear() == 1) {
+                                            raco1year.add(user.getExams().get(j).getName());
+                                            dateTemp.add(tokens[1]);
+                                        } else {
+                                            if (user.getExams().get(j).getTeachingYear() == 3) {
+                                                raco.add(user.getExams().get(j).getName());
+                                                dateTemp2.add(tokens[1]);
+                                            } else {
+                                                raco.add(0, user.getExams().get(j).getName());
+                                                dateTemp2.add(0, tokens[1]);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            dateTemp.addAll(dateTemp2);
+                            raco1year.addAll(raco);
+                            raco = raco1year;
+                            date = dateTemp;
+
                             appBarLayout.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.GONE);
                             // Create recycler view raw adapter with item list.
-                            RecyclerViewAdapter dataAdapter = new RecyclerViewAdapter(user, activity);
+                            RecyclerViewAdapter dataAdapter = new RecyclerViewAdapter(user, activity, raco, date, nameExams);
                             // Set RecyclerView raw adapter.
                             recyclerView.setAdapter(dataAdapter);
 
@@ -177,7 +305,7 @@ public class ProfileFragment extends Fragment {
             recyclerView.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
             // Create recycler view raw adapter with item list.
-            RecyclerViewAdapter dataAdapter = new RecyclerViewAdapter(user, activity);
+            RecyclerViewAdapter dataAdapter = new RecyclerViewAdapter(user, activity, raco, date, nameExams);
             // Set RecyclerView raw adapter.
             recyclerView.setAdapter(dataAdapter);
 
@@ -200,13 +328,15 @@ public class ProfileFragment extends Fragment {
                 Glide.with(activity).load(user.getImageUrl()).fitCenter().centerCrop().circleCrop().into(image);
             }
 
-            TypedValue tv = new TypedValue();
-            int actionBarHeight = 0;
-            if (getActivity().getTheme().resolveAttribute(R.attr.actionBarSize, tv, true))
-            {
-                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+            if (actionBarHeight==0) {
+                TypedValue tv = new TypedValue();
+                int actionBarHeight = 0;
+                if (getActivity().getTheme().resolveAttribute(R.attr.actionBarSize, tv, true))
+                {
+                    actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+                }
+                recyclerView.setPadding(0,0,0, actionBarHeight);
             }
-            recyclerView.setPadding(0,0,0, actionBarHeight);
         }
 
         setHasOptionsMenu(true); //for menu on toolbar
@@ -255,5 +385,13 @@ public class ProfileFragment extends Fragment {
 
     public User getUser() {
         return user;
+    }
+
+    public void setRaco(ArrayList<String> raco) {
+        this.raco = raco;
+    }
+
+    public void setNameExams(ArrayList<Exam> nameExams) {
+        this.nameExams = nameExams;
     }
 }

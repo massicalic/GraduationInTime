@@ -15,22 +15,33 @@ import java.util.ArrayList;
 
 class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private int [] tipes = {1,2,3,4,5};
+    private int [] tipes = {1,2,3,4,5,6};
     private User user;
     private Context context;
+    private ArrayList<String> raco;
+    private ArrayList<String> weight;
+    private ArrayList<Exam> examsList;
 
+    private static final String nameExamsKEY = "nameExams_key";
+    private static final String cfuExamsKEY = "cfuExams_key";
+    private static final String teachingYearExamsKEY = "teachingYearExams_key";
     private static final String arrayExamKEY = "arrayExam_key";
     private static final String userKEY = "user_key";
     private static final String arrayMarkKEY = "arrayMark_key";
+    private static final String racoKEY = "raco_key";
+    private static final String weightKEY = "weight_key";
     private static final String arrayDayKEY = "arrayDay_key";
     private static final String arrayMonthKEY = "arrayMonth_key";
     private static final String arrayYearKEY = "arrayYear_key";
     private static final String thesisKEY = "thesis_key";
     private static final String infoThesisKEY = "thesisInfo_key";
 
-    public RecyclerViewAdapter ( User user, Context context){
+    public RecyclerViewAdapter (User user, Context context, ArrayList<String> raco, ArrayList<String> weight, ArrayList<Exam> examsList){
         this.user = user;
         this.context = context;
+        this.raco = raco;
+        this.weight = weight;
+        this.examsList = examsList;
     }
 
     @Override
@@ -40,16 +51,18 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        if (position%5 == 0) {
-            return 1;
+        if (position%6 == 0) {
+            return 1;    //pos 1
+        }else if (position%5 == 0) {
+            return 5;   //pos 6
         }else if (position%4 == 0) {
-            return 4;
+            return 4;    // pos 5
         }else if (position%3 == 0) {
-            return 5;
+            return 6;     //pos 4
         } else if (position%2 == 0) {
-            return 2;
+            return 3;    //pos 3
         } else {
-            return 3;
+            return 2;    //pos 2
         }
     }
 
@@ -77,6 +90,10 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 View viewFIVE = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_thesis, parent, false);
                 ThesisViewHolder rowFIVE = new ThesisViewHolder(viewFIVE);
                 return rowFIVE;
+            case 6:
+                View viewSIX = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_fundamental, parent, false);
+                FundamentalExamsViewHolder rowSIX = new FundamentalExamsViewHolder(viewSIX);
+                return rowSIX;
         }
         return null;
     }
@@ -123,11 +140,18 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 });
                 break;
             case 2:
-                ((ExamViewHolder)holder).exam.setText("   ANALISI");
+                if (raco.size()!=0) {
+                    ((ExamViewHolder)holder).exam.setText(raco.get(0));
+                }else {
+                    ((ExamViewHolder)holder).exam.setText(context.getResources().getString(R.string.add_exams));
+                }
                 ((ExamViewHolder)holder).showList.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, RacoListActivity.class);
+                        intent.putExtra(userKEY, user);
+                        intent.putExtra(racoKEY, raco);
+                        intent.putExtra(weightKEY, weight);
                         context.startActivity(intent);
                     }
                 });
@@ -139,7 +163,19 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 for (int i = 0; i<user.getExams().size(); i++) {
                     if (user.getExams().get(i).getMark()!=null) {
                         n++;
-                        sum = sum + (user.getExams().get(i).getMark().equals("30L") ? 33 : Integer.parseInt( user.getExams().get(i).getMark()));
+                        int a = 0;
+                        if (!user.getExams().get(i).getMark().equals("30L") && !user.getExams().get(i).getMark().equals("superato")) {
+                           a = Integer.parseInt( user.getExams().get(i).getMark());
+                            sum = sum + a;
+                        }
+                        if (user.getExams().get(i).getMark().equals("30L")) {
+                            a = 33;
+                            sum = sum + a;
+                        }
+                        if (user.getExams().get(i).getMark().equals("superato")) {
+                            a = 0;
+                            sum = sum + a;
+                        }
                     }
                 }
                 double averageAr = (double)Math.round(sum/n * 1000d) / 1000d;
@@ -151,9 +187,17 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 double cfu = 0;
                 for (int i = 0; i<user.getExams().size(); i++) {
                     if (user.getExams().get(i).getMark()!=null) {
-                        sum = sum + ((user.getExams().get(i).getMark().equals("30L") ? 33 : Integer.parseInt( user.getExams().get(i).getMark())) *
-                        user.getExams().get(i).getCfu());
-                        cfu = cfu + user.getExams().get(i).getCfu();
+                        int a = 0;
+                        if (!user.getExams().get(i).getMark().equals("30L") && !user.getExams().get(i).getMark().equals("superato")) {
+                            a = Integer.parseInt( user.getExams().get(i).getMark());
+                            sum = sum + a * user.getExams().get(i).getCfu();
+                            cfu = cfu + user.getExams().get(i).getCfu();
+                        }
+                        if (user.getExams().get(i).getMark().equals("30L")) {
+                            a = 33;
+                            sum = sum + a * user.getExams().get(i).getCfu();
+                            cfu = cfu + user.getExams().get(i).getCfu();
+                        }
                     }
                 }
                 double averageWe = (double)Math.round(sum/cfu * 1000d) / 1000d;
@@ -179,6 +223,13 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     public void onClick(View v) {
                         Intent intent = new Intent(context, ElectiveExamsActivity.class);
                         intent.putExtra(userKEY, user);
+                        ArrayList<String> nameExams = new ArrayList<>();
+                        for (int i=0; i<examsList.size(); i++) {
+                            if (!examsList.get(i).isFundamental() && examsList.get(i).getCfu()==6){
+                                nameExams.add(examsList.get(i).getName());
+                            }
+                        }
+                        intent.putExtra(nameExamsKEY, nameExams);
                         context.startActivity(intent);
                     }
                 });
@@ -208,6 +259,37 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                             intent.putExtra(thesisKEY, context.getResources().getString(R.string.argument_thesis));
                             intent.putExtra(infoThesisKEY, context.getResources().getString(R.string.info_edit));
                         }
+                        context.startActivity(intent);
+                    }
+                });
+                break;
+            case 6:
+                ((FundamentalExamsViewHolder)holder).fundamental.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, FundamentalExamsActivity.class);
+                        intent.putExtra(userKEY, user);
+                        ArrayList<String> nameExams = new ArrayList<>();
+                        for (int i=0; i<examsList.size(); i++) {
+                            if (examsList.get(i).isFundamental()){
+                                nameExams.add(examsList.get(i).getName());
+                            }
+                        }
+                        intent.putExtra(nameExamsKEY, nameExams);
+                        ArrayList<Integer> cfuExams = new ArrayList<>();
+                        for (int i=0; i<examsList.size(); i++) {
+                            if (examsList.get(i).isFundamental()){
+                                cfuExams.add(examsList.get(i).getCfu());
+                            }
+                        }
+                        intent.putExtra(cfuExamsKEY, cfuExams);
+                        ArrayList<Integer> teachingYearExams = new ArrayList<>();
+                        for (int i=0; i<examsList.size(); i++) {
+                            if (examsList.get(i).isFundamental()){
+                                teachingYearExams.add(examsList.get(i).getTeachingYear());
+                            }
+                        }
+                        intent.putExtra(teachingYearExamsKEY, teachingYearExams);
                         context.startActivity(intent);
                     }
                 });
@@ -275,6 +357,17 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             super(itemView);
 
             choose = itemView.findViewById(R.id.choose);
+        }
+    }
+
+    public class FundamentalExamsViewHolder extends RecyclerView.ViewHolder{
+
+        private TextView fundamental;
+
+        public FundamentalExamsViewHolder (@NonNull View itemView) {
+            super(itemView);
+
+            fundamental = itemView.findViewById(R.id.fundamental);
         }
     }
 

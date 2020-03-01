@@ -254,7 +254,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
                 if (!email.getText().toString().equals("")) {
                     user.getCurriculum().setEmail(email.getText().toString());
                 }else {
-                    user.getCurriculum().setEmail(email.getText().toString());
+                    user.getCurriculum().setEmail(null);
                 }
                 if (!links.getText().toString().equals("")) {
                     user.getCurriculum().setLinks(links.getText().toString());

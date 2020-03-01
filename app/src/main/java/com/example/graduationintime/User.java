@@ -10,6 +10,7 @@ public class User implements Serializable {
     private String surname;
     private String email;
     private String psw;
+    private int matriculation;
     private GregorianCalendar birthdate;
     private int day;
     private int month;
@@ -24,22 +25,6 @@ public class User implements Serializable {
     private Curriculum curriculum = new Curriculum();
 
     public User() {
-        exams.add(new Exam("Algebra E Geometria", 9));
-        exams.add(new Exam("Algoritmi E Strutture Dati", 9));
-        exams.add(new Exam("Analisi Matematica", 9));
-        exams.add(new Exam("Architettura Degli Elaboratori", 9));
-        exams.add(new Exam("Programmazione", 12));
-        exams.add(new Exam("Basi Di Dati", 9));
-        exams.add(new Exam("Informazione, Trasmissione E Codici A Protezione D'errore", 6));
-        exams.add(new Exam("Laboratorio A", 3));
-        exams.add(new Exam("Laboratorio B", 3));
-        exams.add(new Exam("Logica", 6));
-        exams.add(new Exam("Progettazione Del Software", 8));
-        exams.add(new Exam("Programmazione Concorrente E Distribuita", 8));
-        exams.add(new Exam("Sistemi Operativi", 8));
-        exams.add(new Exam("Automi E Linguaggi", 6));
-        exams.add(new Exam("Fondamenti Di Sicurezza", 6));
-        exams.add(new Exam("Reti Di Telecomunicazione", 9));
     }
 
     public User(String name, String surname, String email, String psw, GregorianCalendar birthdate, int yearEnroll, boolean moved) {
@@ -50,23 +35,6 @@ public class User implements Serializable {
         this.birthdate = birthdate;
         this.yearEnroll = yearEnroll;
         this.moved = moved;
-
-        exams.add(new Exam("Algebra E Geometria", 9));
-        exams.add(new Exam("Algoritmi E Strutture Dati", 9));
-        exams.add(new Exam("Analisi Matematica", 9));
-        exams.add(new Exam("Architettura Degli Elaboratori", 9));
-        exams.add(new Exam("Programmazione", 12));
-        exams.add(new Exam("Basi Di Dati", 9));
-        exams.add(new Exam("Informazione, Trasmissione E Codici A Protezione D'errore", 6));
-        exams.add(new Exam("Laboratorio Interdisciplinare A", 3));
-        exams.add(new Exam("Laboratorio Interdisciplinare B", 3));
-        exams.add(new Exam("Logica", 6));
-        exams.add(new Exam("Progettazione Del Software", 8));
-        exams.add(new Exam("Programmazione Concorrente E Distribuita", 8));
-        exams.add(new Exam("Sistemi Operativi", 8));
-        exams.add(new Exam("Automi E Linguaggi", 6));
-        exams.add(new Exam("Fondamenti Di Sicurezza", 6));
-        exams.add(new Exam("Reti Di Telecomunicazione", 9));
     }
 
     public String getName() {
@@ -99,6 +67,14 @@ public class User implements Serializable {
 
     public void setPsw(String psw) {
         this.psw = psw;
+    }
+
+    public int getMatriculation() {
+        return matriculation;
+    }
+
+    public void setMatriculation(int matriculation) {
+        this.matriculation = matriculation;
     }
 
     public GregorianCalendar getBirthdate() {

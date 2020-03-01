@@ -45,7 +45,7 @@ public class ExamActivity extends AppCompatActivity {
     private static final String posListKEY = "posList_key";
     private static final String openFromNotiKEY = "openFromNoti_key";
 
-    public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
+    public static final String NOTIFICATION_CHANNEL_ID = "11001" ;
     private final static String default_notification_channel_id = "default" ;
 
     @Override

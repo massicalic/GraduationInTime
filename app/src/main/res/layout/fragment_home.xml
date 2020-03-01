@@ -20,9 +20,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="50sp"
+        android:textSize="40sp"
         android:gravity="center"
-        android:text="Puoi laurearti entro 3 anni!"
+        android:text="@string/insert_all_fundamental"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15sp"/>
 
@@ -32,13 +32,6 @@
         android:layout_height="1dp"
         android:layout_gravity="center_horizontal"
         android:background="@android:color/darker_gray" />
-
-    <Button
-        android:id="@+id/Button_probability"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:text="@string/show_probab" />
 
     <ProgressBar
         android:id="@+id/progress_bar"

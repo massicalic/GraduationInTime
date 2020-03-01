@@ -4,6 +4,12 @@ package com.example.graduationintime;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,7 +21,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+
+import android.os.Environment;
+import android.os.SystemClock;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -60,6 +71,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import static com.example.graduationintime.ExamActivity.NOTIFICATION_CHANNEL_ID;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -94,6 +107,9 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
     private File localFile;
     private Image imagePdf;
     private String url;
+
+    public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
+    private final static String default_notification_channel_id = "default" ;
 
     private static final String userKEY = "user_key";
     private static final String goalKEY = "goal_key";
@@ -1215,9 +1231,10 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                 if (user.getCurriculum().getProvince()==null && user.getCurriculum().getMove().size()==0) {
                     distance.setVisibility(View.GONE);
                 }
-                builder.setTitle(R.string.which_data);
-                builder.setView(dialogView);
-                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(activity);
+                builder2.setTitle(R.string.which_data);
+                builder2.setView(dialogView);
+                builder2.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         boolean check1, check2, check3, check4, check5, check6, check7, check8, check9;
@@ -1304,13 +1321,13 @@ public class CurriculumFragment extends Fragment implements View.OnClickListener
                         });
                     }
                 });
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                builder2.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 });
-                dialog = builder.create();
+                dialog = builder2.create();
                 dialog.show();
                 break;
         }

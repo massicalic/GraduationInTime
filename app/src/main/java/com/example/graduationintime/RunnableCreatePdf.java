@@ -3,6 +3,8 @@ package com.example.graduationintime;
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +18,7 @@ import android.os.SystemClock;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
@@ -100,6 +103,8 @@ public class RunnableCreatePdf implements Runnable{
 
         myFile = new File(pdfFolder.getAbsolutePath(), pdfname);
         if (ContextCompat.checkSelfPermission(activity, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+            scheduleNotificationProgress(getNotificationProgress(1500), 1500);
             //File write logic here
             PdfWriter.getInstance(document, new FileOutputStream(myFile));
             document.open();
@@ -433,10 +438,11 @@ public class RunnableCreatePdf implements Runnable{
                 }
                 document.add(distance);
             }
-
             document.close();
         }else {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
+
+            scheduleNotificationProgress(getNotificationProgress(1500), 1500);
 
             PdfWriter.getInstance(document, new FileOutputStream(myFile));
             document.open();
@@ -770,10 +776,19 @@ public class RunnableCreatePdf implements Runnable{
                 }
                 document.add(distance);
             }
-
             document.close();
+
         }
         scheduleNotification(getNotification(pdfname, 1000), 1000);
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager nMgr = (NotificationManager) activity.getSystemService(ns);
+        nMgr.cancel(1500);
     }
 
     private static void addEmptyLine(Paragraph paragraph, int number) {
@@ -807,6 +822,31 @@ public class RunnableCreatePdf implements Runnable{
         builder.setChannelId(NOTIFICATION_CHANNEL_ID);
         builder.setSmallIcon(R.drawable.ic_create_pdf);
         builder.setContentIntent(pendingIntent);
+        return builder.build();
+    }
+
+    private void scheduleNotificationProgress(Notification notification, int notificationid) {
+
+        NotificationManager notificationManager = (NotificationManager) activity.getSystemService(Context. NOTIFICATION_SERVICE ) ;
+        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
+            int importance = NotificationManager. IMPORTANCE_HIGH;
+            NotificationChannel notificationChannel = new NotificationChannel("10101" , "NOTIFICATION_CHANNEL_NAM" , importance);
+            assert notificationManager != null;
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+        assert notificationManager != null;
+        notificationManager.notify(notificationid, notification);
+    }
+
+    private Notification getNotificationProgress(int requestCode) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        PendingIntent pendingIntent = PendingIntent.getActivity(activity, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(activity, default_notification_channel_id);
+        builder.setSmallIcon(R.drawable.ic_create_pdf);
+        builder.setContentTitle(activity.getResources().getString(R.string.creation_PDF));
+        builder.setContentText(activity.getResources().getString(R.string.creation_progress));
+        builder.setChannelId(NOTIFICATION_CHANNEL_ID);
+        builder.setProgress(0, 0, true);
         return builder.build();
     }
 }

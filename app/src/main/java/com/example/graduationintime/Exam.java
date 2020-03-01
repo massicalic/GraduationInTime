@@ -8,6 +8,7 @@ public class Exam implements Serializable {
     private String name;
     private GregorianCalendar date_time;
     private int cfu;
+    private int teachingYear;
     private int day;
     private int month;
     private int year;
@@ -18,13 +19,15 @@ public class Exam implements Serializable {
     private String info;
     private boolean notification = false;
     private String mark;
+    private boolean fundamental = true;
 
     public Exam() {
     }
 
-    public Exam(String name, int cfu) {
+    public Exam(String name, int cfu, int teachingYear) {
         this.name = name;
         this.cfu = cfu;
+        this.teachingYear = teachingYear;
     }
 
     public String getName() {
@@ -83,6 +86,15 @@ public class Exam implements Serializable {
         this.day = day;
     }
 
+
+    public int getTeachingYear() {
+        return teachingYear;
+    }
+
+    public void setTeachingYear(int teachingYear) {
+        this.teachingYear = teachingYear;
+    }
+
     public int getMonth() {
         return month;
     }
@@ -131,5 +143,11 @@ public class Exam implements Serializable {
         this.cfu = cfu;
     }
 
+    public boolean isFundamental() {
+        return fundamental;
+    }
 
+    public void setFundamental(boolean fundamental) {
+        this.fundamental = fundamental;
+    }
 }

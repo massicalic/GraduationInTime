@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -42,7 +43,6 @@ public class HomeFragment extends Fragment {
     private AppCompatActivity activity;
     private View view;
     private TextView textTime, textNext, addDate;
-    private Button button_prob;
     private Toolbar toolbar;
     private ProgressBar progressBar;
     private View v;
@@ -56,6 +56,8 @@ public class HomeFragment extends Fragment {
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
     private int posList;
+    private ArrayList<Exam> nameExams;
+    private int year = 0;
 
     private static final String examKEY = "exam_key";
     private static final String posListKEY = "posList_key";
@@ -73,14 +75,12 @@ public class HomeFragment extends Fragment {
         toolbar = view.findViewById(R.id.Toolbar);
         textTime = view.findViewById(R.id.TextView_timeGrad);
         textNext = view.findViewById(R.id.TextView);
-        button_prob = view.findViewById(R.id.Button_probability);
         listView = view.findViewById(R.id.ListView_exam);
         progressBar = view.findViewById(R.id.progress_bar);
         v = view.findViewById(R.id.view2);
         addDate = view.findViewById(R.id.TextView_add_data);
 
         textTime.setVisibility(View.GONE);
-        button_prob.setVisibility(View.GONE);
         listView.setVisibility(View.GONE);
         textNext.setVisibility(View.GONE);
         v.setVisibility(View.GONE);
@@ -101,9 +101,88 @@ public class HomeFragment extends Fragment {
                         if(key.equals(mUserId)){
                             user = dataSnapshot.child(key).getValue(User.class);
 
+                            int[] sign = new int[nameExams.size()];
+                            for (int i = 0; i < nameExams.size(); i++) {
+                                for (int j = 0; j<user.getExams().size(); j++) {
+                                    if (nameExams.get(i).getName().toLowerCase().equals(user.getExams().get(j).getName().toLowerCase())) {
+                                        if (user.getExams().get(j).getMark() != null) {
+                                            if (user.getExams().get(j).getMark().equals("30L")) {
+                                                sign[i] = 30;
+                                            }if (user.getExams().get(j).getMark().equals("superato")) {
+                                                sign[i] = 30;
+                                            }else {
+                                                sign[i] = Integer.parseInt(user.getExams().get(j).getMark());
+                                            }
+                                        } else {
+                                            sign[i] = 0;
+                                        }
+                                        break;
+                                    } else {
+                                        if (i + 1 == nameExams.size()) {
+                                            sign[i] = 0;
+                                        }
+                                    }
+                                }
+                            }
+
+                            Python py = Python.getInstance();
+                            PyObject test = py.getModule("recommender");
+                            List<PyObject> list = test.callAttr("recommendation", sign, user.getMatriculation(), user.getYearEnroll()).asList();
+
+                            int cfu = 0;
+                            for (int i=0; i<user.getExams().size(); i++) {
+                                if (user.getExams().get(i).isFundamental()) {
+                                    cfu = cfu + user.getExams().get(i).getCfu();
+                                }
+                            }
+                            if (cfu>=126) {
+                                for (int i=0; i<list.size(); i++) {
+                                    String[] tokens = list.get(i).toString().split("::");
+                                    int yearTemp = Integer.parseInt(list.get(i).toString().substring(list.get(i).toString().length()-4));
+                                    String monthStr = tokens[1].substring(0, tokens[1].length() - 6);
+                                    int month = 0;
+                                    switch (monthStr) {
+                                        case "Gennaio":
+                                            month = 0;
+                                            break;
+                                        case "Febbraio":
+                                            month = 1;
+                                            break;
+                                        case "Giugno":
+                                            month = 5;
+                                            break;
+                                        case "Luglio":
+                                            month = 6;
+                                            break;
+                                        case "Settembre":
+                                            month = 8;
+                                            break;
+                                        case "Dicembre":
+                                            month = 11;
+                                            break;
+                                    }
+                                    Calendar c = Calendar.getInstance();
+                                    int mYear = c.get(Calendar.YEAR);
+                                    int mMonth = c.get(Calendar.MONTH);
+
+                                    while (mYear>yearTemp) {
+                                        yearTemp++;
+                                        if (month<mMonth) {
+                                            yearTemp++;
+                                        }
+                                    }
+
+                                    if (yearTemp>year) {
+                                        year = yearTemp;
+                                    }
+                                }
+
+                                String w = activity.getResources().getString(R.string.can_graduate_in) + " " + year;
+                                textTime.setText(w);
+                            }
+
                             textTime.setVisibility(View.VISIBLE);
                             textNext.setVisibility(View.VISIBLE);
-                            button_prob.setVisibility(View.VISIBLE);
                             v.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.GONE);
 
@@ -135,18 +214,91 @@ public class HomeFragment extends Fragment {
                 }
             });
         }
-        button_prob.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         if (repeat&&user!=null) {
+            int[] sign = new int[nameExams.size()];
+            for (int i = 0; i < nameExams.size(); i++) {
+                for (int j = 0; j<user.getExams().size(); j++) {
+                    if (nameExams.get(i).getName().toLowerCase().equals(user.getExams().get(j).getName().toLowerCase())) {
+                        if (user.getExams().get(j).getMark() != null) {
+                            if (user.getExams().get(j).getMark().equals("30L")) {
+                                sign[i] = 30;
+                            }if (user.getExams().get(j).getMark().equals("superato")) {
+                                sign[i] = 30;
+                            }else {
+                                sign[i] = Integer.parseInt(user.getExams().get(j).getMark());
+                            }
+                        } else {
+                            sign[i] = 0;
+                        }
+                        break;
+                    } else {
+                        if (i + 1 == nameExams.size()) {
+                            sign[i] = 0;
+                        }
+                    }
+                }
+            }
+
+            Python py = Python.getInstance();
+            PyObject test = py.getModule("recommender");
+            List<PyObject> list = test.callAttr("recommendation", sign, user.getMatriculation(), user.getYearEnroll()).asList();
+
+            int cfu = 0;
+            for (int i=0; i<user.getExams().size(); i++) {
+                if (user.getExams().get(i).isFundamental()) {
+                    cfu = cfu + user.getExams().get(i).getCfu();
+                }
+            }
+            if (cfu>=126) {
+                for (int i=0; i<list.size(); i++) {
+                    String[] tokens = list.get(i).toString().split("::");
+                    int yearTemp = Integer.parseInt(list.get(i).toString().substring(list.get(i).toString().length()-4));
+                    String monthStr = tokens[1].substring(0, tokens[1].length() - 6);
+                    int month = 0;
+                    switch (monthStr) {
+                        case "Gennaio":
+                            month = 0;
+                            break;
+                        case "Febbraio":
+                            month = 1;
+                            break;
+                        case "Giugno":
+                            month = 5;
+                            break;
+                        case "Luglio":
+                            month = 6;
+                            break;
+                        case "Settembre":
+                            month = 8;
+                            break;
+                        case "Dicembre":
+                            month = 11;
+                            break;
+                    }
+                    Calendar c = Calendar.getInstance();
+                    int mYear = c.get(Calendar.YEAR);
+                    int mMonth = c.get(Calendar.MONTH);
+
+                    while (mYear>yearTemp) {
+                        yearTemp++;
+                        if (month<mMonth) {
+                            yearTemp++;
+                        }
+                    }
+
+                    if (yearTemp>year) {
+                        year = yearTemp;
+                    }
+                }
+
+                String w = activity.getResources().getString(R.string.can_graduate_in) + " " + year;
+                textTime.setText(w);
+            }
+
             textTime.setVisibility(View.VISIBLE);
             textNext.setVisibility(View.VISIBLE);
             v.setVisibility(View.VISIBLE);
-            button_prob.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
 
             listName = new ArrayList<>();
@@ -188,16 +340,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        /*if (!Python.isStarted()) {
-            Python.start(new AndroidPlatform(activity.getApplicationContext()));
-        }
-        Python py = Python.getInstance();
-        PyObject test = py.getModule("recommender");
-        List<PyObject> list = test.callAttr("recommendation").asList();
-        String s = "";
-        for (int i=0; i<list.size(); i++) {
-            s += list.get(i).toString() + "          ";
-        }*/
         return view;
     }
 
@@ -211,5 +353,9 @@ public class HomeFragment extends Fragment {
 
     public User getUser() {
         return user;
+    }
+
+    public void setNameExams(ArrayList<Exam> nameExams) {
+        this.nameExams = nameExams;
     }
 }

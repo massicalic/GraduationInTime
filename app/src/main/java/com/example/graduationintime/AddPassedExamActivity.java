@@ -40,6 +40,7 @@ public class AddPassedExamActivity extends AppCompatActivity {
     private int [] arrayDays;
     private int [] arrayMonths;
     private int [] arrayYears;
+    private String mark = "";
     private AlertDialog dialog;
     private AlertDialog.Builder builder;
     private DatabaseReference mDatabaseRef;
@@ -98,10 +99,13 @@ public class AddPassedExamActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
-                String mark = "";
                 if (item instanceof String){
                     String name = (String) item;
-                    for (int i=0; i<arrayExams.length; i++) {
+                    if (name.equals("INGLESE")) {
+                        spinner.setVisibility(View.GONE);
+                        mark = "superato";
+                    }
+                    for (int i=0; i<arrayExams.length && !mark.equals("superato"); i++) {
                         if (name.equals(arrayExams[i])){
                             mark = arrayMarks[i];
                             String d = "";
@@ -114,12 +118,12 @@ public class AddPassedExamActivity extends AppCompatActivity {
                                 dayTemp = arrayDays[i];
                                 monthTemp = arrayMonths[i];
                                 yearTemp = arrayYears[i];
+                                dateExam.setText(d);
                             }
-                            dateExam.setText(d);
                             break;
                         }
                     }
-                    if (!mark.equals("0")) {
+                    if (!mark.equals("0") && !mark.equals("superato")) {
                         switch (mark) {
                             case "18":
                                 spinner.setSelection(0);
@@ -215,7 +219,11 @@ public class AddPassedExamActivity extends AppCompatActivity {
                     if (exam.getText().toString().equals(arrayExams[i])) {
                         if (!dateExam.getText().equals("")) {
                             String userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                            mDatabaseRef.child("users").child(userid).child("exams").child(String.valueOf(i)).child("mark").setValue(spinner.getSelectedItem().toString());
+                            if (mark.equals("superato")) {
+                                mDatabaseRef.child("users").child(userid).child("exams").child(String.valueOf(i)).child("mark").setValue("superato");
+                            }else {
+                                mDatabaseRef.child("users").child(userid).child("exams").child(String.valueOf(i)).child("mark").setValue(spinner.getSelectedItem().toString());
+                            }
                             mDatabaseRef.child("users").child(userid).child("exams").child(String.valueOf(i)).child("day").setValue(dayTemp);
                             mDatabaseRef.child("users").child(userid).child("exams").child(String.valueOf(i)).child("month").setValue(monthTemp);
                             mDatabaseRef.child("users").child(userid).child("exams").child(String.valueOf(i)).child("year").setValue(yearTemp);

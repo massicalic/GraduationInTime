@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -26,36 +25,37 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class ElectiveExamsActivity extends AppCompatActivity {
+public class FundamentalExamsActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private AutoCompleteTextView autoText;
-    private RadioGroup radio;
-    private RadioButton radioButton2, radioButton3;
-    private LinearLayout linearElective;
+    private AutoCompleteTextView exam;
+    private LinearLayout linearFundamentals;
     private User user;
     private ArrayList<String> nameExams;
+    private ArrayList<Integer> cfuExams;
+    private ArrayList<Integer> teachingYearExams;
     private DatabaseReference mDatabase;
     private AlertDialog dialog;
     private AlertDialog.Builder builder;
     private  ArrayAdapter<String> adapter;
     private String mUserId;
-    private boolean isEdit = false;
     private int pos;
 
     private static final String userKEY = "user_key";
     private static final String nameExamsKEY = "nameExams_key";
     private static final String cfuExamsKEY = "cfuExams_key";
+    private static final String teachingYearExamsKEY = "teachingYearExams_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_elective_exams);
+        setContentView(R.layout.activity_fundamental_exams);
 
         user = (User) getIntent().getSerializableExtra(userKEY);
         nameExams = getIntent().getStringArrayListExtra(nameExamsKEY);
+        cfuExams = getIntent().getIntegerArrayListExtra(cfuExamsKEY);
+        teachingYearExams = getIntent().getIntegerArrayListExtra(teachingYearExamsKEY);
         builder = new AlertDialog.Builder(this);
 
         mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -65,23 +65,27 @@ public class ElectiveExamsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
 
-        autoText = findViewById(R.id.AutoTextView);
-        linearElective = findViewById(R.id.linearLayout_elective);
-        radio = findViewById(R.id.RadioGroup);
-        radioButton2 = findViewById(R.id.radioButton2);
-        radioButton3 = findViewById(R.id.radioButton3);
+        exam = findViewById(R.id.AutoTextView_exam);
+        linearFundamentals = findViewById(R.id.linearLayout_fundamentals);
 
         for (int i=0; i<user.getExams().size(); i++) {
-            nameExams.remove(user.getExams().get(i).getName());
+            for (int k=0; k<nameExams.size(); k++) {
+                if (user.getExams().get(i).getName().equals(nameExams.get(k))) {
+                    nameExams.remove(k);
+                    cfuExams.remove(k);
+                    teachingYearExams.remove(k);
+                    break;
+                }
+            }
         }
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, nameExams);
-        autoText.setAdapter(adapter);
+        exam.setAdapter(adapter);
 
         setView(this);
     }
 
     private void setView(final Context context) {
-        for (int i=user.getExams().size()-1; !user.getExams().get(i).isFundamental(); i--) {
+        for (int i=0; i<user.getExams().size() && user.getExams().get(i).isFundamental(); i++) {
             final int j = i;
             LinearLayout linearLayout = new LinearLayout(this);
             linearLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -97,7 +101,7 @@ public class ElectiveExamsActivity extends AppCompatActivity {
             final float scale = getResources().getDisplayMetrics().density;
             int pixels = (int) (250 * scale + 0.5f);
             text.setMaxWidth(pixels);
-            String s = user.getExams().get(i).getName();
+            String s = user.getExams().get(i).getName()+" CFU: "+user.getExams().get(i).getCfu();
             text.setText(s);
             linearLayout.addView(text);
 
@@ -118,12 +122,14 @@ public class ElectiveExamsActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             nameExams.add(user.getExams().get(j).getName());
+                            cfuExams.add(user.getExams().get(j).getCfu());
+                            teachingYearExams.add(user.getExams().get(j).getTeachingYear());
                             user.getExams().remove(j);
                             mDatabase.child("users").child(mUserId).child("exams").setValue(user.getExams());
 
                             adapter = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, nameExams);
-                            autoText.setAdapter(adapter);
-                            linearElective.removeAllViews();
+                            exam.setAdapter(adapter);
+                            linearFundamentals.removeAllViews();
                             setView(context);
                         }
                     });
@@ -138,34 +144,7 @@ public class ElectiveExamsActivity extends AppCompatActivity {
                 }
             });
             linearLayout.addView(button);
-            Button buttonEdit = new Button(this);
-            pixels = (int) (38 * scale + 0.5f);
-            pix = (int) (47 * scale + 0.5f);
-            params = new LinearLayout.LayoutParams(pix, pixels);
-            params.setMargins(5, 0, 0, 0);
-            buttonEdit.setLayoutParams(params);
-            d = getResources().getDrawable(R.drawable.ic_edit_black);
-            buttonEdit.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
-            pixels = (int) (1 * scale + 0.5f);
-            buttonEdit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String s = user.getExams().get(j).getName();
-                    autoText.setText(s);
-                    switch (user.getExams().get(j).getTeachingYear()) {
-                        case 2:
-                            radioButton2.setChecked(true);
-                            break;
-                        case 3:
-                            radioButton3.setChecked(true);
-                            break;
-                    }
-                    isEdit = true;
-                    pos = j;
-                }
-            });
-            linearLayout.addView(buttonEdit);
-            linearElective.addView(linearLayout);
+            linearFundamentals.addView(linearLayout);
         }
     }
 
@@ -183,11 +162,11 @@ public class ElectiveExamsActivity extends AppCompatActivity {
             case R.id.save:
                 int sumcfu = 0;
                 for (int m=0; m<nameExams.size(); m++) {
-                    if (autoText.getText().toString().equals(nameExams.get(m))) {
-                        for (int i=user.getExams().size()-1; !user.getExams().get(i).isFundamental(); i--) {
+                    if (exam.getText().toString().equals(nameExams.get(m))) {
+                        for (int i=0; i<user.getExams().size() && user.getExams().get(i).isFundamental(); i++) {
                             sumcfu += user.getExams().get(i).getCfu();
                         }
-                        if (sumcfu==36) {
+                        if (sumcfu==126) {
                             builder.setMessage(R.string.max_exams);
                             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
@@ -200,90 +179,48 @@ public class ElectiveExamsActivity extends AppCompatActivity {
                             return false;
                         }
 
-                        if (!autoText.getText().toString().trim().equals("") && radio.getCheckedRadioButtonId()!= -1) {
+                        if (!exam.getText().toString().trim().equals("")) {
 
-                            if (isEdit) {
-                                Exam e = user.getExams().get(pos);
-                                e.setName(autoText.getText().toString());
-                                for (int v=0; v<nameExams.size(); v++) {
-                                    if (nameExams.get(v).equals(autoText.getText().toString())) {
-                                        e.setCfu(6);
-                                        break;
-                                    }
+                            Exam e = new Exam();
+                            e.setName(exam.getText().toString());
+                            for (int v=0; v<nameExams.size(); v++) {
+                                if (nameExams.get(v).equals(exam.getText().toString())) {
+                                    e.setCfu(cfuExams.get(v));
+                                    sumcfu += cfuExams.get(v);
+                                    e.setTeachingYear(teachingYearExams.get(v));
+                                    break;
                                 }
-                                e.setFundamental(false);
-                                sumcfu += 6;
-                                if (sumcfu>36) {
-                                    builder.setMessage(R.string.too_exams);
-                                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    });
-                                    dialog = builder.create();
-                                    dialog.show();
-                                    return false;
-                                }
-                                int teaching = 0;
-                                switch (radio.getCheckedRadioButtonId()) {
-                                    case R.id.radioButton2:
-                                        teaching = 2;
-                                        break;
-                                    case R.id.radioButton3:
-                                        teaching = 3;
-                                        break;
-                                }
-                                e.setTeachingYear(teaching);
-                                user.getExams().set(pos, e);
-                                mDatabase.child("users").child(mUserId).child("exams").setValue(user.getExams());
-                                nameExams.remove(e.getName());
-                                adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, nameExams);
-                                autoText.setAdapter(adapter);
-                            }else {
-                                Exam e = new Exam();
-                                e.setName(autoText.getText().toString());
-                                for (int v=0; v<nameExams.size(); v++) {
-                                    if (nameExams.get(v).equals(autoText.getText().toString())) {
-                                        e.setCfu(6);
-                                        break;
-                                    }
-                                }
-                                e.setFundamental(false);
-                                sumcfu += 6;
-                                if (sumcfu>126) {
-                                    builder.setMessage(R.string.too_exams);
-                                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    });
-                                    dialog = builder.create();
-                                    dialog.show();
-                                    return false;
-                                }
-                                int teaching = 0;
-                                switch (radio.getCheckedRadioButtonId()) {
-                                    case R.id.radioButton2:
-                                        teaching = 2;
-                                        break;
-                                    case R.id.radioButton3:
-                                        teaching = 3;
-                                        break;
-                                }
-                                e.setTeachingYear(teaching);
-                                user.getExams().add( e);
-                                mDatabase.child("users").child(mUserId).child("exams").setValue(user.getExams());
-                                nameExams.remove(e.getName());
-                                adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, nameExams);
-                                autoText.setAdapter(adapter);
                             }
-                            autoText.setText("");
-                            radioButton2.setChecked(false);
-                            radioButton3.setChecked(false);
-                            isEdit = false;
-                            linearElective.removeAllViews();
+                            if (sumcfu>126) {
+                                builder.setMessage(R.string.too_cfu);
+                                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                dialog = builder.create();
+                                dialog.show();
+                                return false;
+                            }
+                            user.getExams().add(0, e);
+                            mDatabase.child("users").child(mUserId).child("exams").setValue(user.getExams());
+
+                            int tmp = 0;
+                            for (int i=0; i<nameExams.size(); i++) {
+                                if (e.getName().equals(nameExams.get(i))) {
+                                    tmp = i;
+                                    break;
+                                }
+                            }
+                            nameExams.remove(tmp);
+                            cfuExams.remove(tmp);
+                            teachingYearExams.remove(tmp);
+                            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, nameExams);
+                            exam.setAdapter(adapter);
+
+                            exam.setText("");
+                            linearFundamentals.removeAllViews();
                             setView(this);
                             return false;
                         }else {

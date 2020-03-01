@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -29,6 +30,7 @@ public class DetailsFragment extends Fragment {
     private AppCompatActivity activity;
     private Spinner spinner;
     private RadioGroup radio;
+    private EditText matriculation;
     private Boolean moved;
 
     public DetailsFragment() {
@@ -43,6 +45,7 @@ public class DetailsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_details, container, false);
         spinner = view.findViewById(R.id.Spinner);
         radio = view.findViewById(R.id.RadioGroup);
+        matriculation = view.findViewById(R.id.EditText_matriculation);
 
         int year = new GregorianCalendar().get(GregorianCalendar.YEAR);
         List<Integer> spinnerArray =  new ArrayList<>();
@@ -81,5 +84,9 @@ public class DetailsFragment extends Fragment {
 
     public Spinner getSpinner() {
         return spinner;
+    }
+
+    public EditText getMatriculation() {
+        return matriculation;
     }
 }

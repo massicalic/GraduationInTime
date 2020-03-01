@@ -33,6 +33,8 @@ public class SplashActivity extends AppCompatActivity {
         firebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        new Thread(new RunnableRecommendation(this)).start();
+
         if (firebaseUser!=null) {
             final String stringUserId = firebaseUser.getUid();
             mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {

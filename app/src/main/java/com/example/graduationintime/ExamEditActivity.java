@@ -3,13 +3,19 @@ package com.example.graduationintime;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,8 +44,12 @@ public class ExamEditActivity extends AppCompatActivity {
     private Exam exam;
     private DatabaseReference mDatabaseRef;
 
+    public static final String NOTIFICATION_CHANNEL_ID = "11001" ;
+    private final static String default_notification_channel_id = "default" ;
+
     private static final String examKEY = "exam_key";
     private static final String posListKEY = "posList_key";
+    private static final String openFromNotiKEY = "openFromNoti_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +85,9 @@ public class ExamEditActivity extends AppCompatActivity {
         if (exam!=null) {
             String s = (selectedDay<10 ? "0"+selectedDay+"/" : selectedDay+"/") +
                     ((selectedMonth+1)<10?"0"+(selectedMonth+1)+"/" : (selectedMonth+1)+"/") + (selectedYear);
-            date.setText(s);
+            if (!s.equals("00/01/0")) {
+                date.setText(s);
+            }
             s = (hourSelected<10 ? "0"+hourSelected+":" : hourSelected+":") +
                     (minuteSelected<10 ? "0"+minuteSelected : minuteSelected);
             if (s.equals("00:00")){
@@ -190,22 +202,47 @@ public class ExamEditActivity extends AppCompatActivity {
                         });
                         dialog = builder.create();
                         dialog.show();
-                    }else{
+                    }else {
                         exam.setDay(selectedDay);
                         exam.setMonth(selectedMonth);
                         exam.setYear(selectedYear);
                         exam.setHour(hourSelected);
                         exam.setMinutes(minuteSelected);
-                        if (!place.getText().toString().trim().equals("")){
+                        if (!place.getText().toString().trim().equals("")) {
                             exam.setPlace(place.getText().toString().trim());
                         }
-                        if (!prof.getText().toString().trim().equals("")){
+                        if (!prof.getText().toString().trim().equals("")) {
                             exam.setProf(prof.getText().toString().trim());
                         }
-                        if (!info.getText().toString().trim().equals("")){
+                        if (!info.getText().toString().trim().equals("")) {
                             exam.setInfo(info.getText().toString().trim());
                         }
 
+                        if (exam.isNotification()) {
+                            Calendar c = Calendar.getInstance();
+                            Calendar dateCalendar = new GregorianCalendar(exam.getYear(), exam.getMonth(), exam.getDay(), exam.getHour(), exam.getMinutes());
+                            long diffInMilli = dateCalendar.getTimeInMillis() - c.getTimeInMillis();
+
+                            if (diffInMilli > 0) {
+                                Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+                                int notificationid = getIntent().getIntExtra(posListKEY, 0);
+                                PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notificationid, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                                alarmManager.cancel(pendingIntent);
+                                notificationid += 50;
+                                pendingIntent = PendingIntent.getBroadcast(this, notificationid, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                alarmManager.cancel(pendingIntent);
+
+                                String tmp = exam.getName()+ "   " + (exam.getDay()<10 ? "0"+exam.getDay()+"/" : exam.getDay()+"/") +
+                                        ((exam.getMonth()+1)<10?"0"+(exam.getMonth()+1)+"/" : (exam.getMonth()+1)+"/") + (exam.getYear());
+                                int pos = getIntent().getIntExtra(posListKEY, 0);
+                                long milli = diffInMilli - 518400000;
+                                scheduleNotification(getNotification(tmp, this.getResources().getString(R.string.six_days), pos), milli, pos);
+                                milli = diffInMilli - 86400000;
+                                scheduleNotification(getNotification(tmp, this.getResources().getString(R.string.tomorrow), pos), milli, pos+50);
+                            }
+
+                        }
                         String userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         String s = String.valueOf(getIntent().getIntExtra(posListKEY, 0));
                         mDatabaseRef.child("users").child(userid).child("exams").child(s).setValue(exam);
@@ -255,5 +292,33 @@ public class ExamEditActivity extends AppCompatActivity {
         });
         dialog = builder.create();
         dialog.show();
+    }
+
+    private void scheduleNotification(Notification notification, long delay, int notificationid) {
+        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, notificationid);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notificationid, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+    }
+
+    private Notification getNotification(String content, String period, int requestCode) {
+        Intent intent = new Intent(this, ExamActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(examKEY, exam);
+        intent.putExtra(posListKEY, getIntent().getIntExtra(posListKEY, 0));
+        intent.putExtra(openFromNotiKEY, true);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, default_notification_channel_id);
+        builder.setContentTitle(this.getResources().getString(R.string.next_exame)+" "+period);
+        builder.setContentText(content);
+        builder.setAutoCancel(true);
+        builder.setChannelId(NOTIFICATION_CHANNEL_ID);
+        builder.setSmallIcon(R.drawable.ic_exam);
+        builder.setContentIntent(pendingIntent);
+        return builder.build();
     }
 }

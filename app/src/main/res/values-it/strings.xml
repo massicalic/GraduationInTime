@@ -54,7 +54,7 @@
     <string name="prof">Professore/i:</string>
     <string name="info">Info:</string>
     <string name="date">Data</string>
-    <string name="time">Ora</string>
+    <string name="time">Tempo</string>
     <string name="place_edit">Luogo</string>
     <string name="prof_edit">Professore/i</string>
     <string name="info_edit">Info</string>
@@ -84,9 +84,11 @@
     <string name="edit_profile">Modifica il profilo</string>
     <string name="profile_photo">Foto profilo</string>
     <string name="pick_image_intent_text">Aggiungi immagine</string>
-    <string name="Stud_short">STUDENTE tempo studio > 75%</string>
-    <string name="StudWork_short">STUDENTE-LAVORATORE \\u0020\\u0020\\u0020\\u0020\\u0020\\u0020 50% &lt; tempo studio &lt; 75%</string>
-    <string name="WorkStud_shrt">LAVORATORE-STUDENTE tempo studio &lt; 50%</string>
+    <string name="Stud_short">STUDENTE \u0020\u0020\u0020\u0020\u0020\u0020 tempo studio > 75%</string>
+    <string name="StudWork_short">STUDENTE-LAVORATORE \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        \u0020\u0020\u0020\u0020\u0020\u0020\u0020 50% &lt; tempo studio &lt; 75%</string>
+    <string name="WorkStud_shrt">LAVORATORE-STUDENTE \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+        \u0020\u0020 tempo studio &lt; 50%</string>
     <string name="title_progress">Progresso</string>
     <string name="button_progress">AGGIUNGI/MODIFICA ESAME SUPERATO</string>
     <string name="show_list">MOSTRA L\'INTERA LISTA</string>
@@ -123,7 +125,7 @@
     <string name="no_notications">Nessuna notifica impostata</string>
     <string name="no_exam">Nessun esame superato</string>
     <string name="personal_info">INFORMAZIONI PERSONALI</string>
-    <string name="born_on">Nato a</string>
+    <string name="born_on">Nato il</string>
     <string name="age">Età</string>
     <string name="birth_place">Luogo di nascita</string>
     <string name="citizenship">Cittadinanza</string>
@@ -162,7 +164,7 @@
         conseguimento, tipo di diploma (es. italiano) e il tipo di scuola (es. statale). Per le lauree invece, indicare
         l\'università, il dipartimento, la facoltà, il voto e l\'anno di conseguimento.</string>
     <string name="language_infos">Questa sezione ti permette di dare indicazioni sul livello di conoscenza di lingue straniere.
-        All\'interno della sezione puoi anche inserire attestati e diplomi conseguiti. Queste informazioni sono utili in fase
+        Queste informazioni sono utili in fase
         di selezione da parte delle aziende. Ricorda di indicare la tua lingua madre (è possibile indicarne più di una).\n
         Livelli di comprensione:\n livello elementare (livelli A1 e A2);\n livello intermedio (livelli B1 e B2);\n
         livello avanzato (livelli C1 e C2).\n</string>
@@ -217,8 +219,24 @@
     <string name="address_infos">Via/piazza, numero civico, cap, città e provincia</string>
     <string name="citizenship_infos">La tua cittadinanza, es. Italiana</string>
     <string name="driving_infos">La tipologia di patente di guida, es. B</string>
-    <string name="completed_pdf">Creazione PDF completatanella cartella Documents</string>
+    <string name="completed_pdf">Creazione PDF completata nella cartella Documents</string>
     <string name="elective_exams">Esami a scelta</string>
     <string name="choose_exams">SCEGLI ESAMI</string>
     <string name="chosen_all_exams">Hai già scelto tutti gli esami!</string>
+    <string name="teaching_year">Anno d\'insegnamento</string>
+    <string name="importance">Importanza:</string>
+    <string name="fundamental_exams">Esami fondamentali</string>
+    <string name="matriculation">Numero di matricola</string>
+    <string name="noMatriculation">Non hai inserito il tuo numero di matricola</string>
+    <string name="creation_PDF">Creazione PDF</string>
+    <string name="creation_progress">Creazione in corso</string>
+    <string name="cfu">CFU</string>
+    <string name="add_exams">Aggiungi esami</string>
+    <string name="max_exams">Hai raggiunto il numero massimo di cfu.</string>
+    <string name="too_cfu">Hai inserito troppi cfu (max 126 per gli esami fondamentali).</string>
+    <string name="too_exams">Hai inserito troppi esami.</string>
+    <string name="missing_data">Non hai inserito tutti i dati.</string>
+    <string name="entered_fundamental">Hai inserito un esame fondamnetale</string>
+    <string name="insert_all_fundamental">Inserisci tutti gli esami fondamentali per sapere in che anno potresti laurearti</string>
+    <string name="can_graduate_in">Puoi laurearti nel</string>
 </resources>

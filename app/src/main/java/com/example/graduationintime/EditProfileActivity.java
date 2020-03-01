@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,7 +52,7 @@ import java.util.List;
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = EditProfileActivity.class.getName();
-    private TextView name, surname, photo, birthdate, email, yearEnrollment, moved, studyTime;
+    private TextView name, surname, photo, birthdate, email, yearEnrollment, moved, matriculation, studyTime;
     private View view;
     private AlertDialog dialog;
     private AlertDialog.Builder builder;
@@ -95,6 +96,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         email = findViewById(R.id.TextView_email);
         yearEnrollment = findViewById(R.id.TextView_year_enroll);
         moved = findViewById(R.id.TextView_moved);
+        matriculation = findViewById(R.id.TextView_matriculation);
         studyTime = findViewById(R.id.TextView_study_time);
         view = findViewById(R.id.view);
 
@@ -113,6 +115,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         yearEnrollment.setOnClickListener(this);
         moved.setOnClickListener(this);
         studyTime.setOnClickListener(this);
+        matriculation.setOnClickListener(this);
     }
 
     @Override
@@ -329,6 +332,35 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     public void onClick(DialogInterface dialog, int which) {
                         mDatabaseRef.child("users").child(userid).child("moved").setValue(bMoved);
                         u.setMoved(bMoved);
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog = builder.create();
+                dialog.show();
+                break;
+            case R.id.TextView_matriculation:
+                dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_profile_text, null);
+                final EditText editText10 = dialogView.findViewById(R.id.EditText_settings);
+                editText10.setInputType(InputType.TYPE_CLASS_NUMBER);
+                String t = String.valueOf(u.getMatriculation());
+                editText10.setText(t);
+                builder.setTitle(R.string.matriculation);
+                builder.setView(dialogView);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (!editText10.getText().toString().trim().equals("")){
+                            userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            mDatabaseRef.child("users").child(userid).child("matriculation").setValue(Integer.parseInt(editText10.getText().toString()));
+                            u.setMatriculation(Integer.parseInt(editText10.getText().toString()));
+                        }else {
+                            dialog.dismiss();
+                        }
                     }
                 });
                 builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

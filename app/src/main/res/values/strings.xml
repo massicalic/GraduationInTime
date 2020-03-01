@@ -58,7 +58,7 @@
     <string name="place_edit">Place</string>
     <string name="prof_edit">Professor/s</string>
     <string name="info_edit">Info</string>
-    <string name="areYouSure">Are you sure to leave this page?</string>
+    <string name="areYouSure">Are you sure you want to leave this page?</string>
     <string name="cancel">CANCEL</string>
     <string name="save">SAVE</string>
     <string name="noDate">You didn\'t enter date</string>
@@ -163,7 +163,7 @@
         (e.g. state). For the degrees instead, indicate the university, the department, the faculty, the grade and the year of
         graduation.</string>
     <string name="language_infos">This section allows you to give information on the level of knowledge of foreign languages.
-        Inside the section you can also insert certificates and diplomas. This information is useful when selecting companies.
+        This information is useful when selecting companies.
         Remember to indicate your native language (more than one can be indicated). \n Levels of understanding: \n elementary
         level (levels A1 and A2); \n intermediate level (levels B1 and B2); \n advanced level (levels C1 and C2).</string>
     <string name="it_infos">This section collects information on computer skills. Computer skills are one of the most used criteria when selecting the curriculum, which is why you can indicate information on basic skills and information on advanced skills.</string>
@@ -219,5 +219,21 @@
     <string name="elective_exams">Elective exams</string>
     <string name="choose_exams">CHOOSE EXAMS</string>
     <string name="chosen_all_exams">You have already chosen all exams!</string>
+    <string name="teaching_year">Teaching year</string>
+    <string name="importance">Importance:</string>
+    <string name="fundamental_exams">Fundamental exams</string>
+    <string name="matriculation">Matriculation number</string>
+    <string name="noMatriculation">You didn\'t enter your matriculation number</string>
+    <string name="creation_PDF">PDF creation</string>
+    <string name="creation_progress">Creation in progress</string>
+    <string name="cfu">CFU</string>
+    <string name="add_exams">Add exams</string>
+    <string name="max_exams">You have reached the maximum number of credits.</string>
+    <string name="too_cfu">You have entered too many credits (max 126 for the fundamental exams).</string>
+    <string name="too_exams">You have entered too many exams</string>
+    <string name="missing_data">You haven\'t entered all the data.</string>
+    <string name="entered_fundamental">You have entered fundamental exam</string>
+    <string name="insert_all_fundamental">Enter all fundamental exams to know in which year you could graduate</string>
+    <string name="can_graduate_in">You can graduate in</string>
 
 </resources>

@@ -120,8 +120,8 @@ public class RegistrationActivity extends AppCompatActivity {
                     case 1:
                         if (isFace) {
                             LoginManager.getInstance().logOut();
-                            FirebaseAuth.getInstance().signOut();
                         }
+                        FirebaseAuth.getInstance().signOut();
                         Intent intent = new Intent(RegistrationActivity.this, PreLoginActivity.class);
                         startActivity(intent);
                         finish();
@@ -263,15 +263,28 @@ public class RegistrationActivity extends AppCompatActivity {
                             });
                             dialog = builder.create();
                             dialog.show();
-                        }else{
-                            addFragment(time);
-                            toolbar.setTitle(R.string.title_reg_time);
-                            Nfragment = 3;
-                            third_step.setBackgroundResource(R.color.green);
-                            user.setYearEnroll((Integer) det.getSpinner().getSelectedItem());
-                            user.setMoved(det.isMoved());
-                            toolbar.getMenu().clear();
-                            getMenuInflater().inflate(R.menu.finish_registration_menu, menus);
+                        }else {
+                            if (det.getMatriculation().getText().toString().equals("")) {
+                                builder.setMessage(R.string.noMatriculation);
+                                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                dialog = builder.create();
+                                dialog.show();
+                            }else {
+                                addFragment(time);
+                                toolbar.setTitle(R.string.title_reg_time);
+                                Nfragment = 3;
+                                third_step.setBackgroundResource(R.color.green);
+                                user.setYearEnroll((Integer) det.getSpinner().getSelectedItem());
+                                user.setMoved(det.isMoved());
+                                user.setMatriculation(Integer.parseInt(det.getMatriculation().getText().toString()));
+                                toolbar.getMenu().clear();
+                                getMenuInflater().inflate(R.menu.finish_registration_menu, menus);
+                            }
                         }
                         break;
                     case 3:
@@ -287,7 +300,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             dialog.show();
                         }else{
                             user.setStudyTime(time.getTime());
-                            if (userid==null){
+                            if (!isFace){
                                 mFirebaseAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPsw())
                                         .addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
                                             @Override
@@ -342,7 +355,9 @@ public class RegistrationActivity extends AppCompatActivity {
     public void onBackPressed() {
         switch (Nfragment){
             case 1:
-                LoginManager.getInstance().logOut();
+                if (isFace) {
+                    LoginManager.getInstance().logOut();
+                }
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(RegistrationActivity.this, PreLoginActivity.class);
                 startActivity(intent);
