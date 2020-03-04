@@ -236,6 +236,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                                         user.setBirthdate(you.getDate());
                                                         user.setEmail(you.getEmail().getText().toString());
                                                         user.setPsw(you.getPsw().getText().toString());
+                                                        toolbar.getMenu().clear();
+                                                        getMenuInflater().inflate(R.menu.finish_registration_menu, menus);
                                                     }
                                                 }
                                             } else{
@@ -330,7 +332,6 @@ public class RegistrationActivity extends AppCompatActivity {
                                     stopService(intentservice);
                                     startActivity(intent);
                                 }
-                                finish();
                             }
                         //}
                         break;
