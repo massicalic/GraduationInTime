@@ -123,11 +123,11 @@ public class ProfileFragment extends Fragment {
                         if(key.equals(mUserId)){
                             user = dataSnapshot.child(key).getValue(User.class);
 
-                            if (actionBarHeight!=0) {
+                            recyclerView.setPadding(0,0,0, 0);
+                            Log.d(TAG, "WWWWWWWWWWWWWWWWWWWWW"+actionBarHeight);
+                            if (actionBarHeight==0) {
                                 TypedValue tv = new TypedValue();
-                                int actionBarHeight = 0;
-                                if (getActivity().getTheme().resolveAttribute(R.attr.actionBarSize, tv, true))
-                                {
+                                if (getActivity().getTheme().resolveAttribute(R.attr.actionBarSize, tv, true)) {
                                     actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
                                 }
                                 recyclerView.setPadding(0,0,0, actionBarHeight);
