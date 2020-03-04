@@ -29,9 +29,9 @@ public class DetailsFragment extends Fragment {
     private View view;
     private AppCompatActivity activity;
     private Spinner spinner;
-    private RadioGroup radio;
+    //private RadioGroup radio;
     private EditText matriculation;
-    private Boolean moved;
+    //private Boolean moved;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -44,7 +44,7 @@ public class DetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_details, container, false);
         spinner = view.findViewById(R.id.Spinner);
-        radio = view.findViewById(R.id.RadioGroup);
+        //radio = view.findViewById(R.id.RadioGroup);
         matriculation = view.findViewById(R.id.EditText_matriculation);
 
         int year = new GregorianCalendar().get(GregorianCalendar.YEAR);
@@ -57,7 +57,7 @@ public class DetailsFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        /*radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId){
@@ -69,7 +69,7 @@ public class DetailsFragment extends Fragment {
                         break;
                 }
             }
-        });
+        });*/
 
         return view;
     }
@@ -78,9 +78,9 @@ public class DetailsFragment extends Fragment {
         this.activity = activity;
     }
 
-    public Boolean isMoved() {
+    /*public Boolean isMoved() {
         return moved;
-    }
+    }*/
 
     public Spinner getSpinner() {
         return spinner;

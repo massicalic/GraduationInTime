@@ -52,7 +52,7 @@ public class ProfileFragment extends Fragment {
 
     private static final String TAG = ".ProfileFragment";
     private AppCompatActivity activity;
-    private TextView name, tipe, year;
+    private TextView name, year;
     private ProgressBar progressBar;
     private AppBarLayout appBarLayout;
     private CircleImageView image;
@@ -92,7 +92,7 @@ public class ProfileFragment extends Fragment {
         activity.setSupportActionBar(toolbar);
 
         name = view.findViewById(R.id.name);
-        tipe = view.findViewById(R.id.tipe);
+        //tipe = view.findViewById(R.id.tipe);
         year = view.findViewById(R.id.year);
         image = view.findViewById(R.id.profile_image);
         recyclerView = view.findViewById(R.id.RecyclerView);
@@ -253,7 +253,7 @@ public class ProfileFragment extends Fragment {
                             recyclerView.setAdapter(dataAdapter);
 
                             name.setText(user.getName());
-                            switch (user.getStudyTime()) {
+                            /*switch (user.getStudyTime()) {
                                 case 1:
                                     tipe.setText(R.string.student);
                                     break;
@@ -263,7 +263,7 @@ public class ProfileFragment extends Fragment {
                                 case 3:
                                     tipe.setText(R.string.workstud);
                                     break;
-                            }
+                            }*/
                             String s = ""+user.getYearEnroll();
                             year.setText(s);
                             if (user.getImageUrl()!=null) {
@@ -310,7 +310,7 @@ public class ProfileFragment extends Fragment {
             recyclerView.setAdapter(dataAdapter);
 
             name.setText(user.getName());
-            switch (user.getStudyTime()) {
+            /*switch (user.getStudyTime()) {
                 case 1:
                     tipe.setText(R.string.student);
                     break;
@@ -320,7 +320,7 @@ public class ProfileFragment extends Fragment {
                 case 3:
                     tipe.setText(R.string.workstud);
                     break;
-            }
+            }*/
             String s = ""+user.getYearEnroll();
             year.setText(s);
             if (user.getImageUrl()!=null) {

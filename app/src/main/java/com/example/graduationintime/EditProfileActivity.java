@@ -52,7 +52,7 @@ import java.util.List;
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = EditProfileActivity.class.getName();
-    private TextView name, surname, photo, birthdate, email, yearEnrollment, moved, matriculation, studyTime;
+    private TextView name, surname, photo, birthdate, email, yearEnrollment, matriculation;
     private View view;
     private AlertDialog dialog;
     private AlertDialog.Builder builder;
@@ -69,8 +69,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private FirebaseUser user;
     private int mYear, mMonth, mDay;
     private GregorianCalendar date;
-    private Boolean bMoved;
-    private int study_time;
+    //private Boolean bMoved;
+    //private int study_time;
     private User u;
 
     @Override
@@ -95,9 +95,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         birthdate = findViewById(R.id.TextView_birthdate);
         email = findViewById(R.id.TextView_email);
         yearEnrollment = findViewById(R.id.TextView_year_enroll);
-        moved = findViewById(R.id.TextView_moved);
+        //moved = findViewById(R.id.TextView_moved);
         matriculation = findViewById(R.id.TextView_matriculation);
-        studyTime = findViewById(R.id.TextView_study_time);
+        //studyTime = findViewById(R.id.TextView_study_time);
         view = findViewById(R.id.view);
 
         if (getIntent().getBooleanExtra(providerKEY, false)) {
@@ -113,8 +113,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         birthdate.setOnClickListener(this);
         email.setOnClickListener(this);
         yearEnrollment.setOnClickListener(this);
-        moved.setOnClickListener(this);
-        studyTime.setOnClickListener(this);
+        //moved.setOnClickListener(this);
+        //studyTime.setOnClickListener(this);
         matriculation.setOnClickListener(this);
     }
 
@@ -300,7 +300,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 dialog = builder.create();
                 dialog.show();
                 break;
-            case R.id.TextView_moved:
+            /*case R.id.TextView_moved:
                 dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_profile_radio, null);
                 final RadioGroup radio = dialogView.findViewById(R.id.RadioGroup);
                 RadioButton buttonYes = dialogView.findViewById(R.id.radioButtonYes);
@@ -342,7 +342,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 });
                 dialog = builder.create();
                 dialog.show();
-                break;
+                break;*/
             case R.id.TextView_matriculation:
                 dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_profile_text, null);
                 final EditText editText10 = dialogView.findViewById(R.id.EditText_settings);
@@ -372,7 +372,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 dialog = builder.create();
                 dialog.show();
                 break;
-            case R.id.TextView_study_time:
+            /*case R.id.TextView_study_time:
                 dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_profile_radio_study, null);
                 final RadioGroup radio_study = dialogView.findViewById(R.id.RadioGroup);
                 RadioButton buttonStud = dialogView.findViewById(R.id.radioButtonStud);
@@ -424,7 +424,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 });
                 dialog = builder.create();
                 dialog.show();
-                break;
+                break;*/
         }
     }
 

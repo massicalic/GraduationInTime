@@ -36,10 +36,10 @@ public class RegistrationActivity extends AppCompatActivity {
     private static final String TAG = RegistrationActivity.class.getName();
     private AppCompatActivity activity;
     private Toolbar toolbar;
-    private View first_step, second_step, third_step;
+    private View first_step, second_step;
     private YouFragment you = new YouFragment(); //fragment N 1
     private DetailsFragment det = new DetailsFragment(); //fragment N 2
-    private TimeStudyFragment time = new TimeStudyFragment(); //fragment N 3
+    //private TimeStudyFragment time = new TimeStudyFragment(); //fragment N 3
     private AlertDialog dialog;
     private AlertDialog.Builder builder;
     private User user;
@@ -66,12 +66,12 @@ public class RegistrationActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.Toolbar);
         first_step = findViewById(R.id.first_step);
         second_step = findViewById(R.id.second_step);
-        third_step = findViewById(R.id.third_step);
+        //third_step = findViewById(R.id.third_step);
 
         activity = RegistrationActivity.this;
         you.setActivity(activity);
         det.setActivity(activity);
-        time.setActivity(activity);
+        //time.setActivity(activity);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -131,15 +131,17 @@ public class RegistrationActivity extends AppCompatActivity {
                         Nfragment = 1;
                         toolbar.setTitle(R.string.title_reg_you);
                         second_step.setBackgroundResource(R.color.grey);
+                        toolbar.getMenu().clear();
+                        getMenuInflater().inflate(R.menu.registration_menu, menus);
                         break;
-                    case 3:
+                    /*case 3:
                         addFragment(det);
                         Nfragment = 2;
                         toolbar.setTitle(R.string.title_reg_det);
                         third_step.setBackgroundResource(R.color.grey);
                         toolbar.getMenu().clear();
                         getMenuInflater().inflate(R.menu.registration_menu, menus);
-                        break;
+                        break;*/
                 }
                 return true;
             case R.id.next:
@@ -245,6 +247,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                                 user.setSurname(you.getSurname().getText().toString());
                                                 user.setBirthdate(you.getDate());
                                                 user.setEmail(you.getEmail().getText().toString());
+                                                toolbar.getMenu().clear();
+                                                getMenuInflater().inflate(R.menu.finish_registration_menu, menus);
                                             }
                                         }
                                     }
@@ -253,7 +257,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         }
                         break;
                     case 2:
-                        if (det.isMoved()==null){
+                        /*if (det.isMoved()==null){
                             builder.setMessage(R.string.noMoved);
                             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
@@ -263,7 +267,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             });
                             dialog = builder.create();
                             dialog.show();
-                        }else {
+                        }else {*/
                             if (det.getMatriculation().getText().toString().equals("")) {
                                 builder.setMessage(R.string.noMatriculation);
                                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -275,19 +279,62 @@ public class RegistrationActivity extends AppCompatActivity {
                                 dialog = builder.create();
                                 dialog.show();
                             }else {
-                                addFragment(time);
+                                /*addFragment(time);
                                 toolbar.setTitle(R.string.title_reg_time);
                                 Nfragment = 3;
-                                third_step.setBackgroundResource(R.color.green);
+                                third_step.setBackgroundResource(R.color.green);*/
                                 user.setYearEnroll((Integer) det.getSpinner().getSelectedItem());
-                                user.setMoved(det.isMoved());
+                                //user.setMoved(det.isMoved());
                                 user.setMatriculation(Integer.parseInt(det.getMatriculation().getText().toString()));
-                                toolbar.getMenu().clear();
-                                getMenuInflater().inflate(R.menu.finish_registration_menu, menus);
+                                //toolbar.getMenu().clear();
+                                //getMenuInflater().inflate(R.menu.finish_registration_menu, menus);
+
+                                if (!isFace){
+                                    mFirebaseAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPsw())
+                                            .addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                                    if (task.isSuccessful()) {
+                                                        user.setPsw(null);
+                                                        userid = mFirebaseAuth.getCurrentUser().getUid();
+                                                        user.setDay(user.getBirthdate().get(Calendar.DAY_OF_MONTH));
+                                                        user.setMonth(user.getBirthdate().get(Calendar.MONTH));
+                                                        user.setYear(user.getBirthdate().get(Calendar.YEAR));
+                                                        user.setBirthdate(null);
+                                                        mDatabase.child("users").child(userid).setValue(user);
+                                                        Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+                                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    } else {
+                                                        AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
+                                                        builder.setMessage(task.getException().getMessage())
+                                                                .setTitle(R.string.login_error_title)
+                                                                .setPositiveButton(android.R.string.ok, null);
+                                                        AlertDialog dialog = builder.create();
+                                                        dialog.show();
+                                                    }
+                                                }
+                                            });
+                                }else {
+                                    user.setPsw(null);
+                                    user.setDay(user.getBirthdate().get(Calendar.DAY_OF_MONTH));
+                                    user.setMonth(user.getBirthdate().get(Calendar.MONTH));
+                                    user.setYear(user.getBirthdate().get(Calendar.YEAR));
+                                    user.setBirthdate(null);
+                                    mDatabase.child("users").child(userid).setValue(user);
+                                    Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    stopService(intentservice);
+                                    startActivity(intent);
+                                }
+                                finish();
                             }
-                        }
+                        //}
                         break;
-                    case 3:
+                    /*case 3:
                         if (time.getTime()==0){
                             builder.setMessage(R.string.noTime);
                             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -343,7 +390,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             }
                             finish();
                         }
-                        break;
+                        break;*/
                 }
                 return true;
             default:
@@ -365,18 +412,20 @@ public class RegistrationActivity extends AppCompatActivity {
                 break;
             case 2:
                 addFragment(you);
-                toolbar.setTitle(R.string.title_reg_you);
                 Nfragment = 1;
+                toolbar.setTitle(R.string.title_reg_you);
                 second_step.setBackgroundResource(R.color.grey);
-                break;
-            case 3:
-                addFragment(det);
-                Nfragment = 2;
-                toolbar.setTitle(R.string.title_reg_det);
-                third_step.setBackgroundResource(R.color.grey);
                 toolbar.getMenu().clear();
                 getMenuInflater().inflate(R.menu.registration_menu, menus);
                 break;
+                    /*case 3:
+                        addFragment(det);
+                        Nfragment = 2;
+                        toolbar.setTitle(R.string.title_reg_det);
+                        third_step.setBackgroundResource(R.color.grey);
+                        toolbar.getMenu().clear();
+                        getMenuInflater().inflate(R.menu.registration_menu, menus);
+                        break;*/
         }
     }
 

@@ -34,7 +34,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="120dp"
                 android:orientation="horizontal"
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax"
@@ -78,7 +78,7 @@
                         android:textSize="22sp"
                         app:layout_collapseMode="parallax" />
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/tipe"
                         android:layout_width="160dp"
                         android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                         android:fitsSystemWindows="true"
                         android:textColor="@color/white"
                         android:textSize="22sp"
-                        app:layout_collapseMode="parallax" />
+                        app:layout_collapseMode="parallax" /> -->
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
