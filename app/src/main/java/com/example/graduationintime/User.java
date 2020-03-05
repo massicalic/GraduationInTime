@@ -16,8 +16,8 @@ public class User implements Serializable {
     private int month;
     private int year;
     private int yearEnroll;
-    private boolean moved;
-    private int studyTime;
+    //private boolean moved;
+    //private int studyTime;
     private String imageUrl;
     private ArrayList<Exam> exams = new ArrayList<>();
     private String thesis;
@@ -27,14 +27,13 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String name, String surname, String email, String psw, GregorianCalendar birthdate, int yearEnroll, boolean moved) {
+    public User(String name, String surname, String email, String psw, GregorianCalendar birthdate, int yearEnroll) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.psw = psw;
         this.birthdate = birthdate;
         this.yearEnroll = yearEnroll;
-        this.moved = moved;
     }
 
     public String getName() {
@@ -93,7 +92,7 @@ public class User implements Serializable {
         this.yearEnroll = yearEnroll;
     }
 
-    public boolean isMoved() {
+    /*public boolean isMoved() {
         return moved;
     }
 
@@ -107,7 +106,7 @@ public class User implements Serializable {
 
     public void setStudyTime(int studyTime) {
         this.studyTime = studyTime;
-    }
+    }*/
 
     public void setDay(int day) {
         this.day = day;
