@@ -328,7 +328,7 @@ public class ProfileFragment extends Fragment {
                 Glide.with(activity).load(user.getImageUrl()).fitCenter().centerCrop().circleCrop().into(image);
             }
 
-            if (actionBarHeight==0) {
+            if (actionBarHeight!=0) {
                 TypedValue tv = new TypedValue();
                 int actionBarHeight = 0;
                 if (getActivity().getTheme().resolveAttribute(R.attr.actionBarSize, tv, true))
